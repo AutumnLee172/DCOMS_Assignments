@@ -1,3 +1,5 @@
+package RMI_Structures;
+
 import java.rmi.*;
 import java.net.*;
 import java.rmi.server.UnicastRemoteObject;
@@ -8,7 +10,7 @@ import java.util.Scanner;
 public class client {
     public static void main(String args[])throws MalformedURLException, NotBoundException, RemoteException
     {
-        RMIinterface Obj = (RMIinterface)Naming.lookup("rmi://localhost:1040/add");
+        RMIinterface Obj = (RMIinterface)Naming.lookup("rmi://localhost:1040/KGF");
         Scanner sc = new Scanner(System.in);//accepting from the user
         System.out.println("Enter any number");
         double r = sc.nextDouble();

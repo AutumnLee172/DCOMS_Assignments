@@ -1,3 +1,5 @@
+package RMI_Structures;
+
 import java.rmi.*;
 import java.net.*;
 import java.rmi.server.UnicastRemoteObject;
@@ -8,7 +10,7 @@ public class register {
     public static void main(String args[])throws RemoteException
     {
         Registry reg = LocateRegistry.createRegistry(1040);
-        reg.rebind("add", new extint());
+        reg.rebind("KGF", new extint());
        
     }
 }
