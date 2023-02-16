@@ -56,7 +56,8 @@ public class extint extends UnicastRemoteObject implements RMIinterface{
        conn.setAutoCommit(false);
        System.out.println("Connection Created");
        PreparedStatement pstmt = conn.prepareStatement("INSERT INTO customers(id,name,password) VALUES (?, ?, ?)");
-       String temp = "C001";
+       //temp id, should change it to automate id afterwards
+       String temp = "C003";
        pstmt.setString(1, temp);
        pstmt.setString(2, name);
        pstmt.setString(3, passwords);
