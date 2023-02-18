@@ -9,16 +9,21 @@ package RMI_Structures;
  *
  * @author Autumn
  */
-public class Customer {
-    private String Name;
-    private String ID;
+public class Customer implements java.io.Serializable{
+    private String Name, ID, Email;
     
-    public Customer(String id){
-        setID(id);
+    public Customer(String email, String Name, String ID){
+        this.setEmail(email);
+        this.setName(Name);
+        this.setID(ID);
     }
     
     public void setID(String id){
         this.ID = id;
+    }
+    
+     public void setEmail(String Email){
+        this.Email = Email;
     }
     
     public void setName(String name){

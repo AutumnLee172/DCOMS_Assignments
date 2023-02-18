@@ -9,7 +9,9 @@ public interface RMIinterface extends Remote{
     public double circlearea(double r)throws RemoteException;
     public double circumference(double r)throws RemoteException;
     public double diameter(double r)throws RemoteException;
-    public String getCustomerName(String id)throws RemoteException;
-    public void customer_register(String name, String passwords)throws RemoteException;
+   // public String getCustomerName(String id)throws RemoteException;
+    public String customer_register(String email, String name, String passwords)throws RemoteException;
+    public boolean customer_login(String email, String passwords)throws RemoteException;
+    public Customer customer_setup(String email)throws RemoteException;
 }
 
