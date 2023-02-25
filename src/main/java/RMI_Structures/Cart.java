@@ -6,7 +6,7 @@ package RMI_Structures;
 
 /**
  *
- * @author PC
+ * @author Boey
  */
 public class Cart {
      private String CartID, CustomerID, ProductID;
