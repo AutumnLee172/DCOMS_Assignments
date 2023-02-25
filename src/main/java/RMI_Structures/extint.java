@@ -132,4 +132,13 @@ public class extint extends UnicastRemoteObject implements RMIinterface {
         Customer cm = new Customer(email, name, id);
         return cm;
     }
+    
+    //Cart Functions -----------------------------------------------------------
+
+    @Override
+    public void addToCart() {
+      
+    }
+    
+    
 }

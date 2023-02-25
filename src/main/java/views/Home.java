@@ -11,7 +11,7 @@ import RMI_Structures.*;
  * @author Autumn
  */
 public class Home extends javax.swing.JFrame {
-
+    Customer LoggedCustomer;
     /**
      * Creates new form Home
      */
@@ -20,8 +20,9 @@ public class Home extends javax.swing.JFrame {
     }
     
     public Home(Customer cm){
+        LoggedCustomer = cm;
         initComponents();
-        lblHello.setText("Hello, " + cm.getName());
+        lblHello.setText("Hello, " + LoggedCustomer.getName());
     }
 
     /**
@@ -34,10 +35,18 @@ public class Home extends javax.swing.JFrame {
     private void initComponents() {
 
         lblHello = new javax.swing.JLabel();
+        btnCart = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         lblHello.setText("jLabel1");
+
+        btnCart.setText("Cart");
+        btnCart.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCartActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -45,7 +54,9 @@ public class Home extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(25, 25, 25)
-                .addComponent(lblHello, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnCart)
+                    .addComponent(lblHello, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(181, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -53,11 +64,19 @@ public class Home extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(22, 22, 22)
                 .addComponent(lblHello, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(232, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 155, Short.MAX_VALUE)
+                .addComponent(btnCart)
+                .addGap(54, 54, 54))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnCartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCartActionPerformed
+        Cart cart = new Cart();
+                cart.setVisible(true);
+                this.dispose();
+    }//GEN-LAST:event_btnCartActionPerformed
 
     /**
      * @param args the command line arguments
@@ -95,6 +114,7 @@ public class Home extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCart;
     private javax.swing.JLabel lblHello;
     // End of variables declaration//GEN-END:variables
 }

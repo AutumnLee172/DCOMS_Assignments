@@ -25,7 +25,10 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
-              <Component id="lblHello" min="-2" pref="194" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="btnCart" min="-2" max="-2" attributes="0"/>
+                  <Component id="lblHello" min="-2" pref="194" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace pref="181" max="32767" attributes="0"/>
           </Group>
       </Group>
@@ -35,7 +38,9 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
               <Component id="lblHello" min="-2" pref="46" max="-2" attributes="0"/>
-              <EmptySpace pref="232" max="32767" attributes="0"/>
+              <EmptySpace pref="155" max="32767" attributes="0"/>
+              <Component id="btnCart" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="54" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -45,6 +50,14 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="jLabel1"/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnCart">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Cart"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCartActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

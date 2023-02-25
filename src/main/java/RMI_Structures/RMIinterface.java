@@ -13,5 +13,9 @@ public interface RMIinterface extends Remote{
     public String customer_register(String email, String name, String passwords)throws RemoteException;
     public boolean customer_login(String email, String passwords)throws RemoteException;
     public Customer customer_setup(String email)throws RemoteException;
+    
+    
+    //Cart Functions
+    public void addToCart();
 }
 

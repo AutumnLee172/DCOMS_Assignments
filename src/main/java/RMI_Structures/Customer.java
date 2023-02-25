@@ -30,6 +30,10 @@ public class Customer implements java.io.Serializable{
         this.Name = name;
     }
     
+    public String getID(){
+        return Name;
+    }
+    
     public String getName(){
         return Name;
     }
