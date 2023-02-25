@@ -33,6 +33,7 @@ public class Cart extends javax.swing.JFrame{
         AddCartTest = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        AddCartTest1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -80,6 +81,13 @@ public class Cart extends javax.swing.JFrame{
             jTable1.getColumnModel().getColumn(3).setMaxWidth(50);
         }
 
+        AddCartTest1.setText("AddCartTest");
+        AddCartTest1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AddCartTest1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -90,11 +98,14 @@ public class Cart extends javax.swing.JFrame{
                         .addContainerGap()
                         .addComponent(lblCartTitle))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(26, 26, 26)
+                        .addContainerGap()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 698, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(50, 50, 50)
                         .addComponent(AddCartTest))
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 698, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(185, 185, 185)
+                        .addComponent(AddCartTest1)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -104,9 +115,11 @@ public class Cart extends javax.swing.JFrame{
                 .addComponent(lblCartTitle)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 114, Short.MAX_VALUE)
+                .addGap(43, 43, 43)
                 .addComponent(AddCartTest)
-                .addGap(102, 102, 102))
+                .addGap(18, 18, 18)
+                .addComponent(AddCartTest1)
+                .addContainerGap(132, Short.MAX_VALUE))
         );
 
         pack();
@@ -115,6 +128,10 @@ public class Cart extends javax.swing.JFrame{
     private void AddCartTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddCartTestActionPerformed
         // TODO add your handling coAde here:
     }//GEN-LAST:event_AddCartTestActionPerformed
+
+    private void AddCartTest1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddCartTest1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_AddCartTest1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -153,6 +170,7 @@ public class Cart extends javax.swing.JFrame{
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AddCartTest;
+    private javax.swing.JButton AddCartTest1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
     private javax.swing.JLabel lblCartTitle;
