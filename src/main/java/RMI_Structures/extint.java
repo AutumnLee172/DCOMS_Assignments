@@ -45,16 +45,35 @@ public class extint extends UnicastRemoteObject implements RMIinterface {
         return 2 * r;
     }
 
+    @Override
+    public void openConnection()throws RemoteException{
+        try {
+            conn = DriverManager.getConnection("jdbc:derby://localhost:1527/KGF", "dcoms", "1234");       
+                conn.setAutoCommit(false);
+            System.out.println("Connection Created");
+            
+            } catch (SQLException ex) {
+            Logger.getLogger(extint.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    @Override
+    public void closeConnection()throws RemoteException{
+        try {
+            conn.commit();
+                conn.close();
+            } catch (SQLException ex) {
+            Logger.getLogger(extint.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     
 
     @Override
     public String customer_register(String email, String name, String passwords) throws RemoteException {
         String result = "";
-        try {
-            conn = DriverManager.getConnection("jdbc:derby://localhost:1527/KGF", "dcoms", "1234");
-            conn.setAutoCommit(false);
-            System.out.println("Connection Created");
-
+        try {        
+            openConnection();
+            
             //check if email exists
             PreparedStatement checkEmail = conn.prepareStatement("SELECT COUNT(*) AS NumberofUser FROM customers WHERE email = ?");
             checkEmail.setString(1, email);
@@ -81,8 +100,9 @@ public class extint extends UnicastRemoteObject implements RMIinterface {
                 pstmt.setString(4, email.trim());
                 //Statement stmt = conn.createStatement();
                 pstmt.executeUpdate();
-                conn.commit();
-                conn.close();
+                
+                closeConnection();
+                
                 result = "Successfully registered!";
             }
         } catch (SQLException ex) {
@@ -96,8 +116,8 @@ public class extint extends UnicastRemoteObject implements RMIinterface {
     public boolean customer_login(String email, String passwords) throws RemoteException {
         boolean hasRecord = false;
         try {
-            conn = DriverManager.getConnection("jdbc:derby://localhost:1527/KGF", "dcoms", "1234");
-            conn.setAutoCommit(false);
+            openConnection();
+            
             PreparedStatement psmt = conn.prepareStatement("SELECT COUNT(*) AS NumberofUser FROM customers WHERE email = ? AND password = ?");
             psmt.setString(1, email);
             psmt.setString(2, passwords);
@@ -118,8 +138,8 @@ public class extint extends UnicastRemoteObject implements RMIinterface {
     public Customer customer_setup(String email) throws RemoteException {
         String name = null, id = null;
         try {
-            conn = DriverManager.getConnection("jdbc:derby://localhost:1527/KGF", "dcoms", "1234");
-            conn.setAutoCommit(false);
+            openConnection();
+            
             PreparedStatement psmt = conn.prepareStatement("SELECT * FROM customers WHERE email = ?");
             psmt.setString(1, email);
             ResultSet rs = psmt.executeQuery();
@@ -136,7 +156,7 @@ public class extint extends UnicastRemoteObject implements RMIinterface {
     //Cart Functions -----------------------------------------------------------
 
     @Override
-    public void addToCart() {
+    public void addToCart() throws RemoteException{
       
     }
     
