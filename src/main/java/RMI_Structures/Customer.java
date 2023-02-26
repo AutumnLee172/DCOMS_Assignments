@@ -37,4 +37,8 @@ public class Customer implements java.io.Serializable{
     public String getName(){
         return Name;
     }
+    
+    public String getEmail(){
+        return Email;
+    }
 }
