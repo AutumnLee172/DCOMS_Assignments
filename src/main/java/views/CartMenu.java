@@ -7,11 +7,11 @@ package views;
 import RMI_Structures.Cart;
 import RMI_Structures.Customer;
 import RMI_Structures.RMIinterface;
-import java.awt.List;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
@@ -39,21 +39,21 @@ public class CartMenu extends javax.swing.JFrame{
      initComponents();
         try {
         RMIinterface Obj = (RMIinterface)Naming.lookup("rmi://localhost:1040/KGF");
-      List<Cart> cartlist = Obj.getCustomerCart("C1");
+      ArrayList<Cart> cartlist = new ArrayList<Cart>(); 
+      cartlist = Obj.getCustomerCart("C1");
       jLabel1.setText(String.valueOf(cartlist.size()));
                          
                String ProductName;
                double ProductPrice,totalPrice;
                int quantity = 0;
                boolean select = false;
+               System.out.print(cartlist.get(0).getCartID());
+               System.out.print(cartlist.get(1).getCartID());
                
-               
-           for(int i=0; i< 2; i++){
+           for (int i=0; i< cartlist.size(); i++){
                //i looping is the total car items to be printed
 
                 ProductName = Obj.findProductName(cartlist.get(i).getProductID());
-                System.out.println(cartlist.get(0).getCartID());
-                System.out.println(cartlist.get(1).getCartID());
                 ProductPrice = Obj.findProductPrice(cartlist.get(i).getProductID());
                 quantity = cartlist.get(i).getQuantity();
                 totalPrice = quantity*ProductPrice;
