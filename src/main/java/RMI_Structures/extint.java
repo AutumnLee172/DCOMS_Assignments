@@ -146,6 +146,7 @@ public class extint extends UnicastRemoteObject implements RMIinterface {
       
     }
     
+    // Admin --------------------------------------------------------------------
     @Override
     public String Add_New_Product(String prodname, String category, String quantity, String price) throws RemoteException {
        String result = "";
