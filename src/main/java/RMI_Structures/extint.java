@@ -192,8 +192,7 @@ public class extint extends UnicastRemoteObject implements RMIinterface {
     
    // @Override
      public ArrayList<Cart> getCustomerCart(String customerID)throws RemoteException{
-        ArrayList<Cart> customerCartList = new ArrayList<>();
-        Cart temp_cart = new Cart();
+        ArrayList<Cart> customerCartList = new ArrayList<Cart>();
             openConnection();
             
             try {
@@ -204,14 +203,10 @@ public class extint extends UnicastRemoteObject implements RMIinterface {
                 String id = rs.getString("ID");
                 //customerID is fixed(logged customer's id)
                 String product = rs.getString("Product_ID");
-                int quantity = rs.getInt("Quantity");
-                
-               temp_cart.setCartID(id);
-               temp_cart.setCustomerID(customerID);
-               temp_cart.setProductID(product);
-               temp_cart.setQuantity(quantity);
+                int quantity = rs.getInt("Quantity");               
                
-               customerCartList.add(temp_cart);
+               customerCartList.add(new Cart(id,customerID,product,quantity));
+               
             }
                           
         } catch (SQLException ex) {
@@ -225,7 +220,6 @@ public class extint extends UnicastRemoteObject implements RMIinterface {
      public String findProductName(String productID) throws RemoteException{
          String result = "";
          int prodID = Integer.parseInt(productID);
-         System.out.println("input prod id: "+productID);
          
          openConnection();
          
@@ -255,7 +249,6 @@ public class extint extends UnicastRemoteObject implements RMIinterface {
      public double findProductPrice(String productID) throws RemoteException{
          double result = 0.0;
          int prodID = Integer.parseInt(productID);
-         System.out.println("input prod id: "+productID);
          openConnection();
         
        try {
