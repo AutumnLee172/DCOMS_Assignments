@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -142,17 +143,80 @@ public class extint extends UnicastRemoteObject implements RMIinterface {
     //Cart Functions -----------------------------------------------------------
 
     @Override
-    public void addToCart() throws RemoteException{
+    public void addToCart(String customerID, String productID, int quantity) throws RemoteException{
+      openConnection();
+       //generate new ID
+        try {  
+                Statement getMaxID = conn.createStatement();
+                ResultSet rs = getMaxID.executeQuery("SELECT COUNT(id) as MaxNumber FROM CART");   
+                int max = 0;
+                while (rs.next()) {
+                    max = rs.getInt("MaxNumber") + 1;
+                }
+                //insert new Record
+                PreparedStatement pstmt = conn.prepareStatement("INSERT INTO CART VALUES (?, ?, ?, ?)");
+                String newID = "CART" + max;
+                
+                pstmt.setString(1, newID);
+                pstmt.setString(2, customerID);
+                pstmt.setString(3, productID);
+                pstmt.setInt(4, quantity);
+                //Statement stmt = conn.createStatement();
+                pstmt.executeUpdate();
+                
+        }catch (SQLException ex) {
+            Logger.getLogger(extint.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        closeConnection();
       
     }
+    
+    @Override
+     public ArrayList<Cart> getCustomerCart(String customerID)throws RemoteException{
+        ArrayList<Cart> customerCartList = new ArrayList<>();
+        Cart temp_cart = new Cart();
+            openConnection();
+            
+            try {
+            Statement getCustomerCart = conn.createStatement();
+            ResultSet rs = getCustomerCart.executeQuery("SELECT * FROM CART WHERE Customer_ID ='" + customerID + "';");
+            
+            while(rs.next()){
+                String id = rs.getString("ID");
+                //customerID is fixed(logged customer's id)
+                String product = rs.getString("Product_ID");
+                int quantity = rs.getInt("Quantity");
+                
+               temp_cart.setCartID(id);
+               temp_cart.setCustomerID(customerID);
+               temp_cart.setProductID(product);
+               temp_cart.setQuantity(quantity);
+               
+               customerCartList.add(temp_cart);
+            }
+                          
+        } catch (SQLException ex) {
+            Logger.getLogger(extint.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        closeConnection();
+       return customerCartList; 
+     }
+     
+     public String findProductName(String ProductID) throws RemoteException{
+         String result = "";
+         
+         
+         
+         return result;
+     }
     
     // Admin --------------------------------------------------------------------
     @Override
     public String Add_New_Product(String prodname, String category, String quantity, String price) throws RemoteException {
        String result = "";
         try {
-            conn = DriverManager.getConnection("jdbc:derby://localhost:1527/KGF", "dcoms", "1234");
-            conn.setAutoCommit(false);
+            openConnection();
+            
             System.out.println("Connection Created");
             
             Statement getMaxID = conn.createStatement();
@@ -172,8 +236,8 @@ public class extint extends UnicastRemoteObject implements RMIinterface {
             pstmt.setString(5, price);
             //Statement stmt = conn.createStatement();
             pstmt.executeUpdate();
-            conn.commit();
-            conn.close();
+            
+            closeConnection();
              
             result = "Successfully added new item!";         
             
