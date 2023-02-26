@@ -146,5 +146,42 @@ public class extint extends UnicastRemoteObject implements RMIinterface {
       
     }
     
+    @Override
+    public String Add_New_Product(String prodname, String category, String quantity, String price) throws RemoteException {
+       String result = "";
+        try {
+            conn = DriverManager.getConnection("jdbc:derby://localhost:1527/KGF", "dcoms", "1234");
+            conn.setAutoCommit(false);
+            System.out.println("Connection Created");
+            
+            Statement getMaxID = conn.createStatement();
+            ResultSet rs = getMaxID.executeQuery("SELECT COUNT(prodid) as MaxNumber FROM product");
+            int max = 0;
+            while (rs.next()) {
+                max = rs.getInt("MaxNumber") + 1;
+            }
+                
+            //insert new Record
+            PreparedStatement pstmt = conn.prepareStatement("INSERT INTO product(prodid,prodname,prodcategory,prodquantity,prodprice) VALUES (?, ?, ?, ?,?)");
+            int newID = max;
+            pstmt.setInt(1, newID);
+            pstmt.setString(2, prodname);
+            pstmt.setString(3, category);
+            pstmt.setString(4, quantity);
+            pstmt.setString(5, price);
+            //Statement stmt = conn.createStatement();
+            pstmt.executeUpdate();
+            conn.commit();
+            conn.close();
+             
+            result = "Successfully added new item!";         
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(extint.class.getName()).log(Level.SEVERE, null, ex);
+            result = "Please try again!";
+        }
+       return result;
+    }
+    
     
 }
