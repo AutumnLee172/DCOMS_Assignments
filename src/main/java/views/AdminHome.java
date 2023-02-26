@@ -314,9 +314,12 @@ public class AdminHome extends javax.swing.JFrame {
     }//GEN-LAST:event_selectcategoryActionPerformed
 
     private void btaddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btaddActionPerformed
-        try {
+    try {
             String result = "";
-            RMIinterface Obj = (RMIinterface)Naming.lookup("rmi://localhost:1040/KGF");
+            RMIinterface Obj;
+       
+            Obj = (RMIinterface)Naming.lookup("rmi://localhost:1040/KGF");
+        
             String prodname = txtprodname.getText();
             String category = selectcategory.getSelectedItem().toString();
             String quantity = txtquantity.getText();
@@ -324,14 +327,10 @@ public class AdminHome extends javax.swing.JFrame {
             //result = System.out.println("a: " + prodname);
             result = Obj.Add_New_Product(prodname, category, quantity, price);
             lblresult.setText(result);
-
-        } catch (NotBoundException ex) {
-            Logger.getLogger(AddProduct.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MalformedURLException ex) {
-            Logger.getLogger(AddProduct.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (RemoteException ex) {
-            Logger.getLogger(AddProduct.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            
+        } catch (NotBoundException | MalformedURLException | RemoteException ex) {
+                    Logger.getLogger(AdminHome.class.getName()).log(Level.SEVERE, null, ex);
+                }
 
         AdminHome adhome = new AdminHome();
         adhome.setVisible(true);
