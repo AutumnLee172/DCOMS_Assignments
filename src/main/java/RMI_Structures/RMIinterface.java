@@ -15,5 +15,9 @@ public interface RMIinterface extends Remote{
     
     //Cart Functions
     public void addToCart()throws RemoteException ;
+    
+    //Admin 
+    public String Add_New_Product(String prodname, String category, String quantity, String price) throws RemoteException; 
+    
 }
 
