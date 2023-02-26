@@ -5,12 +5,20 @@
 package views;
 
 import RMI_Structures.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridLayout;
+import javax.swing.BorderFactory;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 /**
  *
  * @author Autumn
  */
 public class Home extends javax.swing.JFrame {
+   private JPanel productPanel;
     Customer LoggedCustomer;
     /**
      * Creates new form Home
@@ -23,8 +31,51 @@ public class Home extends javax.swing.JFrame {
         LoggedCustomer = cm;
         initComponents();
         lblHello.setText("Hello, " + LoggedCustomer.getName());
+        
+        //for testing use
+         productPanel = new JPanel();
+        productPanel.setBackground(Color.WHITE);
+        pnlProduct.setViewportView(productPanel);
+        Product[] products = {
+    new Product("Product 1", "Baby", "10", "19.99"),
+    new Product("Product 2", "Baby", "10", "19.99"),
+    new Product("Product 3", "Baby", "10", "19.99"),
+    new Product("Product 4", "Accessory", "10", "19.99"),
+    new Product("Product 5", "Accessory", "10", "19.99"),
+    new Product("Product 6", "Accessory","10", "19.99"),
+    new Product("Product 7", "Home appliance", "10", "19.99"),
+    new Product("Product 8", "Home appliance", "10", "19.99"),
+    new Product("Product 9", "Home appliance", "10", "19.99"),
+    new Product("Product 10", "Home appliance", "10", "19.99")
+        };
+        
+        setProducts(products);        
     }
 
+    //for testing use
+    public void setProducts(Product[] products) {
+        productPanel.removeAll();
+    int numProducts = products.length;
+    int numRows = (int) Math.ceil((double) numProducts / 3);
+    productPanel.setLayout(new GridLayout(numRows, 3, 10, 10));
+    for (int i = 0; i < numProducts; i++) {
+        JPanel panel = new JPanel();
+        panel.setPreferredSize(new Dimension(200, 250));
+        panel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+        JLabel nameLabel = new JLabel(products[i].getName());
+        nameLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
+        JLabel descriptionLabel = new JLabel(products[i].getCategory());
+        JLabel priceLabel = new JLabel("$" + products[i].getPrice());
+        priceLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
+        panel.add(nameLabel);
+        panel.add(descriptionLabel);
+        panel.add(priceLabel);
+        productPanel.add(panel);
+    }
+    productPanel.revalidate();
+    productPanel.repaint();
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -38,6 +89,7 @@ public class Home extends javax.swing.JFrame {
         btnCart = new javax.swing.JButton();
         btnProfile = new javax.swing.JButton();
         btnLogout = new javax.swing.JButton();
+        pnlProduct = new javax.swing.JScrollPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -64,6 +116,8 @@ public class Home extends javax.swing.JFrame {
             }
         });
 
+        pnlProduct.setHorizontalScrollBar(null);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -74,12 +128,15 @@ public class Home extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnCart)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblHello, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 234, Short.MAX_VALUE)
-                        .addComponent(btnProfile, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(pnlProduct, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addComponent(lblHello, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 234, Short.MAX_VALUE)
+                                .addComponent(btnProfile, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(25, 25, 25))))
         );
         layout.setVerticalGroup(
@@ -90,7 +147,9 @@ public class Home extends javax.swing.JFrame {
                     .addComponent(lblHello, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnProfile, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 240, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pnlProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnCart)
                 .addGap(54, 54, 54))
         );
@@ -156,5 +215,6 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JButton btnLogout;
     private javax.swing.JButton btnProfile;
     private javax.swing.JLabel lblHello;
+    private javax.swing.JScrollPane pnlProduct;
     // End of variables declaration//GEN-END:variables
 }

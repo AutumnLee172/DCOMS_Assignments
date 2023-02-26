@@ -45,4 +45,12 @@ public class Product implements java.io.Serializable{
         return prodname;
     }
     
+    public String getCategory(){
+        return category;
+    }
+    
+     public String getPrice(){
+        return price;
+    }
+    
 }
