@@ -4,20 +4,52 @@
  */
 package views;
 
+import RMI_Structures.Cart;
 import RMI_Structures.Customer;
+import RMI_Structures.RMIinterface;
+import java.net.MalformedURLException;
+import java.rmi.Naming;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author PC
  */
-public class Cart extends javax.swing.JFrame{
+public class CartMenu extends javax.swing.JFrame{
   Customer LoggedCustomer;
     /**
      * Creates new form Cart
      */
-    public Cart() {
+  
+  public CartMenu() {
+        initComponents();
+    }
+  
+    public CartMenu(Customer cm) {
+        this.LoggedCustomer = cm;
         initComponents();
         lblCartTitle.setText(LoggedCustomer.getName() + "'s Cart");
+        
+        //load all cart info into table
+        try {
+        RMIinterface Obj = (RMIinterface)Naming.lookup("rmi://localhost:1040/KGF");
+      ArrayList<Cart> cartlist = new ArrayList<>();
+          cartlist = Obj.getCustomerCart(LoggedCustomer.getID());
+          
+               Object rowData[] = new Object[cartlist.size()]; 
+               for(int i = 0; i<cartlist.size();i++){
+                  
+               }
+          
+      } catch (RemoteException | NotBoundException | MalformedURLException ex) {
+          Logger.getLogger(CartMenu.class.getName()).log(Level.SEVERE, null, ex);
+      }
+      
+      
     }
     
     /**
@@ -32,8 +64,7 @@ public class Cart extends javax.swing.JFrame{
         lblCartTitle = new javax.swing.JLabel();
         AddCartTest = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        AddCartTest1 = new javax.swing.JButton();
+        TableCartList = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -47,7 +78,7 @@ public class Cart extends javax.swing.JFrame{
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        TableCartList.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -70,23 +101,16 @@ public class Cart extends javax.swing.JFrame{
                 return canEdit [columnIndex];
             }
         });
-        jTable1.setAutoscrolls(false);
-        jTable1.getTableHeader().setReorderingAllowed(false);
-        jScrollPane2.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setPreferredWidth(250);
-            jTable1.getColumnModel().getColumn(1).setPreferredWidth(10);
-            jTable1.getColumnModel().getColumn(2).setPreferredWidth(10);
-            jTable1.getColumnModel().getColumn(3).setPreferredWidth(50);
-            jTable1.getColumnModel().getColumn(3).setMaxWidth(50);
+        TableCartList.setAutoscrolls(false);
+        TableCartList.getTableHeader().setReorderingAllowed(false);
+        jScrollPane2.setViewportView(TableCartList);
+        if (TableCartList.getColumnModel().getColumnCount() > 0) {
+            TableCartList.getColumnModel().getColumn(0).setPreferredWidth(250);
+            TableCartList.getColumnModel().getColumn(1).setPreferredWidth(10);
+            TableCartList.getColumnModel().getColumn(2).setPreferredWidth(10);
+            TableCartList.getColumnModel().getColumn(3).setPreferredWidth(50);
+            TableCartList.getColumnModel().getColumn(3).setMaxWidth(50);
         }
-
-        AddCartTest1.setText("AddCartTest");
-        AddCartTest1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AddCartTest1ActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -101,11 +125,8 @@ public class Cart extends javax.swing.JFrame{
                         .addContainerGap()
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 698, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(50, 50, 50)
-                        .addComponent(AddCartTest))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(185, 185, 185)
-                        .addComponent(AddCartTest1)))
+                        .addGap(80, 80, 80)
+                        .addComponent(AddCartTest)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -115,23 +136,24 @@ public class Cart extends javax.swing.JFrame{
                 .addComponent(lblCartTitle)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(43, 43, 43)
+                .addGap(72, 72, 72)
                 .addComponent(AddCartTest)
-                .addGap(18, 18, 18)
-                .addComponent(AddCartTest1)
-                .addContainerGap(132, Short.MAX_VALUE))
+                .addContainerGap(144, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void AddCartTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddCartTestActionPerformed
-        // TODO add your handling coAde here:
+        String CustomerID = LoggedCustomer.getID();
+      try {
+          RMIinterface Obj = (RMIinterface)Naming.lookup("rmi://localhost:1040/KGF");
+          Obj.addToCart(CustomerID,"P1",1);
+      
+      } catch (NotBoundException | MalformedURLException | RemoteException ex) {
+          Logger.getLogger(CartMenu.class.getName()).log(Level.SEVERE, null, ex);
+      }
     }//GEN-LAST:event_AddCartTestActionPerformed
-
-    private void AddCartTest1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddCartTest1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_AddCartTest1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -150,29 +172,29 @@ public class Cart extends javax.swing.JFrame{
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Cart.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CartMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Cart.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CartMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Cart.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CartMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Cart.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CartMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Cart().setVisible(true);
+                new CartMenu().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AddCartTest;
-    private javax.swing.JButton AddCartTest1;
+    private javax.swing.JTable TableCartList;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
     private javax.swing.JLabel lblCartTitle;
     // End of variables declaration//GEN-END:variables
 }
