@@ -147,8 +147,8 @@ public class extint extends UnicastRemoteObject implements RMIinterface {
       openConnection();
        //generate new ID
         try {  
-                Statement getMaxID = conn.createStatement();
-                ResultSet rs = getMaxID.executeQuery("SELECT COUNT(id) as MaxNumber FROM CART");   
+                Statement stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery("SELECT COUNT(id) as MaxNumber FROM CART");   
                 int max = 0;
                 while (rs.next()) {
                     max = rs.getInt("MaxNumber") + 1;
@@ -178,8 +178,8 @@ public class extint extends UnicastRemoteObject implements RMIinterface {
             openConnection();
             
             try {
-            Statement getCustomerCart = conn.createStatement();
-            ResultSet rs = getCustomerCart.executeQuery("SELECT * FROM CART WHERE Customer_ID ='" + customerID + "';");
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM CART WHERE Customer_ID ='" + customerID + "';");
             
             while(rs.next()){
                 String id = rs.getString("ID");
@@ -202,22 +202,52 @@ public class extint extends UnicastRemoteObject implements RMIinterface {
        return customerCartList; 
      }
      
-     public String findProductName(String ProductID) throws RemoteException{
+     public String findProductName(String productID) throws RemoteException{
          String result = "";
          
+         openConnection();
          
+         Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT ID,NAME FROM PRODUCTS WHERE ID='" + productID + "';");
+            
+            if (rs.next() == false) { 
+                System.out.println("Something wrong, could not find any product with this ID."); 
+            }else
+            {
+               result = rs.getString("NAME");          
+            }
+
+         closeConnection();
          
          return result;
      }
     
+     public double findProductPrice(String productID) throws RemoteException{
+         double result = 0.0;
+         
+         openConnection();
+         
+         Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT ID,NAME FROM PRODUCTS WHERE ID='" + productID + "';");
+            
+            if (rs.next() == false) { 
+                System.out.println("Something wrong, could not find any product with this ID."); 
+            }else
+            {
+               result = rs.getDouble("PRICE");          
+            }
+
+         closeConnection();
+         
+         return result;
+     }
+     
     // Admin --------------------------------------------------------------------
     @Override
     public String Add_New_Product(String prodname, String category, String quantity, String price) throws RemoteException {
        String result = "";
         try {
-            openConnection();
-            
-            System.out.println("Connection Created");
+            openConnection();         
             
             Statement getMaxID = conn.createStatement();
             ResultSet rs = getMaxID.executeQuery("SELECT COUNT(prodid) as MaxNumber FROM product");
