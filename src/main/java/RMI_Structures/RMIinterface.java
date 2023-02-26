@@ -3,6 +3,7 @@ package RMI_Structures;
 
 import java.rmi.*;
 import java.net.*;
+import java.util.ArrayList;
 
 public interface RMIinterface extends Remote{
     public void openConnection()throws RemoteException;
@@ -14,7 +15,9 @@ public interface RMIinterface extends Remote{
     public Customer customer_setup(String email)throws RemoteException;
     
     //Cart Functions
-    public void addToCart()throws RemoteException ;
+    public void addToCart(String customerID, String productID, int quantity)throws RemoteException;
+    public ArrayList<Cart> getCustomerCart(String customerID)throws RemoteException;
+    public String findProductName(String ProductID) throws RemoteException;
     
     //Admin 
     public String Add_New_Product(String prodname, String category, String quantity, String price) throws RemoteException; 
