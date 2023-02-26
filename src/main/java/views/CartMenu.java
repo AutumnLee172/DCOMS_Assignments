@@ -7,13 +7,14 @@ package views;
 import RMI_Structures.Cart;
 import RMI_Structures.Customer;
 import RMI_Structures.RMIinterface;
+import java.awt.List;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -25,25 +26,44 @@ public class CartMenu extends javax.swing.JFrame{
      * Creates new form Cart
      */
   
-  public CartMenu() {
-        initComponents();
-    }
+  //public CartMenu() {
+   //     initComponents();
+   // }
   
-    public CartMenu(Customer cm) {
-        this.LoggedCustomer = cm;
-        initComponents();
-        lblCartTitle.setText(LoggedCustomer.getName() + "'s Cart");
+    public CartMenu() {
+       /* this.LoggedCustomer = cm;
         
-        //load all cart info into table
+        lblCartTitle.setText(LoggedCustomer.getName() + "'s Cart ");
+        
+     */   //load all cart info into table
+     initComponents();
         try {
         RMIinterface Obj = (RMIinterface)Naming.lookup("rmi://localhost:1040/KGF");
-      ArrayList<Cart> cartlist = new ArrayList<>();
-          cartlist = Obj.getCustomerCart(LoggedCustomer.getID());
-          
-               Object rowData[] = new Object[cartlist.size()]; 
-               for(int i = 0; i<cartlist.size();i++){
-                  
-               }
+      List<Cart> cartlist = Obj.getCustomerCart("C1");
+      jLabel1.setText(String.valueOf(cartlist.size()));
+                         
+               String ProductName;
+               double ProductPrice,totalPrice;
+               int quantity = 0;
+               boolean select = false;
+               
+               
+           for(int i=0; i< 2; i++){
+               //i looping is the total car items to be printed
+
+                ProductName = Obj.findProductName(cartlist.get(i).getProductID());
+                System.out.println(cartlist.get(0).getCartID());
+                System.out.println(cartlist.get(1).getCartID());
+                ProductPrice = Obj.findProductPrice(cartlist.get(i).getProductID());
+                quantity = cartlist.get(i).getQuantity();
+                totalPrice = quantity*ProductPrice;
+                               
+                Object rowData[] = {ProductName,quantity,totalPrice,select};
+                
+                DefaultTableModel model = (DefaultTableModel)TableCartList.getModel();
+                model.addRow(rowData);
+               
+           }
           
       } catch (RemoteException | NotBoundException | MalformedURLException ex) {
           Logger.getLogger(CartMenu.class.getName()).log(Level.SEVERE, null, ex);
@@ -65,6 +85,7 @@ public class CartMenu extends javax.swing.JFrame{
         AddCartTest = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         TableCartList = new javax.swing.JTable();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -112,6 +133,8 @@ public class CartMenu extends javax.swing.JFrame{
             TableCartList.getColumnModel().getColumn(3).setMaxWidth(50);
         }
 
+        jLabel1.setText("jLabel1");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -126,7 +149,10 @@ public class CartMenu extends javax.swing.JFrame{
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 698, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(80, 80, 80)
-                        .addComponent(AddCartTest)))
+                        .addComponent(AddCartTest))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(252, 252, 252)
+                        .addComponent(jLabel1)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -138,7 +164,9 @@ public class CartMenu extends javax.swing.JFrame{
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(72, 72, 72)
                 .addComponent(AddCartTest)
-                .addContainerGap(144, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel1)
+                .addContainerGap(110, Short.MAX_VALUE))
         );
 
         pack();
@@ -194,6 +222,7 @@ public class CartMenu extends javax.swing.JFrame{
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AddCartTest;
     private javax.swing.JTable TableCartList;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblCartTitle;
     // End of variables declaration//GEN-END:variables

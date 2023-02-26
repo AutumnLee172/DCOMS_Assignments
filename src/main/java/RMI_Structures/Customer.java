@@ -31,7 +31,7 @@ public class Customer implements java.io.Serializable{
     }
     
     public String getID(){
-        return Name;
+        return ID;
     }
     
     public String getName(){

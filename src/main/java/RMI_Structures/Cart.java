@@ -8,7 +8,7 @@ package RMI_Structures;
  *
  * @author Boey
  */
-public class Cart {
+public class Cart implements java.io.Serializable{
      private String CartID, CustomerID, ProductID;
      private int Quantity;
      

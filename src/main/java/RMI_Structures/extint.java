@@ -179,7 +179,7 @@ public class extint extends UnicastRemoteObject implements RMIinterface {
             
             try {
             Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM CART WHERE Customer_ID ='" + customerID + "';");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM CART WHERE Customer_ID ='" + customerID + "'");
             
             while(rs.next()){
                 String id = rs.getString("ID");
@@ -202,40 +202,58 @@ public class extint extends UnicastRemoteObject implements RMIinterface {
        return customerCartList; 
      }
      
+    @Override
      public String findProductName(String productID) throws RemoteException{
          String result = "";
+         int prodID = Integer.parseInt(productID);
+         System.out.println("input prod id: "+productID);
          
          openConnection();
          
-         Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT ID,NAME FROM PRODUCTS WHERE ID='" + productID + "';");
+         Statement stmt;
+        try {
+            stmt = conn.createStatement();
+       
+            ResultSet rs = stmt.executeQuery("SELECT PRODID,PRODNAME FROM PRODUCT WHERE PRODID=" + prodID);
             
             if (rs.next() == false) { 
                 System.out.println("Something wrong, could not find any product with this ID."); 
             }else
             {
-               result = rs.getString("NAME");          
+               result = rs.getString("PRODNAME");          
             }
+            
+            } catch (SQLException ex) {
+            Logger.getLogger(extint.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
          closeConnection();
          
          return result;
      }
     
+     @Override
      public double findProductPrice(String productID) throws RemoteException{
          double result = 0.0;
-         
+         int prodID = Integer.parseInt(productID);
+         System.out.println("input prod id: "+productID);
          openConnection();
-         
+        
+       try {
          Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT ID,NAME FROM PRODUCTS WHERE ID='" + productID + "';");
+            ResultSet rs = stmt.executeQuery("SELECT PRODID,PRODPRICE FROM PRODUCT WHERE PRODID=" + prodID);
             
             if (rs.next() == false) { 
                 System.out.println("Something wrong, could not find any product with this ID."); 
             }else
             {
-               result = rs.getDouble("PRICE");          
+               String productPrice = rs.getString("PRODPRICE");              
+               result = Double.parseDouble(productPrice);
             }
+            
+            } catch (SQLException ex) {
+            Logger.getLogger(extint.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
          closeConnection();
          
