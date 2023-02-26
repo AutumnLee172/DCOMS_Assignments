@@ -248,11 +248,7 @@ public class LoginRegister extends javax.swing.JFrame {
                 result = "Mismatched Passwords";
             }
             lblResult.setText(result);
-        } catch (NotBoundException ex) {
-            Logger.getLogger(LoginRegister.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MalformedURLException ex) {
-            Logger.getLogger(LoginRegister.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (RemoteException ex) {
+        } catch (NotBoundException | MalformedURLException | RemoteException ex) {
             Logger.getLogger(LoginRegister.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnCreateActionPerformed

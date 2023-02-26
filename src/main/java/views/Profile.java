@@ -5,6 +5,13 @@
 package views;
 
 import RMI_Structures.Customer;
+import RMI_Structures.RMIinterface;
+import java.net.MalformedURLException;
+import java.rmi.Naming;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -26,6 +33,7 @@ public class Profile extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         txtUsername.setText(cm.getName());
         txtEmail.setText(cm.getEmail());
+        lblResult.setVisible(false);
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -42,11 +50,12 @@ public class Profile extends javax.swing.JFrame {
         lblEmail = new javax.swing.JLabel();
         txtEmail = new javax.swing.JTextField();
         lblNewPassword = new javax.swing.JLabel();
-        txtNewPassword = new javax.swing.JTextField();
         lblCPassword = new javax.swing.JLabel();
-        txtCPassword = new javax.swing.JTextField();
         btnSave = new javax.swing.JButton();
         btnBack = new javax.swing.JButton();
+        txtNewPassword = new javax.swing.JPasswordField();
+        txtCPassword = new javax.swing.JPasswordField();
+        lblResult = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -69,6 +78,11 @@ public class Profile extends javax.swing.JFrame {
         lblCPassword.setText("Confirm Password");
 
         btnSave.setText("Save");
+        btnSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveActionPerformed(evt);
+            }
+        });
 
         btnBack.setText("Back");
         btnBack.addActionListener(new java.awt.event.ActionListener() {
@@ -76,6 +90,8 @@ public class Profile extends javax.swing.JFrame {
                 btnBackActionPerformed(evt);
             }
         });
+
+        lblResult.setText("Result");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -86,23 +102,25 @@ public class Profile extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addGroup(layout.createSequentialGroup()
+                            .addGap(42, 42, 42)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(lblUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                                    .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(lblEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(layout.createSequentialGroup()
                             .addGap(41, 41, 41)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(lblCPassword)
                                 .addComponent(lblNewPassword))
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(txtNewPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(txtCPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(42, 42, 42)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(lblUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(lblEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(lblResult, javax.swing.GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE)
+                                    .addComponent(txtNewPassword)
+                                    .addComponent(txtCPassword)))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(78, 78, 78)
                         .addComponent(btnSave)
@@ -124,13 +142,15 @@ public class Profile extends javax.swing.JFrame {
                     .addComponent(lblEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtNewPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblNewPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblNewPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtNewPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtCPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblCPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(32, 32, 32)
+                    .addComponent(lblCPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtCPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(10, 10, 10)
+                .addComponent(lblResult)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSave)
                     .addComponent(btnBack)))
@@ -148,6 +168,38 @@ public class Profile extends javax.swing.JFrame {
        hm.setVisible(true);
        this.dispose();
     }//GEN-LAST:event_btnBackActionPerformed
+
+    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+        
+        String result = null;
+        String username = txtUsername.getText();
+        String email = txtEmail.getText();
+        String password = txtNewPassword.getText();
+        String Cpassword = txtCPassword.getText();
+        try {
+           RMIinterface Obj = (RMIinterface)Naming.lookup("rmi://localhost:1040/KGF");
+            if(!username.trim().isEmpty() && !password.trim().isEmpty() && password.equals(Cpassword)){
+                 result = Obj.customer_edit(email, username,password);
+            }else if(!password.equals(Cpassword)){
+                result = "Mismatched Passwords";
+            }else if(username == null || username.trim().isEmpty()){
+                result = "Username cannot be empty";
+            }else if(password == null || password.trim().isEmpty()){
+                result = "Password cannot be empty";
+            }
+        } catch (NotBoundException | MalformedURLException | RemoteException ex) {
+            Logger.getLogger(Profile.class.getName()).log(Level.SEVERE, null, ex);
+            result = ("An error has occurred: "+ ex);
+        }
+        
+        if(result.equals("Successfully updated")){
+            this.LoggedCustomer.setName(username);
+            
+        }
+        lblResult.setVisible(true);
+        lblResult.setText(result);
+        
+    }//GEN-LAST:event_btnSaveActionPerformed
 
     /**
      * @param args the command line arguments
@@ -169,11 +221,12 @@ public class Profile extends javax.swing.JFrame {
     private javax.swing.JLabel lblCPassword;
     private javax.swing.JLabel lblEmail;
     private javax.swing.JLabel lblNewPassword;
+    private javax.swing.JLabel lblResult;
     private javax.swing.JLabel lblUsername;
     private javax.swing.JLabel lblimg;
-    private javax.swing.JTextField txtCPassword;
+    private javax.swing.JPasswordField txtCPassword;
     private javax.swing.JTextField txtEmail;
-    private javax.swing.JTextField txtNewPassword;
+    private javax.swing.JPasswordField txtNewPassword;
     private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
 }

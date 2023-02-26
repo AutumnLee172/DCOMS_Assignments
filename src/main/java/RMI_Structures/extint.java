@@ -140,6 +140,25 @@ public class extint extends UnicastRemoteObject implements RMIinterface {
         return cm;
     }
     
+    @Override
+    public String customer_edit(String email, String username, String passwords) throws RemoteException {
+       String result = null;
+       try {
+            openConnection();
+            PreparedStatement pstmt = conn.prepareStatement("UPDATE customers SET name = ?, password = ? WHERE email = ?");
+                pstmt.setString(1, username);
+                pstmt.setString(2, passwords.trim());
+                pstmt.setString(3, email.trim());
+                pstmt.executeUpdate();
+                result = "Successfully updated";
+        } catch (SQLException ex) {
+            Logger.getLogger(extint.class.getName()).log(Level.SEVERE, null, ex);
+            result = "An error has occurred: " + ex;
+        }
+        closeConnection();
+        return result;
+    }
+    
     //Cart Functions -----------------------------------------------------------
 
     @Override
@@ -171,7 +190,7 @@ public class extint extends UnicastRemoteObject implements RMIinterface {
       
     }
     
-    @Override
+   // @Override
      public ArrayList<Cart> getCustomerCart(String customerID)throws RemoteException{
         ArrayList<Cart> customerCartList = new ArrayList<>();
         Cart temp_cart = new Cart();

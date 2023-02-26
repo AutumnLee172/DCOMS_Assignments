@@ -58,6 +58,11 @@ public class Home extends javax.swing.JFrame {
         });
 
         btnLogout.setText("Logout");
+        btnLogout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLogoutActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -104,6 +109,12 @@ public class Home extends javax.swing.JFrame {
         pf.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnProfileActionPerformed
+
+    private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
+       LoginRegister lr = new LoginRegister();
+       this.dispose();
+       lr.setVisible(true);
+    }//GEN-LAST:event_btnLogoutActionPerformed
 
     /**
      * @param args the command line arguments

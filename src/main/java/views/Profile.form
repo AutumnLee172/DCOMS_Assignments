@@ -29,27 +29,30 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <Component id="lblUsername" min="-2" pref="70" max="-2" attributes="0"/>
+                                  <EmptySpace pref="30" max="32767" attributes="0"/>
+                                  <Component id="txtUsername" min="-2" pref="207" max="-2" attributes="0"/>
+                              </Group>
+                              <Component id="lblEmail" min="-2" pref="70" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="lblCPassword" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Component id="lblNewPassword" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="txtNewPassword" min="-2" pref="207" max="-2" attributes="0"/>
-                              <Component id="txtCPassword" min="-2" pref="207" max="-2" attributes="0"/>
-                              <Component id="txtEmail" alignment="0" min="-2" pref="207" max="-2" attributes="0"/>
-                          </Group>
-                      </Group>
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" attributes="0">
-                                  <Component id="lblUsername" min="-2" pref="70" max="-2" attributes="0"/>
-                                  <EmptySpace max="32767" attributes="0"/>
-                                  <Component id="txtUsername" min="-2" pref="207" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="lblResult" pref="207" max="32767" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="txtEmail" pref="207" max="32767" attributes="0"/>
+                                  <Component id="txtNewPassword" max="32767" attributes="0"/>
+                                  <Component id="txtCPassword" alignment="0" max="32767" attributes="0"/>
                               </Group>
-                              <Component id="lblEmail" min="-2" pref="70" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -80,15 +83,17 @@
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="txtNewPassword" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="lblNewPassword" alignment="3" min="-2" pref="22" max="-2" attributes="0"/>
+                  <Component id="txtNewPassword" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="txtCPassword" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="lblCPassword" alignment="3" min="-2" pref="22" max="-2" attributes="0"/>
+                  <Component id="txtCPassword" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
+              <Component id="lblResult" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="btnSave" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btnBack" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -130,19 +135,18 @@
         <Property name="text" type="java.lang.String" value="New Password"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="txtNewPassword">
-    </Component>
     <Component class="javax.swing.JLabel" name="lblCPassword">
       <Properties>
         <Property name="text" type="java.lang.String" value="Confirm Password"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="txtCPassword">
-    </Component>
     <Component class="javax.swing.JButton" name="btnSave">
       <Properties>
         <Property name="text" type="java.lang.String" value="Save"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSaveActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnBack">
       <Properties>
@@ -151,6 +155,15 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBackActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="javax.swing.JPasswordField" name="txtNewPassword">
+    </Component>
+    <Component class="javax.swing.JPasswordField" name="txtCPassword">
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblResult">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Result"/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>
