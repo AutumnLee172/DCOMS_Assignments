@@ -50,7 +50,7 @@ public class extint extends UnicastRemoteObject implements RMIinterface {
         try {
             conn = DriverManager.getConnection("jdbc:derby://localhost:1527/KGF", "dcoms", "1234");       
                 conn.setAutoCommit(false);
-            System.out.println("Connection Created");
+                System.out.println("Connection Created");
             
             } catch (SQLException ex) {
             Logger.getLogger(extint.class.getName()).log(Level.SEVERE, null, ex);
@@ -61,7 +61,8 @@ public class extint extends UnicastRemoteObject implements RMIinterface {
     public void closeConnection()throws RemoteException{
         try {
             conn.commit();
-                conn.close();
+               conn.close();
+               System.out.println("Connection closed");               
             } catch (SQLException ex) {
             Logger.getLogger(extint.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -131,6 +132,9 @@ public class extint extends UnicastRemoteObject implements RMIinterface {
         } catch (SQLException ex) {
             Logger.getLogger(extint.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        closeConnection();
+        
         return hasRecord;
     }
 
@@ -149,6 +153,8 @@ public class extint extends UnicastRemoteObject implements RMIinterface {
         } catch (SQLException ex) {
             Logger.getLogger(extint.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        closeConnection();
         Customer cm = new Customer(email, name, id);
         return cm;
     }
