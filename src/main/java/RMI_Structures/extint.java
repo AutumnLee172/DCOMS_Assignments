@@ -1,5 +1,6 @@
 package RMI_Structures;
 
+import java.io.FileOutputStream;
 import java.rmi.*;
 import java.net.*;
 import java.lang.Math;
@@ -308,7 +309,7 @@ public class extint extends UnicastRemoteObject implements RMIinterface {
      
     // Admin --------------------------------------------------------------------
     @Override
-    public String Add_New_Product(String prodname, String category, String quantity, String price) throws RemoteException {
+    public String Add_New_Product(String prodname, String category, String quantity, String price, byte[] image) throws RemoteException {
        String result = "";
         try {
             openConnection();         
@@ -321,13 +322,14 @@ public class extint extends UnicastRemoteObject implements RMIinterface {
             }
                 
             //insert new Record
-            PreparedStatement pstmt = conn.prepareStatement("INSERT INTO product(prodid,prodname,prodcategory,prodquantity,prodprice) VALUES (?, ?, ?, ?,?)");
+            PreparedStatement pstmt = conn.prepareStatement("INSERT INTO product(prodid,prodname,prodcategory,prodquantity,prodprice,image) VALUES (?, ?, ?, ?,?,?)");
             int newID = max;
             pstmt.setInt(1, newID);
             pstmt.setString(2, prodname);
             pstmt.setString(3, category);
             pstmt.setString(4, quantity);
             pstmt.setString(5, price);
+            pstmt.setBytes(6, image);
             //Statement stmt = conn.createStatement();
             pstmt.executeUpdate();
             
@@ -341,6 +343,5 @@ public class extint extends UnicastRemoteObject implements RMIinterface {
         }
        return result;
     }
-    
     
 }

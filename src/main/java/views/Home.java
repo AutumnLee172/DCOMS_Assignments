@@ -60,7 +60,7 @@ public class Home extends javax.swing.JFrame {
     productPanel.setLayout(new GridLayout(numRows, 3, 10, 10));
     for (int i = 0; i < numProducts; i++) {
         JPanel panel = new JPanel();
-        panel.setPreferredSize(new Dimension(200, 250));
+        panel.setPreferredSize(new Dimension(200, 200));
         panel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
         JLabel nameLabel = new JLabel(products[i].getName());
         nameLabel.setFont(new Font("Tahoma", Font.BOLD, 14));

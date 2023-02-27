@@ -26,7 +26,6 @@ public interface RMIinterface extends Remote{
     public void deleteCartItem(ArrayList<String> cartID) throws RemoteException;
     
     //Admin 
-    public String Add_New_Product(String prodname, String category, String quantity, String price) throws RemoteException; 
-    
+    public String Add_New_Product(String prodname, String category, String quantity, String price, byte[] image) throws RemoteException; 
 }
 
