@@ -16,6 +16,9 @@ public interface RMIinterface extends Remote{
     public Customer customer_setup(String email)throws RemoteException;
     public String customer_edit(String email, String username, String passwords)throws RemoteException;
     
+    // product function
+    public ArrayList<Product> getProducts()throws RemoteException;
+    
     //Cart Functions
     public void addToCart(String customerID, String productID, int quantity)throws RemoteException;
 

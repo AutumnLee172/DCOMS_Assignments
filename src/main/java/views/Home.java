@@ -9,7 +9,28 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.MalformedURLException;
+import java.rmi.Naming;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -27,7 +48,7 @@ public class Home extends javax.swing.JFrame {
         initComponents();
     }
     
-    public Home(Customer cm){
+    public Home(Customer cm) throws IOException{
         LoggedCustomer = cm;
         initComponents();
         lblHello.setText("Hello, " + LoggedCustomer.getName());
@@ -36,24 +57,25 @@ public class Home extends javax.swing.JFrame {
          productPanel = new JPanel();
         productPanel.setBackground(Color.WHITE);
         pnlProduct.setViewportView(productPanel);
-        Product[] products = {
-    new Product("Product 1", "Baby", "10", "19.99"),
-    new Product("Product 2", "Baby", "10", "19.99"),
-    new Product("Product 3", "Baby", "10", "19.99"),
-    new Product("Product 4", "Accessory", "10", "19.99"),
-    new Product("Product 5", "Accessory", "10", "19.99"),
-    new Product("Product 6", "Accessory","10", "19.99"),
-    new Product("Product 7", "Home appliance", "10", "19.99"),
-    new Product("Product 8", "Home appliance", "10", "19.99"),
-    new Product("Product 9", "Home appliance", "10", "19.99"),
-    new Product("Product 10", "Home appliance", "10", "19.99")
-        };
+       try {
+           RMIinterface Obj = (RMIinterface)Naming.lookup("rmi://localhost:1040/KGF");
+          ArrayList<Product> productsArrayList = Obj.getProducts();
+           Product[] products = new Product[ productsArrayList.size() ];
+          productsArrayList.toArray(products);
+           setProducts(products);        
+       } catch (NotBoundException ex) {
+           Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+       } catch (MalformedURLException ex) {
+           Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+       } catch (RemoteException ex) {
+           Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+       }
         
-        setProducts(products);        
+       
     }
 
     //for testing use
-    public void setProducts(Product[] products) {
+    public void setProducts(Product[] products) throws FileNotFoundException, IOException {
         productPanel.removeAll();
     int numProducts = products.length;
     int numRows = (int) Math.ceil((double) numProducts / 3);
@@ -64,11 +86,24 @@ public class Home extends javax.swing.JFrame {
         panel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
         JLabel nameLabel = new JLabel(products[i].getName());
         nameLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
-        JLabel descriptionLabel = new JLabel(products[i].getCategory());
+        
+        JLabel imageLabel = new JLabel();
+        imageLabel.setSize(125, 125);
+        if(products[i].getImage() != null){
+            InputStream is = new ByteArrayInputStream(products[i].getImage());
+            BufferedImage someImage = ImageIO.read(is);
+            ImageIcon icon = new ImageIcon(someImage);
+            Image img = icon.getImage();
+            Image img2 = img.getScaledInstance(125, 125, Image.SCALE_SMOOTH);
+            ImageIcon image = new ImageIcon(img2);
+            imageLabel.setIcon(image);
+        }
+        JLabel categoryLabel = new JLabel(products[i].getCategory());
         JLabel priceLabel = new JLabel("$" + products[i].getPrice());
         priceLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
         panel.add(nameLabel);
-        panel.add(descriptionLabel);
+        panel.add(imageLabel);
+        panel.add(categoryLabel);
         panel.add(priceLabel);
         productPanel.add(panel);
     }
@@ -76,6 +111,17 @@ public class Home extends javax.swing.JFrame {
     productPanel.repaint();
     }
     
+     public ImageIcon resizeImage(String imagePath, byte[] pic){
+        ImageIcon myImage = null;
+        if(imagePath != null){
+            myImage = new ImageIcon(imagePath);
+        }else{
+            myImage = new ImageIcon(pic);
+        }
+        Image img = myImage.getImage();
+        ImageIcon image = new ImageIcon(img);
+        return image;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

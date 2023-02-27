@@ -39,7 +39,7 @@
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace pref="192" max="32767" attributes="0"/>
+              <EmptySpace pref="195" max="32767" attributes="0"/>
               <Component id="pnlManage" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -111,7 +111,7 @@
                           <EmptySpace min="-2" pref="66" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="1" attributes="0">
-                          <Component id="lblimg" min="-2" pref="116" max="-2" attributes="0"/>
+                          <Component id="lblimg" pref="125" max="32767" attributes="0"/>
                           <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -145,11 +145,11 @@
                               <Component id="lblprice" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="txtprice" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="38" max="32767" attributes="0"/>
+                          <EmptySpace pref="40" max="32767" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="1" attributes="0">
                           <EmptySpace min="-2" pref="95" max="-2" attributes="0"/>
-                          <Component id="lblimg" max="32767" attributes="0"/>
+                          <Component id="lblimg" pref="125" max="32767" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="btnUpload" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
@@ -269,7 +269,7 @@
                           <Component id="managecustorder" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace pref="226" max="32767" attributes="0"/>
+                  <EmptySpace pref="235" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -282,7 +282,7 @@
                   <Component id="manageprod" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
                   <Component id="managecustorder" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="176" max="32767" attributes="0"/>
+                  <EmptySpace pref="179" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -327,7 +327,7 @@
                       <Component id="addprod" min="-2" max="-2" attributes="0"/>
                       <Component id="deleteprod" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="147" max="32767" attributes="0"/>
+                  <EmptySpace pref="156" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>

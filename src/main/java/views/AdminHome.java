@@ -157,7 +157,7 @@ public class AdminHome extends javax.swing.JFrame {
                         .addComponent(btnUpload)
                         .addGap(66, 66, 66))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlAddProductLayout.createSequentialGroup()
-                        .addComponent(lblimg, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblimg, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)
                         .addGap(47, 47, 47))))
         );
         pnlAddProductLayout.setVerticalGroup(
@@ -183,10 +183,10 @@ public class AdminHome extends javax.swing.JFrame {
                         .addGroup(pnlAddProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblprice)
                             .addComponent(txtprice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE))
                     .addGroup(pnlAddProductLayout.createSequentialGroup()
                         .addGap(95, 95, 95)
-                        .addComponent(lblimg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblimg, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)
                         .addGap(18, 18, 18)
                         .addComponent(btnUpload)
                         .addGap(22, 22, 22)))
@@ -229,7 +229,7 @@ public class AdminHome extends javax.swing.JFrame {
                     .addGroup(pnlMainLayout.createSequentialGroup()
                         .addGap(211, 211, 211)
                         .addComponent(managecustorder)))
-                .addContainerGap(226, Short.MAX_VALUE))
+                .addContainerGap(235, Short.MAX_VALUE))
         );
         pnlMainLayout.setVerticalGroup(
             pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -240,7 +240,7 @@ public class AdminHome extends javax.swing.JFrame {
                 .addComponent(manageprod)
                 .addGap(50, 50, 50)
                 .addComponent(managecustorder)
-                .addContainerGap(176, Short.MAX_VALUE))
+                .addContainerGap(179, Short.MAX_VALUE))
         );
 
         addprod.setText("Add Product");
@@ -271,7 +271,7 @@ public class AdminHome extends javax.swing.JFrame {
                 .addGroup(pnlManageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(addprod)
                     .addComponent(deleteprod))
-                .addContainerGap(147, Short.MAX_VALUE))
+                .addContainerGap(156, Short.MAX_VALUE))
         );
         pnlManageLayout.setVerticalGroup(
             pnlManageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -303,7 +303,7 @@ public class AdminHome extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(192, Short.MAX_VALUE)
+                .addContainerGap(195, Short.MAX_VALUE)
                 .addComponent(pnlManage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
