@@ -14,64 +14,68 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author PC
  */
-public class CartMenu extends javax.swing.JFrame{
-  Customer LoggedCustomer;
+public class CartMenu extends javax.swing.JFrame {
+
+    Customer LoggedCustomer = new Customer("test", "test", "C1");
+    DefaultTableModel model;
+    ArrayList<Cart> cartlist = new ArrayList<Cart>();
+    RMIinterface Obj;
+
     /**
      * Creates new form Cart
      */
-  
-  //public CartMenu() {
-   //     initComponents();
-   // }
-  
+    //public CartMenu() {
+    //     initComponents();
+    // }
     public CartMenu() {
-       /* this.LoggedCustomer = cm;
-        
+        //this.LoggedCustomer = cm;
+        initComponents();
         lblCartTitle.setText(LoggedCustomer.getName() + "'s Cart ");
-        
-     */   //load all cart info into table
-     initComponents();
+
+        //load all cart info into table    
         try {
-        RMIinterface Obj = (RMIinterface)Naming.lookup("rmi://localhost:1040/KGF");
-      ArrayList<Cart> cartlist = new ArrayList<Cart>(); 
-      cartlist = Obj.getCustomerCart("C1");
-      jLabel1.setText(String.valueOf(cartlist.size()));
-                         
-               String ProductName;
-               double ProductPrice,totalPrice;
-               int quantity = 0;
-               boolean select = false;
-               System.out.print(cartlist.get(0).getCartID());
-               System.out.print(cartlist.get(1).getCartID());
-               
-           for (int i=0; i< cartlist.size(); i++){
-               //i looping is the total car items to be printed
+            Obj = (RMIinterface) Naming.lookup("rmi://localhost:1040/KGF");
+            cartlist = Obj.getCustomerCart(LoggedCustomer.getID());
+
+            String ProductName, cartID;
+            double ProductPrice, totalPrice;
+            int quantity = 0;
+            boolean select = false;
+
+            for (int i = 0; i < cartlist.size(); i++) {
+                //i looping is the total car items to be printed
 
                 ProductName = Obj.findProductName(cartlist.get(i).getProductID());
                 ProductPrice = Obj.findProductPrice(cartlist.get(i).getProductID());
                 quantity = cartlist.get(i).getQuantity();
-                totalPrice = quantity*ProductPrice;
-                               
-                Object rowData[] = {ProductName,quantity,totalPrice,select};
-                
-                DefaultTableModel model = (DefaultTableModel)TableCartList.getModel();
+                totalPrice = quantity * ProductPrice;
+                cartID = cartlist.get(i).getCartID();
+
+                Object rowData[] = {ProductName, quantity, totalPrice, select, cartID};
+
+                model = (DefaultTableModel) TableCartList.getModel();
                 model.addRow(rowData);
-               
-           }
-          
-      } catch (RemoteException | NotBoundException | MalformedURLException ex) {
-          Logger.getLogger(CartMenu.class.getName()).log(Level.SEVERE, null, ex);
-      }
-      
-      
+
+            }
+
+        } catch (RemoteException | NotBoundException | MalformedURLException ex) {
+            Logger.getLogger(CartMenu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        //edit quantity listener
+        if (model != null && model.getRowCount() > 0) {model.addTableModelListener(cartTableListener);}
+        //hide id column
+        TableCartList.removeColumn(TableCartList.getColumnModel().getColumn(4));
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -85,7 +89,7 @@ public class CartMenu extends javax.swing.JFrame{
         AddCartTest = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         TableCartList = new javax.swing.JTable();
-        jLabel1 = new javax.swing.JLabel();
+        btnRemove = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -104,14 +108,14 @@ public class CartMenu extends javax.swing.JFrame{
 
             },
             new String [] {
-                "Product Name", "Quantity", "Total Cost", "Select"
+                "Product Name", "Quantity", "Total Cost", "Select", "CartID"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Integer.class, java.lang.Object.class, java.lang.Boolean.class
+                java.lang.String.class, java.lang.Integer.class, java.lang.Object.class, java.lang.Boolean.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, true, false, true
+                false, true, false, true, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -131,29 +135,33 @@ public class CartMenu extends javax.swing.JFrame{
             TableCartList.getColumnModel().getColumn(2).setPreferredWidth(10);
             TableCartList.getColumnModel().getColumn(3).setPreferredWidth(50);
             TableCartList.getColumnModel().getColumn(3).setMaxWidth(50);
+            TableCartList.getColumnModel().getColumn(4).setResizable(false);
         }
 
-        jLabel1.setText("jLabel1");
+        btnRemove.setText("Remove Selected");
+        btnRemove.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRemoveActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(lblCartTitle))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 698, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(80, 80, 80)
-                        .addComponent(AddCartTest))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(252, 252, 252)
-                        .addComponent(jLabel1)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnRemove)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(80, 80, 80)
+                            .addComponent(AddCartTest))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(15, 15, 15)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(lblCartTitle)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 687, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -162,26 +170,87 @@ public class CartMenu extends javax.swing.JFrame{
                 .addComponent(lblCartTitle)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(72, 72, 72)
-                .addComponent(AddCartTest)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel1)
-                .addContainerGap(110, Short.MAX_VALUE))
+                .addComponent(btnRemove)
+                .addGap(31, 31, 31)
+                .addComponent(AddCartTest)
+                .addContainerGap(144, Short.MAX_VALUE))
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void AddCartTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddCartTestActionPerformed
         String CustomerID = LoggedCustomer.getID();
-      try {
-          RMIinterface Obj = (RMIinterface)Naming.lookup("rmi://localhost:1040/KGF");
-          Obj.addToCart(CustomerID,"P1",1);
-      
-      } catch (NotBoundException | MalformedURLException | RemoteException ex) {
-          Logger.getLogger(CartMenu.class.getName()).log(Level.SEVERE, null, ex);
-      }
+        try {
+            RMIinterface Obj = (RMIinterface) Naming.lookup("rmi://localhost:1040/KGF");
+            Obj.addToCart(CustomerID, "1", 1);
+
+        } catch (NotBoundException | MalformedURLException | RemoteException ex) {
+            Logger.getLogger(CartMenu.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_AddCartTestActionPerformed
+
+    private void btnRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveActionPerformed
+        int input = JOptionPane.showConfirmDialog(this,
+                "Are you sure about removing the selected items?", "Remove confirmation ",
+                JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+        if (input == JOptionPane.OK_OPTION) {
+
+            ArrayList<String> deletingItems = new ArrayList<>();
+            ArrayList<Integer> rowsToRemove = new ArrayList<>();
+
+            for (int i = 0; i < model.getRowCount(); i++) {
+                Boolean checked = (Boolean) model.getValueAt(i, 3);
+
+                if (checked) {
+                    deletingItems.add((String) model.getValueAt(i, 4));
+                    rowsToRemove.add(i);
+                }
+            }
+
+            // Remove rows outside of the loop
+            for (int i = rowsToRemove.size() - 1; i >= 0; i--) {
+                model.removeRow(rowsToRemove.get(i));
+            }
+
+            //Once we have the list to delete cart item, run delete cart function
+            try {
+                Obj.deleteCartItem(deletingItems);
+            } catch (RemoteException ex) {
+                Logger.getLogger(CartMenu.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_btnRemoveActionPerformed
+
+    TableModelListener cartTableListener = new TableModelListener() {
+        @Override
+        public void tableChanged(TableModelEvent e) {
+            // Check if the event was triggered by a cell update
+            if (e.getType() == TableModelEvent.UPDATE && e.getColumn() == 1) {
+                
+                int row = e.getFirstRow();
+                int column = e.getColumn();
+                Object newQuantity = model.getValueAt(row, column);
+                String itemID = (String) model.getValueAt(row, 4);
+                
+                try {
+                    if ((Integer) newQuantity <= 0) {
+                        //update the specific item's quantity = 0(also meant removed)               
+                        Obj.updateCartQuantity(itemID, 0);
+                        model.removeRow(row);
+
+                    } else {
+                        Obj.updateCartQuantity(itemID, (Integer)newQuantity);                       
+                    }
+
+                } catch (RemoteException ex) {
+                    Logger.getLogger(CartMenu.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+    };
 
     /**
      * @param args the command line arguments
@@ -222,7 +291,7 @@ public class CartMenu extends javax.swing.JFrame{
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AddCartTest;
     private javax.swing.JTable TableCartList;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton btnRemove;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblCartTitle;
     // End of variables declaration//GEN-END:variables

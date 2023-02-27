@@ -190,14 +190,15 @@ public class extint extends UnicastRemoteObject implements RMIinterface {
       
     }
     
-   // @Override
+     @Override
      public ArrayList<Cart> getCustomerCart(String customerID)throws RemoteException{
         ArrayList<Cart> customerCartList = new ArrayList<Cart>();
             openConnection();
             
             try {
             Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM CART WHERE Customer_ID ='" + customerID + "'");
+            String Query = "(SELECT * FROM CART WHERE QUANTITY > 0 AND CUSTOMER_ID = '" + customerID+ "')";
+            ResultSet rs = stmt.executeQuery(Query);
             
             while(rs.next()){
                 String id = rs.getString("ID");
@@ -270,6 +271,39 @@ public class extint extends UnicastRemoteObject implements RMIinterface {
          closeConnection();
          
          return result;
+     }
+     
+     @Override
+     public void updateCartQuantity(String cartID, int quantity) throws RemoteException{
+     openConnection();
+     
+     try {
+            PreparedStatement pstmt = conn.prepareStatement("UPDATE CART SET QUANTITY =? WHERE ID = ?" );
+            pstmt.setInt(1, quantity);
+            pstmt.setString(2,cartID);
+            pstmt.executeUpdate();
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(extint.class.getName()).log(Level.SEVERE, null, ex);
+        }
+     closeConnection();
+     }
+     
+     @Override
+     public void deleteCartItem(ArrayList<String> cartID) throws RemoteException{
+     openConnection();
+     
+     try {
+         for(String row : cartID){
+            PreparedStatement pstmt = conn.prepareStatement("UPDATE CART SET QUANTITY =? WHERE ID = ?" );
+            pstmt.setInt(1, 0);
+            pstmt.setString(2,row);
+            pstmt.executeUpdate();
+         }
+        } catch (SQLException ex) {
+            Logger.getLogger(extint.class.getName()).log(Level.SEVERE, null, ex);
+        }
+     closeConnection();
      }
      
     // Admin --------------------------------------------------------------------
