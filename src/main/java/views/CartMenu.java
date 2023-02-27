@@ -46,7 +46,7 @@ public class CartMenu extends javax.swing.JFrame {
             Obj = (RMIinterface) Naming.lookup("rmi://localhost:1040/KGF");
             cartlist = Obj.getCustomerCart(LoggedCustomer.getID());
 
-            String ProductName, cartID;
+            String ProductName, cartID,prodID;
             double ProductPrice, totalPrice;
             int quantity = 0;
             boolean select = false;
@@ -59,12 +59,12 @@ public class CartMenu extends javax.swing.JFrame {
                 quantity = cartlist.get(i).getQuantity();
                 totalPrice = quantity * ProductPrice;
                 cartID = cartlist.get(i).getCartID();
+                prodID = cartlist.get(i).getProductID();
 
-                Object rowData[] = {ProductName, quantity, totalPrice, select, cartID};
+                Object rowData[] = {ProductName, quantity, totalPrice, select, cartID,prodID};
 
                 model = (DefaultTableModel) TableCartList.getModel();
                 model.addRow(rowData);
-
             }
 
         } catch (RemoteException | NotBoundException | MalformedURLException ex) {
@@ -72,8 +72,10 @@ public class CartMenu extends javax.swing.JFrame {
         }
         //edit quantity listener
         if (model != null && model.getRowCount() > 0) {model.addTableModelListener(cartTableListener);}
-        //hide id column
+        //hide id(s) column
+        TableCartList.removeColumn(TableCartList.getColumnModel().getColumn(5));
         TableCartList.removeColumn(TableCartList.getColumnModel().getColumn(4));
+        
     }
 
     /**
@@ -90,6 +92,7 @@ public class CartMenu extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         TableCartList = new javax.swing.JTable();
         btnRemove = new javax.swing.JButton();
+        btnCheckout = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -108,14 +111,14 @@ public class CartMenu extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Product Name", "Quantity", "Total Cost", "Select", "CartID"
+                "Product Name", "Quantity", "Total Cost", "Select", "CartID", "ProdID"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Integer.class, java.lang.Object.class, java.lang.Boolean.class, java.lang.String.class
+                java.lang.String.class, java.lang.Integer.class, java.lang.Object.class, java.lang.Boolean.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, true, false, true, false
+                false, true, false, true, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -136,6 +139,7 @@ public class CartMenu extends javax.swing.JFrame {
             TableCartList.getColumnModel().getColumn(3).setPreferredWidth(50);
             TableCartList.getColumnModel().getColumn(3).setMaxWidth(50);
             TableCartList.getColumnModel().getColumn(4).setResizable(false);
+            TableCartList.getColumnModel().getColumn(5).setResizable(false);
         }
 
         btnRemove.setText("Remove Selected");
@@ -145,22 +149,32 @@ public class CartMenu extends javax.swing.JFrame {
             }
         });
 
+        btnCheckout.setText("Checkout");
+        btnCheckout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCheckoutActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(15, 15, 15)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnRemove)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(80, 80, 80)
-                            .addComponent(AddCartTest))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(15, 15, 15)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(lblCartTitle)
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 687, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addComponent(lblCartTitle)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 687, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(AddCartTest)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnCheckout))
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnRemove)))))
                 .addContainerGap(17, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -172,9 +186,11 @@ public class CartMenu extends javax.swing.JFrame {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnRemove)
-                .addGap(31, 31, 31)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(AddCartTest)
-                .addContainerGap(144, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnCheckout, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(9, 9, 9))
         );
 
         pack();
@@ -223,6 +239,25 @@ public class CartMenu extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_btnRemoveActionPerformed
+
+    private void btnCheckoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCheckoutActionPerformed
+
+        ArrayList<String> pickedItems = new ArrayList<>();
+        for (int i = 0; i < model.getRowCount(); i++) {
+                Boolean checked = (Boolean) model.getValueAt(i, 3);
+
+                if (checked) {
+                    pickedItems.add((String) model.getValueAt(i, 5));
+                    pickedItems.add((String) model.getValueAt(i, 1));
+                }
+            }   
+        
+        CheckOut CO = new CheckOut(LoggedCustomer,this,pickedItems);
+        CO.setVisible(true);
+        this.setVisible(false);
+        
+        
+    }//GEN-LAST:event_btnCheckoutActionPerformed
 
     TableModelListener cartTableListener = new TableModelListener() {
         @Override
@@ -291,6 +326,7 @@ public class CartMenu extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AddCartTest;
     private javax.swing.JTable TableCartList;
+    private javax.swing.JButton btnCheckout;
     private javax.swing.JButton btnRemove;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblCartTitle;
