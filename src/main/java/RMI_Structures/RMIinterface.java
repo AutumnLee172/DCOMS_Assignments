@@ -21,12 +21,13 @@ public interface RMIinterface extends Remote{
     
     //Cart Functions
     public void addToCart(String customerID, String productID, int quantity)throws RemoteException;
-
     public ArrayList<Cart> getCustomerCart(String customerID)throws RemoteException;
     public String findProductName(String productID) throws RemoteException;
     public double findProductPrice(String productID) throws RemoteException;
     public void updateCartQuantity(String cartID,int quantity) throws RemoteException;
     public void deleteCartItem(ArrayList<String> cartID) throws RemoteException;
+    
+    public void createOrder(Order order, ArrayList<String> checkoutList) throws RemoteException;
     
     //Admin 
     public String Add_New_Product(String prodname, String category, String quantity, String price, byte[] image) throws RemoteException; 

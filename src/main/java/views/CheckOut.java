@@ -68,7 +68,7 @@ public class CheckOut extends javax.swing.JFrame {
         Double total = 0.0;
         
         for(int i = 0; i< items.size(); i++){
-            i++;
+            i++;//skipping first index in every "3 string window" because it is cartID
             String productID = items.get(i);
             i++;            
             String quantity = items.get(i);
@@ -272,7 +272,12 @@ public class CheckOut extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this,"Address or contact number is/are empty.");
         }else
         {
+            int input = JOptionPane.showConfirmDialog(this,
+                "Proceed to payment?", "Payment confirmation ",
+                JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+        if (input == JOptionPane.OK_OPTION) {
             
+        }
         }
     }//GEN-LAST:event_btnPaymentActionPerformed
 

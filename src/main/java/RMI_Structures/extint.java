@@ -341,6 +341,40 @@ public class extint extends UnicastRemoteObject implements RMIinterface {
      closeConnection();
      }
      
+    @Override
+     public void createOrder(Order order, ArrayList<String> checkoutList) throws RemoteException{
+         //{CartID,ProdID,Quantity}
+         openConnection();
+          
+         try {  
+                Statement stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery("SELECT COUNT(id) as MaxNumber FROM CART");   
+                int max = 0;
+                while (rs.next()) {
+                    max = rs.getInt("MaxNumber") + 1;
+                }
+                
+                //insert new Record
+                PreparedStatement pstmt = conn.prepareStatement("INSERT INTO ORDERS VALUES (?, ?, ?, ?, ?, ?, ?)");
+                String newID = "ORDER" + max;
+                
+                pstmt.setString(1, newID);
+                pstmt.setString(2, order.getCustomerID());
+                pstmt.setDouble(3, order.getTotal());
+                pstmt.setString(4, order.getDate());
+                pstmt.setString(5, order.getContact_number());
+                pstmt.setString(6, order.getPayment());
+                pstmt.setString(7, order.getStatus());
+                
+                //Statement stmt = conn.createStatement();
+                pstmt.executeUpdate();
+                
+        }catch (SQLException ex) {
+            Logger.getLogger(extint.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        closeConnection();
+     }
+     
     // Admin --------------------------------------------------------------------
     @Override
     public String Add_New_Product(String prodname, String category, String quantity, String price, byte[] image) throws RemoteException {
