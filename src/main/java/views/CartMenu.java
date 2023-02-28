@@ -243,12 +243,16 @@ public class CartMenu extends javax.swing.JFrame {
     private void btnCheckoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCheckoutActionPerformed
 
         ArrayList<String> pickedItems = new ArrayList<>();
+        String quantity;
+        
         for (int i = 0; i < model.getRowCount(); i++) {
                 Boolean checked = (Boolean) model.getValueAt(i, 3);
 
                 if (checked) {
-                    pickedItems.add((String) model.getValueAt(i, 5));
-                    pickedItems.add((String) model.getValueAt(i, 1));
+                    pickedItems.add((String)model.getValueAt(i,4));//Cart ID
+                    pickedItems.add((String) model.getValueAt(i, 5));//Proudct ID
+                    quantity = String.valueOf((Integer) model.getValueAt(i, 1));
+                    pickedItems.add(quantity);
                 }
             }   
         

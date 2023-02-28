@@ -6,6 +6,7 @@ package views;
 
 import RMI_Structures.Customer;
 import RMI_Structures.RMIinterface;
+import java.awt.Dimension;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
@@ -13,6 +14,8 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -23,6 +26,7 @@ public class CheckOut extends javax.swing.JFrame {
  CartMenu PreviousCartMenu;
  ArrayList<String> items = new ArrayList<String>();
  double checkOutPrice;
+ DefaultTableModel model;
  RMIinterface Obj;
     /**
      * Creates new form CheckOut
@@ -43,25 +47,43 @@ public class CheckOut extends javax.swing.JFrame {
         this.items = items;
         
         initComponents();
+        
         lblFullName.setText(LoggedCustomer.getName());
+        model = (DefaultTableModel) tableCheckOut.getModel();
      try {
          printOutItems();
      } catch (RemoteException ex) {
          Logger.getLogger(CheckOut.class.getName()).log(Level.SEVERE, null, ex);
      }
+        tableCheckOut.getTableHeader().setUI(null);
+        tableCheckOut.setShowGrid(false);
+        tableCheckOut.setIntercellSpacing(new Dimension(0, 0));
     }
     
     public final void printOutItems() throws RemoteException{
-        txtCheckoutList.append("Your cart items: \n");
-        String format = "%-40s%s%n";
+        Object header[] = {"Your cart items:","",null};
+        Object header2[] = {"- - - - - - - - - - - -","",null};
+        model.addRow(header);
+        model.addRow(header2);
+        Double total = 0.0;
         
-        for(String productID:items){
-            String s = String.format(format, Obj.findProductName(productID), Obj.findProductPrice(productID));
-          txtCheckoutList.append(s + "\n");
+        for(int i = 0; i< items.size(); i++){
+            i++;
+            String productID = items.get(i);
+            i++;            
+            String quantity = items.get(i);
+            Object rowData[] = {Obj.findProductName(productID),
+                                quantity,
+                                Obj.findProductPrice(productID)};
+            total += Obj.findProductPrice(productID);
+            model.addRow(rowData);
         }
         
+        model.addRow(header2);
+        Object lastLine[] = {"Total cost:","",total};
+        model.addRow(lastLine);
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -77,15 +99,22 @@ public class CheckOut extends javax.swing.JFrame {
         lblContact = new javax.swing.JLabel();
         txtContactNumber = new javax.swing.JTextField();
         txtAddress = new javax.swing.JTextArea();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        txtCheckoutList = new javax.swing.JTextArea();
         lblAddress = new javax.swing.JLabel();
         lblName = new javax.swing.JLabel();
         lblFullName = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tableCheckOut = new javax.swing.JTable();
+        lblPaymentMethod = new javax.swing.JLabel();
+        comboPaymentMethod = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         btnPayment.setText("Proceed Payment");
+        btnPayment.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPaymentActionPerformed(evt);
+            }
+        });
 
         btnBack.setText("Back");
         btnBack.addActionListener(new java.awt.event.ActionListener() {
@@ -94,18 +123,18 @@ public class CheckOut extends javax.swing.JFrame {
             }
         });
 
-        comboCountryCode.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "(MY) +60", "(PH) +63", "(TH) +66", "(ID) +62", "(SG) +65" }));
+        comboCountryCode.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "(MY) +60", "(ID) +62", "(PH) +63", "(SG) +65", "(TH) +66" }));
 
         lblContact.setText("Contact Number :");
 
+        txtContactNumber.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtContactNumberKeyTyped(evt);
+            }
+        });
+
         txtAddress.setColumns(20);
         txtAddress.setRows(5);
-
-        txtCheckoutList.setEditable(false);
-        txtCheckoutList.setColumns(20);
-        txtCheckoutList.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        txtCheckoutList.setRows(5);
-        jScrollPane1.setViewportView(txtCheckoutList);
 
         lblAddress.setText("Address               :");
 
@@ -113,45 +142,90 @@ public class CheckOut extends javax.swing.JFrame {
 
         lblFullName.setText("Customer's Name");
 
+        tableCheckOut.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        tableCheckOut.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Product Name", "Quantity", "Price"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.Double.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tableCheckOut.setFocusable(false);
+        tableCheckOut.setRowSelectionAllowed(false);
+        tableCheckOut.getTableHeader().setReorderingAllowed(false);
+        jScrollPane2.setViewportView(tableCheckOut);
+        if (tableCheckOut.getColumnModel().getColumnCount() > 0) {
+            tableCheckOut.getColumnModel().getColumn(0).setResizable(false);
+            tableCheckOut.getColumnModel().getColumn(0).setPreferredWidth(250);
+            tableCheckOut.getColumnModel().getColumn(1).setResizable(false);
+            tableCheckOut.getColumnModel().getColumn(1).setPreferredWidth(50);
+            tableCheckOut.getColumnModel().getColumn(2).setResizable(false);
+        }
+
+        lblPaymentMethod.setText("Payment Method:");
+
+        comboPaymentMethod.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Credit Card/Debit Card", "Maybank", "Public Bank", "Touch N' Go", "GrabPay Wallet" }));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lblName)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(lblFullName))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(btnBack)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnPayment))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(lblAddress)
-                                .addComponent(lblContact))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(comboCountryCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(5, 5, 5)
-                                    .addComponent(txtContactNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGap(7, 7, 7)
-                                    .addComponent(txtAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                .addGap(0, 17, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnBack)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnPayment))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblAddress)
+                            .addComponent(lblContact))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(comboCountryCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(5, 5, 5)
+                                .addComponent(txtContactNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(7, 7, 7)
+                                .addComponent(txtAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblPaymentMethod)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(comboPaymentMethod, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGap(0, 8, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(17, 17, 17)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(12, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblName)
@@ -165,11 +239,15 @@ public class CheckOut extends javax.swing.JFrame {
                             .addComponent(txtContactNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(comboCountryCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lblContact))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 136, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblPaymentMethod)
+                            .addComponent(comboPaymentMethod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnPayment, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnBack, javax.swing.GroupLayout.Alignment.TRAILING))))
-                .addGap(9, 9, 9))
+                            .addComponent(btnBack, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addGap(9, 9, 9))))
         );
 
         pack();
@@ -180,6 +258,23 @@ public class CheckOut extends javax.swing.JFrame {
            PreviousCartMenu.setVisible(true);
            this.dispose();
     }//GEN-LAST:event_btnBackActionPerformed
+
+    private void txtContactNumberKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtContactNumberKeyTyped
+        char c = evt.getKeyChar();
+        
+        if(!Character.isDigit(c)){
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtContactNumberKeyTyped
+
+    private void btnPaymentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPaymentActionPerformed
+        if(txtAddress.getText().isEmpty() || txtContactNumber.getText().isEmpty()){
+        JOptionPane.showMessageDialog(this,"Address or contact number is/are empty.");
+        }else
+        {
+            
+        }
+    }//GEN-LAST:event_btnPaymentActionPerformed
 
     /**
      * @param args the command line arguments
@@ -220,13 +315,15 @@ public class CheckOut extends javax.swing.JFrame {
     private javax.swing.JButton btnBack;
     private javax.swing.JButton btnPayment;
     private javax.swing.JComboBox<String> comboCountryCode;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JComboBox<String> comboPaymentMethod;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblAddress;
     private javax.swing.JLabel lblContact;
     private javax.swing.JLabel lblFullName;
     private javax.swing.JLabel lblName;
+    private javax.swing.JLabel lblPaymentMethod;
+    private javax.swing.JTable tableCheckOut;
     private javax.swing.JTextArea txtAddress;
-    private javax.swing.JTextArea txtCheckoutList;
     private javax.swing.JTextField txtContactNumber;
     // End of variables declaration//GEN-END:variables
 }
