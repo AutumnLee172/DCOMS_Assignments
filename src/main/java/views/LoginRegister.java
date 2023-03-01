@@ -1,6 +1,7 @@
 package views;
 
 import RMI_Structures.*;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
@@ -293,11 +294,9 @@ public class LoginRegister extends javax.swing.JFrame {
             }else{
                 lblLoginResult.setText("Incorrect email or passwords.");
             }
-        } catch (NotBoundException ex) {
+        } catch (NotBoundException | MalformedURLException | RemoteException ex) {
             Logger.getLogger(LoginRegister.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MalformedURLException ex) {
-            Logger.getLogger(LoginRegister.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (RemoteException ex) {
+        } catch (IOException ex) {
             Logger.getLogger(LoginRegister.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnLoginActionPerformed
