@@ -1,4 +1,4 @@
-package RMI_Structures;
+    package RMI_Structures;
 
 import java.io.FileOutputStream;
 import java.rmi.*;
@@ -342,32 +342,54 @@ public class extint extends UnicastRemoteObject implements RMIinterface {
      }
      
     @Override
-     public void createOrder(Order order, ArrayList<String> checkoutList) throws RemoteException{
-         //{CartID,ProdID,Quantity}
+     public void createOrder(Order order, ArrayList<String> checkoutList) throws RemoteException{       
          openConnection();
+         int quan = 0;
           
          try {  
                 Statement stmt = conn.createStatement();
-                ResultSet rs = stmt.executeQuery("SELECT COUNT(id) as MaxNumber FROM CART");   
+                ResultSet rs = stmt.executeQuery("SELECT COUNT(ID) as MaxNumber FROM ORDERS");   
                 int max = 0;
                 while (rs.next()) {
                     max = rs.getInt("MaxNumber") + 1;
                 }
                 
                 //insert new Record
-                PreparedStatement pstmt = conn.prepareStatement("INSERT INTO ORDERS VALUES (?, ?, ?, ?, ?, ?, ?)");
-                String newID = "ORDER" + max;
+                PreparedStatement pstmt = conn.prepareStatement("INSERT INTO ORDERS VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+                String newOrderID = "ORDER" + max;
                 
-                pstmt.setString(1, newID);
+                pstmt.setString(1, newOrderID);
                 pstmt.setString(2, order.getCustomerID());
                 pstmt.setDouble(3, order.getTotal());
                 pstmt.setString(4, order.getDate());
-                pstmt.setString(5, order.getContact_number());
-                pstmt.setString(6, order.getPayment());
-                pstmt.setString(7, order.getStatus());
+                pstmt.setString(5,order.getAddress());
+                pstmt.setString(6, order.getContact_number());
+                pstmt.setString(7, order.getPayment());
+                pstmt.setString(8, order.getStatus());
                 
-                //Statement stmt = conn.createStatement();
                 pstmt.executeUpdate();
+                
+       //Starting to create new Order details ~ ~ ~ ~ 
+         ResultSet rs2 = stmt.executeQuery("SELECT COUNT(ID) as MaxNumber FROM ORDER_DETAILS");
+          while(rs2.next()){
+              max = rs2.getInt("MaxNumber") +1;
+          }
+          
+           pstmt = conn.prepareStatement("INSERT INTO ORDER_DETAILS VALUES (?, ?, ?, ?)");
+           String newODID;
+           
+           //checkoutList pattern per 'record'{CartID,ProdID,Quantity}
+           for(int i = 0; i < checkoutList.size(); i++){
+            newODID = "OD" + max;
+            pstmt.setString(1, newODID);
+            pstmt.setString(2, newOrderID);
+            pstmt.setString(3, checkoutList.get(i+1));
+            pstmt.setInt(4, Integer.parseInt(checkoutList.get(i+2)));
+           
+            i+=2;
+            max++;
+            pstmt.executeUpdate();
+           }
                 
         }catch (SQLException ex) {
             Logger.getLogger(extint.class.getName()).log(Level.SEVERE, null, ex);

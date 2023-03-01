@@ -5,12 +5,15 @@
 package views;
 
 import RMI_Structures.Customer;
+import RMI_Structures.Order;
 import RMI_Structures.RMIinterface;
 import java.awt.Dimension;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -71,11 +74,13 @@ public class CheckOut extends javax.swing.JFrame {
             i++;//skipping first index in every "3 string window" because it is cartID
             String productID = items.get(i);
             i++;            
-            String quantity = items.get(i);
+            int quantity = Integer.parseInt(items.get(i));
+            double price = Obj.findProductPrice(productID)*quantity;
+            
             Object rowData[] = {Obj.findProductName(productID),
                                 quantity,
-                                Obj.findProductPrice(productID)};
-            total += Obj.findProductPrice(productID);
+                                price};
+            total += price;
             model.addRow(rowData);
         }
         
@@ -152,7 +157,7 @@ public class CheckOut extends javax.swing.JFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Double.class
+                java.lang.String.class, java.lang.Integer.class, java.lang.Double.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, false
@@ -167,6 +172,8 @@ public class CheckOut extends javax.swing.JFrame {
             }
         });
         tableCheckOut.setFocusable(false);
+        tableCheckOut.setGridColor(new java.awt.Color(204, 204, 204));
+        tableCheckOut.setRowHeight(25);
         tableCheckOut.setRowSelectionAllowed(false);
         tableCheckOut.getTableHeader().setReorderingAllowed(false);
         jScrollPane2.setViewportView(tableCheckOut);
@@ -270,13 +277,39 @@ public class CheckOut extends javax.swing.JFrame {
     private void btnPaymentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPaymentActionPerformed
         if(txtAddress.getText().isEmpty() || txtContactNumber.getText().isEmpty()){
         JOptionPane.showMessageDialog(this,"Address or contact number is/are empty.");
-        }else
+        }
+        else
         {
             int input = JOptionPane.showConfirmDialog(this,
                 "Proceed to payment?", "Payment confirmation ",
                 JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
         if (input == JOptionPane.OK_OPTION) {
+            //Get today date with format
+             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");  
+                LocalDateTime now = LocalDateTime.now(); 
+                String today = dtf.format(now);
             
+                String PM = comboPaymentMethod.getSelectedItem().toString();
+                String countrycode = comboCountryCode.getSelectedItem().toString().replaceAll("\\D+","");
+                String contactNum = countrycode + txtContactNumber.getText();
+                int lastRow = model.getRowCount() - 1;
+                
+                Order newOrder = new Order(
+                        null,
+                        LoggedCustomer.getID(),
+                        today,
+                        txtAddress.getText(),
+                        contactNum,
+                        PM,
+                        "Paid",//Paid > Shipping > Delivery > Complete
+                        (Double)model.getValueAt(lastRow,2));
+                
+                try {
+                    Obj.createOrder(newOrder,items);
+                } catch (RemoteException ex) {
+                    Logger.getLogger(CheckOut.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
         }
         }
     }//GEN-LAST:event_btnPaymentActionPerformed

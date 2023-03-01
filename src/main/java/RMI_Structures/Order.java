@@ -8,7 +8,7 @@ package RMI_Structures;
  *
  * @author Boey
  */
-public class Order {
+public class Order implements java.io.Serializable{
     private String orderID,customerID,date,address,contact_number,payment,status;
     private double total;
     
@@ -90,13 +90,14 @@ public class Order {
         this.total = total;
     }
     
- public class Order_Details{
-     private String odID,orderID,productID,quantity;
+ public class Order_Details implements java.io.Serializable{
+     private String odID,orderID,productID;
+             private int quantity;
 
         public Order_Details() {
         }
 
-        public Order_Details(String odID, String orderID, String productID, String quantity) {
+        public Order_Details(String odID, String orderID, String productID, int quantity) {
             this.odID = odID;
             this.orderID = orderID;
             this.productID = productID;
@@ -127,11 +128,11 @@ public class Order {
             this.productID = productID;
         }
 
-        public String getQuantity() {
+        public int getQuantity() {
             return quantity;
         }
 
-        public void setQuantity(String quantity) {
+        public void setQuantity(int quantity) {
             this.quantity = quantity;
         }
      
