@@ -48,11 +48,9 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
                               <Component id="lblResult" pref="207" max="32767" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="txtEmail" pref="207" max="32767" attributes="0"/>
-                                  <Component id="txtNewPassword" max="32767" attributes="0"/>
-                                  <Component id="txtCPassword" alignment="0" max="32767" attributes="0"/>
-                              </Group>
+                              <Component id="txtEmail" pref="207" max="32767" attributes="0"/>
+                              <Component id="txtNewPassword" max="32767" attributes="0"/>
+                              <Component id="txtCPassword" alignment="0" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -104,11 +102,6 @@
   </Layout>
   <SubComponents>
     <Component class="javax.swing.JLabel" name="lblimg">
-      <Properties>
-        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="2" name="D:\Netbean\DCOMS_Assignments\DCOMS_Assignments\src\main\java\img\HD-wallpaper-forest-flora-forest-vithurshan-dark-europe-faded-green-leaf-mood-moody-sri-lanka-vithurshan-jpeg-wood.jpg"/>
-        </Property>
-      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="lblUsername">
       <Properties>
