@@ -33,11 +33,12 @@ public class CartMenu extends javax.swing.JFrame {
     /**
      * Creates new form Cart
      */
-    //public CartMenu() {
-    //     initComponents();
-    // }
     public CartMenu() {
-        //this.LoggedCustomer = cm;
+         initComponents();
+     }
+    
+    public CartMenu(Customer cm) {
+        this.LoggedCustomer = cm;
         initComponents();
         lblCartTitle.setText(LoggedCustomer.getName() + "'s Cart ");
 
@@ -249,7 +250,7 @@ public class CartMenu extends javax.swing.JFrame {
                 Boolean checked = (Boolean) model.getValueAt(i, 3);
 
                 if (checked) {
-                    pickedItems.add((String)model.getValueAt(i,4));//Cart ID
+                    pickedItems.add((String)model.getValueAt(i,4));//Cart ID                                    
                     pickedItems.add((String) model.getValueAt(i, 5));//Proudct ID
                     quantity = String.valueOf((Integer) model.getValueAt(i, 1));
                     pickedItems.add(quantity);

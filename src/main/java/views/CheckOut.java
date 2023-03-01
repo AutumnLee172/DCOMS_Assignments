@@ -5,12 +5,15 @@
 package views;
 
 import RMI_Structures.Customer;
+import RMI_Structures.Order;
 import RMI_Structures.RMIinterface;
 import java.awt.Dimension;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,7 +28,6 @@ public class CheckOut extends javax.swing.JFrame {
  Customer LoggedCustomer;
  CartMenu PreviousCartMenu;
  ArrayList<String> items = new ArrayList<String>();
- double checkOutPrice;
  DefaultTableModel model;
  RMIinterface Obj;
     /**
@@ -68,14 +70,16 @@ public class CheckOut extends javax.swing.JFrame {
         Double total = 0.0;
         
         for(int i = 0; i< items.size(); i++){
-            i++;
+            i++;//skipping first index in every "3 string window" because it is cartID
             String productID = items.get(i);
             i++;            
-            String quantity = items.get(i);
+            int quantity = Integer.parseInt(items.get(i));
+            double price = Obj.findProductPrice(productID)*quantity;
+            
             Object rowData[] = {Obj.findProductName(productID),
                                 quantity,
-                                Obj.findProductPrice(productID)};
-            total += Obj.findProductPrice(productID);
+                                price};
+            total += price;
             model.addRow(rowData);
         }
         
@@ -93,6 +97,14 @@ public class CheckOut extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        dialogPurchaseComplete = new javax.swing.JDialog();
+        lbltitle1 = new javax.swing.JLabel();
+        lbltitle2 = new javax.swing.JLabel();
+        lblOrderID = new javax.swing.JLabel();
+        lbltheID = new javax.swing.JLabel();
+        btnOK = new javax.swing.JButton();
+        ICON = new javax.swing.JLabel();
+        dialogPickInfo = new javax.swing.JDialog();
         btnPayment = new javax.swing.JButton();
         btnBack = new javax.swing.JButton();
         comboCountryCode = new javax.swing.JComboBox<>();
@@ -106,6 +118,92 @@ public class CheckOut extends javax.swing.JFrame {
         tableCheckOut = new javax.swing.JTable();
         lblPaymentMethod = new javax.swing.JLabel();
         comboPaymentMethod = new javax.swing.JComboBox<>();
+
+        dialogPurchaseComplete.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        dialogPurchaseComplete.setResizable(false);
+
+        lbltitle1.setFont(new java.awt.Font("Segoe UI Semilight", 1, 20)); // NOI18N
+        lbltitle1.setText("Your purchase");
+
+        lbltitle2.setFont(new java.awt.Font("Segoe UI Semilight", 1, 20)); // NOI18N
+        lbltitle2.setText("has been successfully made");
+
+        lblOrderID.setFont(new java.awt.Font("Segoe UI Semibold", 0, 12)); // NOI18N
+        lblOrderID.setForeground(new java.awt.Color(102, 102, 102));
+        lblOrderID.setText("Order ID:");
+
+        lbltheID.setFont(new java.awt.Font("Segoe UI Semibold", 0, 12)); // NOI18N
+        lbltheID.setForeground(new java.awt.Color(102, 102, 102));
+        lbltheID.setText("CART123211");
+
+        btnOK.setText("OK");
+        btnOK.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOKActionPerformed(evt);
+            }
+        });
+
+        ICON.setFont(new java.awt.Font("Segoe UI Emoji", 1, 48)); // NOI18N
+        ICON.setForeground(new java.awt.Color(0, 204, 0));
+        ICON.setText("✓");
+
+        javax.swing.GroupLayout dialogPurchaseCompleteLayout = new javax.swing.GroupLayout(dialogPurchaseComplete.getContentPane());
+        dialogPurchaseComplete.getContentPane().setLayout(dialogPurchaseCompleteLayout);
+        dialogPurchaseCompleteLayout.setHorizontalGroup(
+            dialogPurchaseCompleteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(dialogPurchaseCompleteLayout.createSequentialGroup()
+                .addGroup(dialogPurchaseCompleteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(dialogPurchaseCompleteLayout.createSequentialGroup()
+                        .addGap(125, 125, 125)
+                        .addComponent(btnOK, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(dialogPurchaseCompleteLayout.createSequentialGroup()
+                        .addGap(119, 119, 119)
+                        .addComponent(lblOrderID)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lbltheID)))
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(dialogPurchaseCompleteLayout.createSequentialGroup()
+                .addGroup(dialogPurchaseCompleteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(dialogPurchaseCompleteLayout.createSequentialGroup()
+                        .addGap(114, 114, 114)
+                        .addComponent(lbltitle1))
+                    .addGroup(dialogPurchaseCompleteLayout.createSequentialGroup()
+                        .addGap(55, 55, 55)
+                        .addComponent(lbltitle2)))
+                .addContainerGap(61, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, dialogPurchaseCompleteLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(ICON)
+                .addGap(152, 152, 152))
+        );
+        dialogPurchaseCompleteLayout.setVerticalGroup(
+            dialogPurchaseCompleteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, dialogPurchaseCompleteLayout.createSequentialGroup()
+                .addContainerGap(81, Short.MAX_VALUE)
+                .addComponent(ICON, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lbltitle1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lbltitle2, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(dialogPurchaseCompleteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblOrderID)
+                    .addComponent(lbltheID))
+                .addGap(18, 18, 18)
+                .addComponent(btnOK, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(35, 35, 35))
+        );
+
+        javax.swing.GroupLayout dialogPickInfoLayout = new javax.swing.GroupLayout(dialogPickInfo.getContentPane());
+        dialogPickInfo.getContentPane().setLayout(dialogPickInfoLayout);
+        dialogPickInfoLayout.setHorizontalGroup(
+            dialogPickInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
+        dialogPickInfoLayout.setVerticalGroup(
+            dialogPickInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 300, Short.MAX_VALUE)
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -152,7 +250,7 @@ public class CheckOut extends javax.swing.JFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Double.class
+                java.lang.String.class, java.lang.Integer.class, java.lang.Double.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, false
@@ -167,6 +265,8 @@ public class CheckOut extends javax.swing.JFrame {
             }
         });
         tableCheckOut.setFocusable(false);
+        tableCheckOut.setGridColor(new java.awt.Color(204, 204, 204));
+        tableCheckOut.setRowHeight(25);
         tableCheckOut.setRowSelectionAllowed(false);
         tableCheckOut.getTableHeader().setReorderingAllowed(false);
         jScrollPane2.setViewportView(tableCheckOut);
@@ -270,11 +370,62 @@ public class CheckOut extends javax.swing.JFrame {
     private void btnPaymentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPaymentActionPerformed
         if(txtAddress.getText().isEmpty() || txtContactNumber.getText().isEmpty()){
         JOptionPane.showMessageDialog(this,"Address or contact number is/are empty.");
-        }else
-        {
-            
         }
+        else
+        {
+            int input = JOptionPane.showConfirmDialog(this,
+                "Proceed to payment?", "Payment confirmation ",
+                JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+        if (input == JOptionPane.OK_OPTION) {
+            //Get today date with format
+             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");  
+                LocalDateTime now = LocalDateTime.now(); 
+                String today = dtf.format(now);
+            
+                String PM = comboPaymentMethod.getSelectedItem().toString();
+                String countrycode = comboCountryCode.getSelectedItem().toString().replaceAll("\\D+","");
+                String contactNum = countrycode + txtContactNumber.getText();
+                int lastRow = model.getRowCount() - 1;
+                
+                Order newOrder = new Order(
+                        null,
+                        LoggedCustomer.getID(),
+                        today,
+                        txtAddress.getText(),
+                        contactNum,
+                        PM,
+                        "Paid",//Paid > Shipping > Delivery > Complete
+                        (Double)model.getValueAt(lastRow,2));
+                
+                try {
+                    Obj.createOrder(newOrder,items);      
+                //Deleting involved cart records
+                ArrayList<String> deletingItems = new ArrayList<>();
+                
+                for (int i = 0; i < items.size(); i++ ){
+                    deletingItems.add(items.get(i));
+                }
+                Obj.deleteCartItem(deletingItems);  
+                
+                dialogPurchaseComplete.setSize(new java.awt.Dimension(361, 330));
+                dialogPurchaseComplete.setLocationRelativeTo(null);
+                dialogPurchaseComplete.setAlwaysOnTop(this.isAlwaysOnTopSupported());
+                dialogPurchaseComplete.setVisible(true);
+                 } catch (RemoteException ex) {
+                    Logger.getLogger(CheckOut.class.getName()).log(Level.SEVERE, null, ex);
+                }
+        }
+        }
+        
     }//GEN-LAST:event_btnPaymentActionPerformed
+
+    private void btnOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOKActionPerformed
+                CartMenu cartmenu = new CartMenu(LoggedCustomer);
+                cartmenu.setVisible(true);
+                 PreviousCartMenu.dispose();
+                 this.dispose();
+                 dialogPurchaseComplete.dispose();
+    }//GEN-LAST:event_btnOKActionPerformed
 
     /**
      * @param args the command line arguments
@@ -312,16 +463,24 @@ public class CheckOut extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel ICON;
     private javax.swing.JButton btnBack;
+    private javax.swing.JButton btnOK;
     private javax.swing.JButton btnPayment;
     private javax.swing.JComboBox<String> comboCountryCode;
     private javax.swing.JComboBox<String> comboPaymentMethod;
+    private javax.swing.JDialog dialogPickInfo;
+    private javax.swing.JDialog dialogPurchaseComplete;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblAddress;
     private javax.swing.JLabel lblContact;
     private javax.swing.JLabel lblFullName;
     private javax.swing.JLabel lblName;
+    private javax.swing.JLabel lblOrderID;
     private javax.swing.JLabel lblPaymentMethod;
+    private javax.swing.JLabel lbltheID;
+    private javax.swing.JLabel lbltitle1;
+    private javax.swing.JLabel lbltitle2;
     private javax.swing.JTable tableCheckOut;
     private javax.swing.JTextArea txtAddress;
     private javax.swing.JTextField txtContactNumber;
