@@ -344,7 +344,6 @@ public class extint extends UnicastRemoteObject implements RMIinterface {
     @Override
      public void createOrder(Order order, ArrayList<String> checkoutList) throws RemoteException{       
          openConnection();
-         int quan = 0;
           
          try {  
                 Statement stmt = conn.createStatement();

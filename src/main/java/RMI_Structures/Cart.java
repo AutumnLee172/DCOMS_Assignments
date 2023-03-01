@@ -16,6 +16,7 @@ public class Cart implements java.io.Serializable{
      }
      
      public Cart(String cartID, String customerID, String productID, int quantity){
+         this.CartID = cartID;
          this.CustomerID = customerID;
          this.ProductID = productID;
          this.Quantity = quantity;
