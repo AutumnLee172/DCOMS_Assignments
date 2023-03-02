@@ -45,7 +45,7 @@
                   </Group>
                   <Group type="102" attributes="0">
                       <Component id="lblHello" min="-2" pref="194" max="-2" attributes="0"/>
-                      <EmptySpace pref="748" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                       <Component id="btnProfile" min="-2" pref="98" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="btnLogout" min="-2" pref="98" max="-2" attributes="0"/>
@@ -128,15 +128,113 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+              <Group type="102" attributes="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" attributes="0">
+                          <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="lblCategory" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblPrice" alignment="0" max="32767" attributes="0"/>
+                              <Component id="lblDescription" alignment="0" max="32767" attributes="0"/>
+                              <Component id="lblName" alignment="0" max="32767" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="lblProductName" min="-2" pref="207" max="-2" attributes="0"/>
+                              <Component id="lblProductPrice" min="-2" pref="207" max="-2" attributes="0"/>
+                              <Component id="lblProductCategory" min="-2" pref="207" max="-2" attributes="0"/>
+                              <Component id="lblProductDescription" min="-2" pref="207" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <Group type="102" attributes="0">
+                          <EmptySpace min="-2" pref="83" max="-2" attributes="0"/>
+                          <Component id="lblImage" min="-2" pref="125" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="-2" pref="101" max="-2" attributes="0"/>
+                          <Component id="btnAdd" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <EmptySpace pref="28" max="32767" attributes="0"/>
+              </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="419" max="32767" attributes="0"/>
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="1" attributes="0">
+                      <Group type="102" attributes="0">
+                          <Group type="103" groupAlignment="1" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <Component id="lblImage" min="-2" pref="125" max="-2" attributes="0"/>
+                                  <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="lblName" alignment="3" min="-2" pref="24" max="-2" attributes="0"/>
+                                      <Component id="lblProductName" alignment="3" min="-2" pref="24" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblPrice" min="-2" pref="24" max="-2" attributes="0"/>
+                              </Group>
+                              <Component id="lblProductPrice" min="-2" pref="24" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
+                          <Component id="lblCategory" min="-2" pref="24" max="-2" attributes="0"/>
+                      </Group>
+                      <Component id="lblProductCategory" min="-2" pref="24" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="1" attributes="0">
+                      <Component id="lblDescription" min="-2" pref="24" max="-2" attributes="0"/>
+                      <Component id="lblProductDescription" min="-2" pref="24" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace pref="34" max="32767" attributes="0"/>
+                  <Component id="btnAdd" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
+              </Group>
           </Group>
         </DimensionLayout>
       </Layout>
+      <SubComponents>
+        <Component class="javax.swing.JLabel" name="lblImage">
+          <AccessibilityProperties>
+            <Property name="AccessibleContext.accessibleName" type="java.lang.String" value=""/>
+          </AccessibilityProperties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblName">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Name: "/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblDescription">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Description: "/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblPrice">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Price:"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblCategory">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Category: "/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JButton" name="btnAdd">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Add to Cart"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblProductName">
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblProductPrice">
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblProductCategory">
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblProductDescription">
+        </Component>
+      </SubComponents>
     </Container>
   </SubComponents>
 </Form>
