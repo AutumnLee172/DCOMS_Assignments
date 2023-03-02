@@ -104,7 +104,6 @@ public class CheckOut extends javax.swing.JFrame {
         lbltheID = new javax.swing.JLabel();
         btnOK = new javax.swing.JButton();
         ICON = new javax.swing.JLabel();
-        dialogPickInfo = new javax.swing.JDialog();
         btnPayment = new javax.swing.JButton();
         btnBack = new javax.swing.JButton();
         comboCountryCode = new javax.swing.JComboBox<>();
@@ -192,17 +191,6 @@ public class CheckOut extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(btnOK, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(35, 35, 35))
-        );
-
-        javax.swing.GroupLayout dialogPickInfoLayout = new javax.swing.GroupLayout(dialogPickInfo.getContentPane());
-        dialogPickInfo.getContentPane().setLayout(dialogPickInfoLayout);
-        dialogPickInfoLayout.setHorizontalGroup(
-            dialogPickInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        dialogPickInfoLayout.setVerticalGroup(
-            dialogPickInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -469,7 +457,6 @@ public class CheckOut extends javax.swing.JFrame {
     private javax.swing.JButton btnPayment;
     private javax.swing.JComboBox<String> comboCountryCode;
     private javax.swing.JComboBox<String> comboPaymentMethod;
-    private javax.swing.JDialog dialogPickInfo;
     private javax.swing.JDialog dialogPurchaseComplete;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblAddress;
