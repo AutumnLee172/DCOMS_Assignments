@@ -68,6 +68,10 @@ public class Product implements java.io.Serializable{
         return price;
     }
      
+     public int getID(){
+        return ID;
+    }
+     
      public byte[] getImage(){
          return image;
      }

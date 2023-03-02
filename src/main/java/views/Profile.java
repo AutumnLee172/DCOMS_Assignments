@@ -6,6 +6,7 @@ package views;
 
 import RMI_Structures.Customer;
 import RMI_Structures.RMIinterface;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
@@ -164,9 +165,15 @@ public class Profile extends javax.swing.JFrame {
     }//GEN-LAST:event_txtEmailActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
-       Home hm = new Home(LoggedCustomer);
-       hm.setVisible(true);
+       Home hm;
+        try {
+            hm = new Home(LoggedCustomer);
+            hm.setVisible(true);
        this.dispose();
+        } catch (IOException ex) {
+            Logger.getLogger(Profile.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed

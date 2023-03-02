@@ -51,7 +51,7 @@ public class Home extends javax.swing.JFrame {
 
     private JPanel productPanel;
     Customer LoggedCustomer;
-
+    private int currentselectedproduct;
     /**
      * Creates new form Home
      */
@@ -94,12 +94,17 @@ public class Home extends javax.swing.JFrame {
             JPanel panel = new JPanel();
             panel.setPreferredSize(new Dimension(200, 200));
             panel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
-
+            final Product pd = products[i];
             // add a MouseListener to each product panel
-            panel.addMouseListener(new MouseAdapter() {
+             panel.addMouseListener(new MouseAdapter() {
+                @Override
                 public void mouseClicked(MouseEvent e) {
-                    // display the selected product
-                    displayProduct(products[i]);
+                    try {
+                        // display the selected product
+                        displayProduct(pd);
+                    } catch (IOException ex) {
+                        Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
             });
 
@@ -135,9 +140,23 @@ public class Home extends javax.swing.JFrame {
     }
 
 // method to display the selected product
-    private void displayProduct(Product product) {
+    private void displayProduct(Product product) throws IOException {
+        lblProductName.setText(product.getName());
+        lblProductPrice.setText(product.getPrice());
+        lblProductCategory.setText(product.getCategory());
+        currentselectedproduct = product.getID();
+         if (product.getImage() != null) {
+                InputStream is = new ByteArrayInputStream(product.getImage());
+                BufferedImage someImage = ImageIO.read(is);
+                ImageIcon icon = new ImageIcon(someImage);
+                Image img = icon.getImage();
+                Image img2 = img.getScaledInstance(170, 170, Image.SCALE_SMOOTH);
+                ImageIcon image = new ImageIcon(img2);
+                lblImage.setIcon(image);
+            }
+        
         // create a new JFrame to display the product
-        JFrame frame = new JFrame("Product Details");
+        /* JFrame frame = new JFrame("Product Details");
         frame.setSize(400, 300);
         frame.setLayout(new FlowLayout());
 
@@ -147,22 +166,22 @@ public class Home extends javax.swing.JFrame {
         JLabel categoryLabel = new JLabel("Category: " + product.getCategory());
         JLabel priceLabel = new JLabel("Price: $" + product.getPrice());
         
-        JTextArea descriptionArea = new JTextArea(product.getDescription());
-        descriptionArea.setLineWrap(true);
-        descriptionArea.setWrapStyleWord(true);
+        // JTextArea descriptionArea = new JTextArea(product.getDescription());
+        // descriptionArea.setLineWrap(true);
+        // descriptionArea.setWrapStyleWord(true);
         
-        JScrollPane scrollPane = new JScrollPane(descriptionArea);
+        // JScrollPane scrollPane = new JScrollPane(descriptionArea);
         
-        scrollPane.setPreferredSize(new Dimension(300, 100));
+        // scrollPane.setPreferredSize(new Dimension(300, 100));
 
         // add components to the frame
         frame.add(nameLabel);
         frame.add(categoryLabel);
         frame.add(priceLabel);
-        frame.add(scrollPane);
+        // frame.add(scrollPane);
 
         // display the frame
-        frame.setVisible(true);
+        frame.setVisible(true);*/
     }
 
     public ImageIcon resizeImage(String imagePath, byte[] pic) {
@@ -192,6 +211,16 @@ public class Home extends javax.swing.JFrame {
         btnLogout = new javax.swing.JButton();
         pnlProduct = new javax.swing.JScrollPane();
         selectedProductPanel = new javax.swing.JPanel();
+        lblImage = new javax.swing.JLabel();
+        lblName = new javax.swing.JLabel();
+        lblDescription = new javax.swing.JLabel();
+        lblPrice = new javax.swing.JLabel();
+        lblCategory = new javax.swing.JLabel();
+        btnAdd = new javax.swing.JButton();
+        lblProductName = new javax.swing.JLabel();
+        lblProductPrice = new javax.swing.JLabel();
+        lblProductCategory = new javax.swing.JLabel();
+        lblProductDescription = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -230,16 +259,72 @@ public class Home extends javax.swing.JFrame {
             }
         });
 
+        lblName.setText("Name: ");
+
+        lblDescription.setText("Description: ");
+
+        lblPrice.setText("Price:");
+
+        lblCategory.setText("Category: ");
+
+        btnAdd.setText("Add to Cart");
+
         javax.swing.GroupLayout selectedProductPanelLayout = new javax.swing.GroupLayout(selectedProductPanel);
         selectedProductPanel.setLayout(selectedProductPanelLayout);
         selectedProductPanelLayout.setHorizontalGroup(
             selectedProductPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(selectedProductPanelLayout.createSequentialGroup()
+                .addGroup(selectedProductPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(selectedProductPanelLayout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addGroup(selectedProductPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(lblCategory)
+                            .addComponent(lblPrice, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblDescription, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(selectedProductPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblProductName, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblProductPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblProductCategory, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblProductDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(selectedProductPanelLayout.createSequentialGroup()
+                        .addGap(83, 83, 83)
+                        .addComponent(lblImage, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(selectedProductPanelLayout.createSequentialGroup()
+                        .addGap(101, 101, 101)
+                        .addComponent(btnAdd)))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
         selectedProductPanelLayout.setVerticalGroup(
             selectedProductPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 419, Short.MAX_VALUE)
+            .addGroup(selectedProductPanelLayout.createSequentialGroup()
+                .addGap(39, 39, 39)
+                .addGroup(selectedProductPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(selectedProductPanelLayout.createSequentialGroup()
+                        .addGroup(selectedProductPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(selectedProductPanelLayout.createSequentialGroup()
+                                .addComponent(lblImage, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(selectedProductPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(lblName, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lblProductName, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(lblProductPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(5, 5, 5)
+                        .addComponent(lblCategory, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblProductCategory, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(selectedProductPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(lblDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblProductDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                .addComponent(btnAdd)
+                .addGap(40, 40, 40))
         );
+
+        lblImage.getAccessibleContext().setAccessibleName("");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -255,7 +340,7 @@ public class Home extends javax.swing.JFrame {
                         .addGap(50, 50, 50))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lblHello, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 748, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnProfile, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -355,10 +440,20 @@ public class Home extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnCart;
     private javax.swing.JButton btnLogout;
     private javax.swing.JButton btnProfile;
+    private javax.swing.JLabel lblCategory;
+    private javax.swing.JLabel lblDescription;
     private javax.swing.JLabel lblHello;
+    private javax.swing.JLabel lblImage;
+    private javax.swing.JLabel lblName;
+    private javax.swing.JLabel lblPrice;
+    private javax.swing.JLabel lblProductCategory;
+    private javax.swing.JLabel lblProductDescription;
+    private javax.swing.JLabel lblProductName;
+    private javax.swing.JLabel lblProductPrice;
     private javax.swing.JScrollPane pnlProduct;
     private javax.swing.JPanel selectedProductPanel;
     // End of variables declaration//GEN-END:variables
