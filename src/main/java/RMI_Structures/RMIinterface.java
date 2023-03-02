@@ -29,6 +29,11 @@ public interface RMIinterface extends Remote{
     
     public void createOrder(Order order, ArrayList<String> checkoutList) throws RemoteException;
     
+    public ArrayList<Address> getCustomerAddress(String customerID)throws RemoteException;
+    public void addAddress(Address address)throws RemoteException;
+    public void editAddress(Address address)throws RemoteException;
+    public void deleteAddress(Address address)throws RemoteException;
+    
     //Admin 
     public String Add_New_Product(String prodname, String category, String quantity, String price, byte[] image) throws RemoteException; 
 }

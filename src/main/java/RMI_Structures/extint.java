@@ -396,6 +396,92 @@ public class extint extends UnicastRemoteObject implements RMIinterface {
         closeConnection();
      }
      
+     @Override
+     public ArrayList<Address> getCustomerAddress(String customerID)throws RemoteException{
+         ArrayList<Address> addressList = new ArrayList<Address>();
+            openConnection();
+            
+            try {
+            Statement stmt = conn.createStatement();
+            String Query = "(SELECT * FROM ADDRESS WHERE CUSTOMER_ID = '" + customerID+ "')";
+            ResultSet rs = stmt.executeQuery(Query);
+            
+            while(rs.next()){
+                int id = rs.getInt("ID");  
+                String address = rs.getString("ADDRESS");
+                String numb = rs.getString("CONTACT_NUMBER");  
+                String country = rs.getString("COUNTRYCODE");
+               
+               addressList.add(new Address(id,customerID,address,numb,country));
+               
+            }
+                          
+        } catch (SQLException ex) {
+            Logger.getLogger(extint.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        closeConnection();
+       return addressList; 
+     }
+     
+        @Override
+    public void addAddress(Address address)throws RemoteException{
+           openConnection();
+       //generate new ID
+        try {  
+                //insert new Record
+                PreparedStatement pstmt = conn.prepareStatement("INSERT INTO ADDRESS(CUSTOMER_ID,ADDRESS,CONTACT_NUMBER,COUNTRYCODE) VALUES (?, ?, ?, ?)");
+                
+                pstmt.setString(1, address.getCustomerID());
+                pstmt.setString(2, address.getAddress());
+                pstmt.setString(3, address.getContactNumber());
+                pstmt.setString(4, address.getCountryCode());
+                
+                pstmt.executeUpdate();
+                
+        }catch (SQLException ex) {
+            Logger.getLogger(extint.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        closeConnection(); 
+    }
+     
+     @Override
+      public void editAddress(Address address)throws RemoteException{
+           openConnection();
+       //generate new ID
+        try {  
+                //insert new Record
+                PreparedStatement pstmt = conn.prepareStatement("UPDATE ADDRESS "
+                                                              + "SET ADDRESS = ?, CONTACT_NUMBER = ?, COUNTRYCODE = ? "
+                                                              + "WHERE ID = ? ");
+                
+                pstmt.setString(1, address.getAddress());
+                pstmt.setString(2, address.getContactNumber());
+                pstmt.setString(3, address.getCountryCode());
+                pstmt.setInt(4, address.getAddressID());
+                
+                pstmt.executeUpdate();
+                
+        }catch (SQLException ex) {
+            Logger.getLogger(extint.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        closeConnection();
+      }
+      
+      @Override
+      public void deleteAddress(Address address)throws RemoteException{
+         openConnection();
+     
+     try {
+            PreparedStatement pstmt = conn.prepareStatement("DELETE FROM ADDRESS WHERE ID = ?" );
+            pstmt.setInt(1, address.getAddressID());
+            pstmt.executeUpdate();
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(extint.class.getName()).log(Level.SEVERE, null, ex);
+        }
+     closeConnection(); 
+      }
+      
     // Admin --------------------------------------------------------------------
     @Override
     public String Add_New_Product(String prodname, String category, String quantity, String price, byte[] image) throws RemoteException {
