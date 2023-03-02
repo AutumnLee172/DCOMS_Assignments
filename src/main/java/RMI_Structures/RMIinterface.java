@@ -33,6 +33,7 @@ public interface RMIinterface extends Remote{
     public void addAddress(Address address)throws RemoteException;
     public void editAddress(Address address)throws RemoteException;
     public void deleteAddress(Address address)throws RemoteException;
+    public boolean initializePayment()throws RemoteException;
     
     //Admin 
     public String Add_New_Product(String prodname, String category, String quantity, String price, byte[] image) throws RemoteException; 

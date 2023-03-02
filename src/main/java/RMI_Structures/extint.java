@@ -482,6 +482,21 @@ public class extint extends UnicastRemoteObject implements RMIinterface {
      closeConnection(); 
       }
       
+      @Override
+      public boolean initializePayment()throws RemoteException{
+          PaymentThread paymentThread = new PaymentThread();
+          paymentThread.start();
+
+            // Wait for payment to complete
+          while (!paymentThread.isPaymentSuccess()) {
+              try {
+                  Thread.sleep(1000);
+              } catch (InterruptedException e) {
+                  e.printStackTrace();
+              }
+          }
+          return paymentThread.isPaymentSuccess();
+      }
     // Admin --------------------------------------------------------------------
     @Override
     public String Add_New_Product(String prodname, String category, String quantity, String price, byte[] image) throws RemoteException {

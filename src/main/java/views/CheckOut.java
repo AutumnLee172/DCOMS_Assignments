@@ -383,6 +383,8 @@ public class CheckOut extends javax.swing.JFrame {
                 "Proceed to payment?", "Payment confirmation ",
                 JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
         if (input == JOptionPane.OK_OPTION) {
+              try {
+            if (Obj.initializePayment()){
             //Get today date with format
              DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");  
                 LocalDateTime now = LocalDateTime.now(); 
@@ -403,7 +405,7 @@ public class CheckOut extends javax.swing.JFrame {
                         "Paid",//Paid > Shipping > Delivery > Complete
                         (Double)model.getValueAt(lastRow,2));
                 
-                try {
+           
                     Obj.createOrder(newOrder,items);      
                 //Deleting involved cart records
                 ArrayList<String> deletingItems = new ArrayList<>();
@@ -417,7 +419,9 @@ public class CheckOut extends javax.swing.JFrame {
                 dialogPurchaseComplete.setLocationRelativeTo(null);
                 dialogPurchaseComplete.setAlwaysOnTop(this.isAlwaysOnTopSupported());
                 dialogPurchaseComplete.setVisible(true);
-                 } catch (RemoteException ex) {
+                
+            }
+            } catch (RemoteException ex) {
                     Logger.getLogger(CheckOut.class.getName()).log(Level.SEVERE, null, ex);
                 }
         }
