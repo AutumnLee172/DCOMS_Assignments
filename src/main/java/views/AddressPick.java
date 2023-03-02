@@ -18,9 +18,12 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
 /**
  *
@@ -33,16 +36,23 @@ public class AddressPick extends javax.swing.JFrame {
     ArrayList<Address> addressList = new ArrayList<>();
     RMIinterface Obj;
     boolean edit;
+    JTextArea addressTA;
+    JComboBox countrycode;
+    JTextField number;
+    
     /**
      * Creates new form AddressPick
      */
 
-    public AddressPick(String a) {
+    public AddressPick() {
         initComponents();
     }
 
-    public AddressPick() {
-        LoggedCustomer = new Customer("", "", "C1");
+    public AddressPick(Customer cm, JTextArea ta, JComboBox cb, JTextField tf) {
+        this.LoggedCustomer = cm;
+        this.addressTA = ta;
+        countrycode = cb;
+        number = tf;
         initComponents();
         
         //load addresses ---------------
@@ -223,6 +233,11 @@ public class AddressPick extends javax.swing.JFrame {
         });
 
         jButton1.setText("Select");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         btnEdit.setText("Edit");
         btnEdit.addActionListener(new java.awt.event.ActionListener() {
@@ -369,6 +384,18 @@ public class AddressPick extends javax.swing.JFrame {
         }
                 }
     }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        if(selectedAddress < 0){
+          JOptionPane.showMessageDialog(this, "No address is selected.");  
+        }else{
+        addressTA.setText(addressList.get(selectedAddress).getAddress());
+        countrycode.setSelectedIndex(selectCountryCode(addressList.get(selectedAddress).getCountryCode()));
+        number.setText(addressList.get(selectedAddress).getContactNumber());
+        this.dispose();
+        }
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments

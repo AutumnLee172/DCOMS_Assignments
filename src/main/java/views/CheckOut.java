@@ -210,17 +210,35 @@ public class CheckOut extends javax.swing.JFrame {
         });
 
         comboCountryCode.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "(MY) +60", "(ID) +62", "(PH) +63", "(SG) +65", "(TH) +66" }));
+        comboCountryCode.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                comboCountryCodeMouseClicked(evt);
+            }
+        });
 
         lblContact.setText("Contact Number :");
 
+        txtContactNumber.setEditable(false);
+        txtContactNumber.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtContactNumberMouseClicked(evt);
+            }
+        });
         txtContactNumber.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtContactNumberKeyTyped(evt);
             }
         });
 
+        txtAddress.setEditable(false);
         txtAddress.setColumns(20);
+        txtAddress.setLineWrap(true);
         txtAddress.setRows(5);
+        txtAddress.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtAddressMouseClicked(evt);
+            }
+        });
 
         lblAddress.setText("Address               :");
 
@@ -414,6 +432,21 @@ public class CheckOut extends javax.swing.JFrame {
                  this.dispose();
                  dialogPurchaseComplete.dispose();
     }//GEN-LAST:event_btnOKActionPerformed
+
+    private void txtAddressMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtAddressMouseClicked
+        AddressPick ap = new AddressPick(LoggedCustomer,txtAddress,comboCountryCode,txtContactNumber);
+        ap.setVisible(true);
+    }//GEN-LAST:event_txtAddressMouseClicked
+
+    private void comboCountryCodeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_comboCountryCodeMouseClicked
+        AddressPick ap = new AddressPick(LoggedCustomer,txtAddress,comboCountryCode,txtContactNumber);
+        ap.setVisible(true);
+    }//GEN-LAST:event_comboCountryCodeMouseClicked
+
+    private void txtContactNumberMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtContactNumberMouseClicked
+        AddressPick ap = new AddressPick(LoggedCustomer,txtAddress,comboCountryCode,txtContactNumber);
+        ap.setVisible(true);
+    }//GEN-LAST:event_txtContactNumberMouseClicked
 
     /**
      * @param args the command line arguments

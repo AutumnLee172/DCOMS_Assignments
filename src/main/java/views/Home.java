@@ -99,7 +99,7 @@ public class Home extends javax.swing.JFrame {
             panel.addMouseListener(new MouseAdapter() {
                 public void mouseClicked(MouseEvent e) {
                     // display the selected product
-                    displayProduct(products[i]);
+                    //displayProduct(products[i]);
                 }
             });
 
@@ -146,10 +146,13 @@ public class Home extends javax.swing.JFrame {
         nameLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
         JLabel categoryLabel = new JLabel("Category: " + product.getCategory());
         JLabel priceLabel = new JLabel("Price: $" + product.getPrice());
+        /*
         JTextArea descriptionArea = new JTextArea(product.getDescription());
         descriptionArea.setLineWrap(true);
         descriptionArea.setWrapStyleWord(true);
+        
         JScrollPane scrollPane = new JScrollPane(descriptionArea);
+        
         scrollPane.setPreferredSize(new Dimension(300, 100));
 
         // add components to the frame
@@ -157,7 +160,7 @@ public class Home extends javax.swing.JFrame {
         frame.add(categoryLabel);
         frame.add(priceLabel);
         frame.add(scrollPane);
-
+*/
         // display the frame
         frame.setVisible(true);
     }
