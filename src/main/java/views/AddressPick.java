@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -44,17 +43,29 @@ public class AddressPick extends javax.swing.JFrame {
      * Creates new form AddressPick
      */
 
-    public AddressPick() {
+    public AddressPick(){
         initComponents();
     }
+    
+    //simply manage addresses
+    public AddressPick(Customer cm) {
+         this.LoggedCustomer = cm;
+        initComponents();
+        loadAddresses();
+    }
 
+    //to return something
     public AddressPick(Customer cm, JTextArea ta, JComboBox cb, JTextField tf) {
         this.LoggedCustomer = cm;
         this.addressTA = ta;
         countrycode = cb;
         number = tf;
         initComponents();
+        loadAddresses();
         
+    }
+    
+    public final void loadAddresses(){
         //load addresses ---------------
         try {
             Obj = (RMIinterface) Naming.lookup("rmi://localhost:1040/KGF");

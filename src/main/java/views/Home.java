@@ -324,8 +324,6 @@ public class Home extends javax.swing.JFrame {
                 .addGap(40, 40, 40))
         );
 
-        lblImage.getAccessibleContext().setAccessibleName("");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
