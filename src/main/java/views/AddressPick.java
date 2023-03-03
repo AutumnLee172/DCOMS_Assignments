@@ -52,6 +52,7 @@ public class AddressPick extends javax.swing.JFrame {
          this.LoggedCustomer = cm;
         initComponents();
         loadAddresses();
+        btnSelect.enable(false);
     }
 
     //to return something
@@ -150,7 +151,7 @@ public class AddressPick extends javax.swing.JFrame {
         panelParent = new javax.swing.JScrollPane();
         panelAddresses = new javax.swing.JPanel();
         btnNew = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        btnSelect = new javax.swing.JButton();
         btnEdit = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
 
@@ -243,10 +244,10 @@ public class AddressPick extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("Select");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnSelect.setText("Select");
+        btnSelect.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnSelectActionPerformed(evt);
             }
         });
 
@@ -273,7 +274,7 @@ public class AddressPick extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(panelParent)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnSelect, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnNew)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -294,7 +295,7 @@ public class AddressPick extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnDelete))
                     .addComponent(btnNew, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnSelect, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -396,7 +397,7 @@ public class AddressPick extends javax.swing.JFrame {
                 }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnSelectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelectActionPerformed
         if(selectedAddress < 0){
           JOptionPane.showMessageDialog(this, "No address is selected.");  
         }else{
@@ -406,7 +407,7 @@ public class AddressPick extends javax.swing.JFrame {
         this.dispose();
         }
         
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnSelectActionPerformed
 
     /**
      * @param args the command line arguments
@@ -449,9 +450,9 @@ public class AddressPick extends javax.swing.JFrame {
     private javax.swing.JButton btnDone;
     private javax.swing.JButton btnEdit;
     private javax.swing.JButton btnNew;
+    private javax.swing.JButton btnSelect;
     private javax.swing.JComboBox<String> comboCountryCode;
     private javax.swing.JDialog dialogNewAddress;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel lblAddress;
     private javax.swing.JLabel lblContact;
     private javax.swing.JPanel panelAddresses;
