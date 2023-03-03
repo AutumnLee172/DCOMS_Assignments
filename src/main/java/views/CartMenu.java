@@ -89,18 +89,13 @@ public class CartMenu extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        lblCartTitle = new javax.swing.JLabel();
         AddCartTest = new javax.swing.JButton();
+        lblCartTitle = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         TableCartList = new javax.swing.JTable();
         btnRemove = new javax.swing.JButton();
         btnCheckout = new javax.swing.JButton();
         btnBack = new javax.swing.JButton();
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        lblCartTitle.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        lblCartTitle.setText("Customer Name's Cart");
 
         AddCartTest.setText("AddCartTest");
         AddCartTest.addActionListener(new java.awt.event.ActionListener() {
@@ -108,6 +103,11 @@ public class CartMenu extends javax.swing.JFrame {
                 AddCartTestActionPerformed(evt);
             }
         });
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        lblCartTitle.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        lblCartTitle.setText("Customer Name's Cart");
 
         TableCartList.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -145,7 +145,7 @@ public class CartMenu extends javax.swing.JFrame {
             TableCartList.getColumnModel().getColumn(5).setResizable(false);
         }
 
-        btnRemove.setText("Remove Selected");
+        btnRemove.setText("Remove Selected Item(s)");
         btnRemove.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRemoveActionPerformed(evt);
@@ -183,10 +183,6 @@ public class CartMenu extends javax.swing.JFrame {
                             .addComponent(btnCheckout)
                             .addComponent(btnRemove))))
                 .addContainerGap(17, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addComponent(AddCartTest)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -197,9 +193,7 @@ public class CartMenu extends javax.swing.JFrame {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnRemove)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(AddCartTest)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCheckout, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnBack))
@@ -280,6 +274,7 @@ public class CartMenu extends javax.swing.JFrame {
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         try {
             Home home = new Home(LoggedCustomer);
+            home.setVisible(true);
         } catch (IOException ex) {
             Logger.getLogger(CartMenu.class.getName()).log(Level.SEVERE, null, ex);
         }
