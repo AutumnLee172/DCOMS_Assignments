@@ -342,8 +342,9 @@ public class extint extends UnicastRemoteObject implements RMIinterface {
      }
      
     @Override
-     public void createOrder(Order order, ArrayList<String> checkoutList) throws RemoteException{       
+     public String createOrder(Order order, ArrayList<String> checkoutList) throws RemoteException{       
          openConnection();
+         String newOrderID ="";
           
          try {  
                 Statement stmt = conn.createStatement();
@@ -355,7 +356,7 @@ public class extint extends UnicastRemoteObject implements RMIinterface {
                 
                 //insert new Record
                 PreparedStatement pstmt = conn.prepareStatement("INSERT INTO ORDERS VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-                String newOrderID = "ORDER" + max;
+                newOrderID = "ORDER" + max;
                 
                 pstmt.setString(1, newOrderID);
                 pstmt.setString(2, order.getCustomerID());
@@ -394,6 +395,8 @@ public class extint extends UnicastRemoteObject implements RMIinterface {
             Logger.getLogger(extint.class.getName()).log(Level.SEVERE, null, ex);
         }
         closeConnection();
+        
+        return newOrderID;
      }
      
      @Override
@@ -445,7 +448,7 @@ public class extint extends UnicastRemoteObject implements RMIinterface {
     }
      
      @Override
-      public void editAddress(Address address)throws RemoteException{
+      public void editAddress(Address address)throws RemoteException    {
            openConnection();
        //generate new ID
         try {  
@@ -468,19 +471,19 @@ public class extint extends UnicastRemoteObject implements RMIinterface {
       }
       
       @Override
-      public void deleteAddress(Address address)throws RemoteException{
-         openConnection();
-     
-     try {
-            PreparedStatement pstmt = conn.prepareStatement("DELETE FROM ADDRESS WHERE ID = ?" );
+      public void deleteAddress(Address address) throws RemoteException {
+        openConnection();
+
+        try {
+            PreparedStatement pstmt = conn.prepareStatement("DELETE FROM ADDRESS WHERE ID = ?");
             pstmt.setInt(1, address.getAddressID());
             pstmt.executeUpdate();
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(extint.class.getName()).log(Level.SEVERE, null, ex);
         }
-     closeConnection(); 
-      }
+        closeConnection();
+    }
       
       @Override
       public boolean initializePayment()throws RemoteException{

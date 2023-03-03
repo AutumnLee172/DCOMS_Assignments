@@ -405,8 +405,8 @@ public class CheckOut extends javax.swing.JFrame {
                         "Paid",//Paid > Shipping > Delivery > Complete
                         (Double)model.getValueAt(lastRow,2));
                 
-           
-                    Obj.createOrder(newOrder,items);      
+                lbltheID.setText(Obj.createOrder(newOrder,items));   
+                
                 //Deleting involved cart records
                 ArrayList<String> deletingItems = new ArrayList<>();
                 
@@ -418,7 +418,7 @@ public class CheckOut extends javax.swing.JFrame {
                 dialogPurchaseComplete.setSize(new java.awt.Dimension(361, 330));
                 dialogPurchaseComplete.setLocationRelativeTo(null);
                 dialogPurchaseComplete.setAlwaysOnTop(this.isAlwaysOnTopSupported());
-                dialogPurchaseComplete.setVisible(true);
+                dialogPurchaseComplete.setVisible(true);               
                 
             }
             } catch (RemoteException ex) {

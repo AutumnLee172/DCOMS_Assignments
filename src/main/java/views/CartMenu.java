@@ -7,6 +7,7 @@ package views;
 import RMI_Structures.Cart;
 import RMI_Structures.Customer;
 import RMI_Structures.RMIinterface;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
@@ -277,8 +278,12 @@ public class CartMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCheckoutActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
-        AddressPick ap = new AddressPick(LoggedCustomer);
-        ap.setVisible(true);   
+        try {
+            Home home = new Home(LoggedCustomer);
+        } catch (IOException ex) {
+            Logger.getLogger(CartMenu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.dispose()  ;
     }//GEN-LAST:event_btnBackActionPerformed
 
     TableModelListener cartTableListener = new TableModelListener() {
