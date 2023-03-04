@@ -272,7 +272,7 @@ public class CartMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCheckoutActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
-        try {
+       try {
             Home home = new Home(LoggedCustomer);
             home.setVisible(true);
         } catch (IOException ex) {
