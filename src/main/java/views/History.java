@@ -5,15 +5,39 @@
 package views;
 
 import RMI_Structures.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.rmi.Naming;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 /**
  *
  * @author Autumn
  */
 public class History extends javax.swing.JFrame {
+     private JPanel orderPanel;
     Customer LoggedCustomer;
     /**
      * Creates new form History
@@ -22,10 +46,68 @@ public class History extends javax.swing.JFrame {
         initComponents();
     }
     
-    public History(Customer cm) {
+    public History(Customer cm) throws IOException {
         initComponents();
         this.LoggedCustomer = cm;
         this.setLocationRelativeTo(null);
+        orderPanel = new JPanel();
+        orderPanel.setBackground(Color.WHITE);
+        pnlOrders.setViewportView(orderPanel);
+        try {
+            RMIinterface Obj = (RMIinterface) Naming.lookup("rmi://localhost:1040/KGF");
+            ArrayList<Order> OrderArrayList = Obj.getOrders(LoggedCustomer.getID());
+            Order[] Orders = new Order[OrderArrayList.size()];
+            OrderArrayList.toArray(Orders);
+            setOrders(Orders);
+        } catch (NotBoundException ex) {
+            Logger.getLogger(History.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(History.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (RemoteException ex) {
+            Logger.getLogger(History.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+      public void setOrders(Order[] orders) throws FileNotFoundException, IOException {
+        orderPanel.removeAll();
+        int numOrders = orders.length;
+        //int numRows = (int) Math.ceil((double) numOrders / 3);
+        orderPanel.setLayout(new GridLayout(numOrders, 3, 5, 5));
+        for (int i = 0; i < numOrders; i++) {
+            JPanel panel = new JPanel();
+            panel.setMaximumSize(new Dimension(200, 50));
+            panel.setPreferredSize(new Dimension(200, 50));
+            panel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+            final Order od = orders[i];
+            // add a MouseListener to each product panel
+             panel.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    // display the selected product
+                    //displayProduct(od);
+
+                }
+            });
+            panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+            JLabel dateLabel = new JLabel(orders[i].getDate() + " (id: " + orders[i].getOrderID()+")");
+            dateLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
+            //panel.setAlignmentX(Component.CENTER_ALIGNMENT);
+            JLabel address = new JLabel("Address: " + orders[i].getAddress());
+            JLabel status = new JLabel("Status: " + orders[i].getStatus());
+            JLabel total = new JLabel("Total: $" + orders[i].getTotal());
+            panel.add(dateLabel);
+            panel.add(address);
+            panel.add(status);
+            panel.add(total);        
+            dateLabel.setAlignmentY(Component.TOP_ALIGNMENT);
+            address.setAlignmentY(Component.TOP_ALIGNMENT);
+            status.setAlignmentY(Component.TOP_ALIGNMENT);
+            total.setAlignmentY(Component.TOP_ALIGNMENT);
+            orderPanel.add(panel);            
+            
+        }
+        orderPanel.revalidate();
+        orderPanel.repaint();
     }
 
     /**
@@ -38,7 +120,7 @@ public class History extends javax.swing.JFrame {
     private void initComponents() {
 
         btnBack = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        pnlOrders = new javax.swing.JScrollPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -50,6 +132,8 @@ public class History extends javax.swing.JFrame {
             }
         });
 
+        pnlOrders.setHorizontalScrollBar(null);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -57,7 +141,7 @@ public class History extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(22, 22, 22)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 617, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(pnlOrders, javax.swing.GroupLayout.PREFERRED_SIZE, 617, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnBack))
                 .addContainerGap(21, Short.MAX_VALUE))
         );
@@ -65,7 +149,7 @@ public class History extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(19, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(pnlOrders, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnBack)
                 .addGap(20, 20, 20))
@@ -93,6 +177,6 @@ public class History extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane pnlOrders;
     // End of variables declaration//GEN-END:variables
 }

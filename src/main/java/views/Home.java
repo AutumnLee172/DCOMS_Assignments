@@ -404,9 +404,15 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_pnlProductMouseClicked
 
     private void btnHistoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHistoryActionPerformed
-        History hs = new History(LoggedCustomer);
-        hs.setVisible(true);
+        History hs;
+        try {
+            hs = new History(LoggedCustomer);
+             hs.setVisible(true);
         this.dispose();
+        } catch (IOException ex) {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       
     }//GEN-LAST:event_btnHistoryActionPerformed
 
     /**
