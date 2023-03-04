@@ -362,10 +362,6 @@ public class AddressPick extends javax.swing.JFrame {
 
                 Obj.addAddress(NewAddress);
                 
-            AddressPick ap = new AddressPick();
-            ap.setVisible(true);
-            dialogNewAddress.dispose();
-            this.dispose();
             doneButtonSelection();
             }
         } catch (RemoteException ex) {
@@ -402,9 +398,7 @@ public class AddressPick extends javax.swing.JFrame {
             try {
                 Obj.deleteAddress(addressList.get(selectedAddress));
                 
-                AddressPick ap = new AddressPick();
-            ap.setVisible(true);
-            this.dispose();
+                doneButtonSelection();
             } catch (RemoteException ex) {
                 Logger.getLogger(AddressPick.class.getName()).log(Level.SEVERE, null, ex);
             }
