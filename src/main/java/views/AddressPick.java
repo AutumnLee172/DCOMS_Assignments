@@ -34,7 +34,7 @@ public class AddressPick extends javax.swing.JFrame {
     Customer LoggedCustomer;
     ArrayList<Address> addressList = new ArrayList<>();
     RMIinterface Obj;
-    boolean edit;
+    boolean edit,selecting;
     JTextArea addressTA;
     JComboBox countrycode;
     JTextField number;
@@ -52,7 +52,8 @@ public class AddressPick extends javax.swing.JFrame {
          this.LoggedCustomer = cm;
         initComponents();
         loadAddresses();
-        btnSelect.enable(false);
+        btnSelect.setEnabled(false);
+        selecting = false;
     }
 
     //to return something
@@ -61,6 +62,7 @@ public class AddressPick extends javax.swing.JFrame {
         this.addressTA = ta;
         countrycode = cb;
         number = tf;
+        selecting = true;
         initComponents();
         loadAddresses();
         
@@ -95,7 +97,7 @@ public class AddressPick extends javax.swing.JFrame {
             //adjusting each 'address card' display attributes --
             addressDisplay.setLineWrap(true);
             addressDisplay.setCaretPosition(0);
-            addressDisplay.setPreferredSize(new Dimension(330, 80));
+            //addressDisplay.setPreferredSize(new Dimension(330, 80));
 
             JScrollPane areaScrollPane = new JScrollPane(addressDisplay);
             areaScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -132,6 +134,20 @@ public class AddressPick extends javax.swing.JFrame {
             }
         }
     }
+    
+    public void doneButtonSelection(){
+        if(selecting){
+            AddressPick ap = new AddressPick(LoggedCustomer,addressTA,countrycode,number);
+            ap.setVisible(true);
+            dialogNewAddress.dispose();
+            this.dispose();
+        }else{
+            AddressPick ap = new AddressPick(LoggedCustomer);
+            ap.setVisible(true);
+            dialogNewAddress.dispose();
+            this.dispose();
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -145,9 +161,10 @@ public class AddressPick extends javax.swing.JFrame {
         lblContact = new javax.swing.JLabel();
         comboCountryCode = new javax.swing.JComboBox<>();
         txtContactNumber = new javax.swing.JTextField();
-        txtAddress = new javax.swing.JTextArea();
         lblAddress = new javax.swing.JLabel();
         btnDone = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        txtAddress = new javax.swing.JTextArea();
         panelParent = new javax.swing.JScrollPane();
         panelAddresses = new javax.swing.JPanel();
         btnNew = new javax.swing.JButton();
@@ -168,10 +185,6 @@ public class AddressPick extends javax.swing.JFrame {
             }
         });
 
-        txtAddress.setColumns(20);
-        txtAddress.setLineWrap(true);
-        txtAddress.setRows(5);
-
         lblAddress.setText("Address               :");
 
         btnDone.setText("Done");
@@ -180,6 +193,11 @@ public class AddressPick extends javax.swing.JFrame {
                 btnDoneActionPerformed(evt);
             }
         });
+
+        txtAddress.setColumns(20);
+        txtAddress.setLineWrap(true);
+        txtAddress.setRows(5);
+        jScrollPane1.setViewportView(txtAddress);
 
         javax.swing.GroupLayout dialogNewAddressLayout = new javax.swing.GroupLayout(dialogNewAddress.getContentPane());
         dialogNewAddress.getContentPane().setLayout(dialogNewAddressLayout);
@@ -193,31 +211,30 @@ public class AddressPick extends javax.swing.JFrame {
                         .addGroup(dialogNewAddressLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblAddress)
                             .addComponent(lblContact))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(dialogNewAddressLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(dialogNewAddressLayout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(comboCountryCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(5, 5, 5)
-                                .addComponent(txtContactNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(dialogNewAddressLayout.createSequentialGroup()
-                                .addGap(7, 7, 7)
-                                .addComponent(txtAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(txtContactNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(jScrollPane1))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         dialogNewAddressLayout.setVerticalGroup(
             dialogNewAddressLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(dialogNewAddressLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(dialogNewAddressLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(dialogNewAddressLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblAddress)
-                    .addComponent(txtAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(22, 22, 22)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(dialogNewAddressLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtContactNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(comboCountryCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblContact))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnDone, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
+                .addComponent(btnDone, javax.swing.GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -336,10 +353,7 @@ public class AddressPick extends javax.swing.JFrame {
 
                 Obj.editAddress(address);
                 
-            AddressPick ap = new AddressPick();
-            ap.setVisible(true);
-            dialogNewAddress.dispose();
-            this.dispose();
+                doneButtonSelection();
             } else {               
                 String address = txtAddress.getText();
                 String numb =  txtContactNumber.getText();
@@ -348,10 +362,7 @@ public class AddressPick extends javax.swing.JFrame {
 
                 Obj.addAddress(NewAddress);
                 
-            AddressPick ap = new AddressPick();
-            ap.setVisible(true);
-            dialogNewAddress.dispose();
-            this.dispose();
+            doneButtonSelection();
             }
         } catch (RemoteException ex) {
             Logger.getLogger(AddressPick.class.getName()).log(Level.SEVERE, null, ex);
@@ -387,9 +398,7 @@ public class AddressPick extends javax.swing.JFrame {
             try {
                 Obj.deleteAddress(addressList.get(selectedAddress));
                 
-                AddressPick ap = new AddressPick();
-            ap.setVisible(true);
-            this.dispose();
+                doneButtonSelection();
             } catch (RemoteException ex) {
                 Logger.getLogger(AddressPick.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -453,6 +462,7 @@ public class AddressPick extends javax.swing.JFrame {
     private javax.swing.JButton btnSelect;
     private javax.swing.JComboBox<String> comboCountryCode;
     private javax.swing.JDialog dialogNewAddress;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblAddress;
     private javax.swing.JLabel lblContact;
     private javax.swing.JPanel panelAddresses;
