@@ -1,5 +1,6 @@
     package RMI_Structures;
 
+import RMI_Structures.Order.Order_Details;
 import java.io.FileOutputStream;
 import java.rmi.*;
 import java.net.*;
@@ -12,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -192,6 +194,69 @@ public class extint extends UnicastRemoteObject implements RMIinterface {
        return Orders; 
      }
     
+     @Override
+     public HashMap<String, String> getOrderDetails(String OrderID)throws RemoteException{
+         HashMap<String, String> OrderDetails = new HashMap<>();
+            
+         openConnection();
+         
+         //put basic info into the hashmap
+         try {
+            PreparedStatement psmt = conn.prepareStatement("SELECT * FROM Orders WHERE id = ?");
+            psmt.setString(1, OrderID);
+            ResultSet rs = psmt.executeQuery();
+            
+                rs.next();
+                String id = rs.getString("id");
+                String CustomerID = rs.getString("customer_id");              
+                Double total = rs.getDouble("total");
+                String date = rs.getString("date"); 
+                String address = rs.getString("address"); 
+                String contact_number = rs.getString("contact_number"); 
+                String payment_method = rs.getString("payment_method"); 
+                String status = rs.getString("status"); 
+               
+                OrderDetails.put("Order_ID", id);
+                OrderDetails.put("CustomerID", CustomerID);
+                OrderDetails.put("total", "" + total);
+                OrderDetails.put("date", "" + date);
+                OrderDetails.put("address", "" + address);
+                OrderDetails.put("contact_number", "" + contact_number);
+                OrderDetails.put("payment_method", "" + payment_method);
+                OrderDetails.put("status", "" + status);
+            
+                          
+        } catch (SQLException ex) {
+            Logger.getLogger(extint.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         
+         //put further info 
+        try {
+            String content= "";
+            //PreparedStatement psmt = conn.prepareStatement("SELECT * FROM order_details LEFT JOIN product ON CAST(product.prodid AS varchar(255)) = order_details.product_id   WHERE order_details.order_id = ? ");
+            PreparedStatement psmt = conn.prepareStatement("SELECT * FROM order_details WHERE order_id = ? ");
+            psmt.setString(1, OrderID);
+            ResultSet rs = psmt.executeQuery();
+            
+            while(rs.next()){          
+                String product_id = rs.getString("product_id"); 
+                int quantity = rs.getInt("quantity"); 
+                PreparedStatement productquery = conn.prepareStatement("SELECT * FROM product WHERE prodid = ? ");
+                productquery.setString(1, product_id);
+                ResultSet rsproduct = productquery.executeQuery();
+                rsproduct.next();
+                String product_name = rsproduct.getString("prodname");
+               
+               content = content + quantity + "x " + product_name + " (id: " + product_id + ") , ";
+            }
+            OrderDetails.put("content", "" + content);              
+        } catch (SQLException ex) {
+            Logger.getLogger(extint.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        closeConnection();
+       return OrderDetails; 
+     }
+     
     //product function 
      @Override
      public ArrayList<Product> getProducts()throws RemoteException{

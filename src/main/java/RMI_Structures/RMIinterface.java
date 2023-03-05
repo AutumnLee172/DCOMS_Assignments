@@ -5,6 +5,7 @@ import java.awt.List;
 import java.rmi.*;
 import java.net.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public interface RMIinterface extends Remote{
     public void openConnection()throws RemoteException;
@@ -15,7 +16,8 @@ public interface RMIinterface extends Remote{
     public boolean customer_login(String email, String passwords)throws RemoteException;
     public Customer customer_setup(String email)throws RemoteException;
     public String customer_edit(String email, String username, String passwords)throws RemoteException;
-     public ArrayList<Order> getOrders(String Customer_ID)throws RemoteException;
+    public ArrayList<Order> getOrders(String Customer_ID)throws RemoteException;
+    public HashMap<String, String> getOrderDetails(String OrderID)throws RemoteException;
     
     // product function
     public ArrayList<Product> getProducts()throws RemoteException;
