@@ -63,15 +63,15 @@ public class AdminHome extends javax.swing.JFrame {
         lblresult = new javax.swing.JLabel();
         btnUpload = new javax.swing.JButton();
         lblimg = new javax.swing.JLabel();
+        pnlMain = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        manageprod = new javax.swing.JButton();
+        managecustorder = new javax.swing.JButton();
         pnlManage = new javax.swing.JPanel();
         addprod = new javax.swing.JButton();
         editprod = new javax.swing.JButton();
         deleteprod = new javax.swing.JButton();
         viewprod = new javax.swing.JButton();
-        pnlMain = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        manageprod = new javax.swing.JButton();
-        managecustorder = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -198,50 +198,6 @@ public class AdminHome extends javax.swing.JFrame {
                 .addGap(5, 5, 5))
         );
 
-        addprod.setText("Add Product");
-        addprod.setToolTipText("");
-        addprod.setActionCommand("Manage Product");
-        addprod.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addprodActionPerformed(evt);
-            }
-        });
-
-        editprod.setText("Edit Product");
-
-        deleteprod.setText("Delete Product");
-
-        viewprod.setText("View Product");
-
-        javax.swing.GroupLayout pnlManageLayout = new javax.swing.GroupLayout(pnlManage);
-        pnlManage.setLayout(pnlManageLayout);
-        pnlManageLayout.setHorizontalGroup(
-            pnlManageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlManageLayout.createSequentialGroup()
-                .addGap(132, 132, 132)
-                .addGroup(pnlManageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(viewprod)
-                    .addComponent(editprod))
-                .addGap(109, 109, 109)
-                .addGroup(pnlManageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(addprod)
-                    .addComponent(deleteprod))
-                .addContainerGap(156, Short.MAX_VALUE))
-        );
-        pnlManageLayout.setVerticalGroup(
-            pnlManageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlManageLayout.createSequentialGroup()
-                .addGap(80, 80, 80)
-                .addGroup(pnlManageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(viewprod)
-                    .addComponent(addprod))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
-                .addGroup(pnlManageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(editprod)
-                    .addComponent(deleteprod))
-                .addGap(60, 60, 60))
-        );
-
         jLabel1.setText("Admin Dashboard");
 
         manageprod.setText("Manage Product");
@@ -285,6 +241,50 @@ public class AdminHome extends javax.swing.JFrame {
                 .addGap(50, 50, 50)
                 .addComponent(managecustorder)
                 .addContainerGap(179, Short.MAX_VALUE))
+        );
+
+        addprod.setText("Add Product");
+        addprod.setToolTipText("");
+        addprod.setActionCommand("Manage Product");
+        addprod.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addprodActionPerformed(evt);
+            }
+        });
+
+        editprod.setText("Edit Product");
+
+        deleteprod.setText("Delete Product");
+
+        viewprod.setText("View Product");
+
+        javax.swing.GroupLayout pnlManageLayout = new javax.swing.GroupLayout(pnlManage);
+        pnlManage.setLayout(pnlManageLayout);
+        pnlManageLayout.setHorizontalGroup(
+            pnlManageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlManageLayout.createSequentialGroup()
+                .addGap(132, 132, 132)
+                .addGroup(pnlManageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(viewprod)
+                    .addComponent(editprod))
+                .addGap(109, 109, 109)
+                .addGroup(pnlManageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(addprod)
+                    .addComponent(deleteprod))
+                .addContainerGap(156, Short.MAX_VALUE))
+        );
+        pnlManageLayout.setVerticalGroup(
+            pnlManageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlManageLayout.createSequentialGroup()
+                .addGap(80, 80, 80)
+                .addGroup(pnlManageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(viewprod)
+                    .addComponent(addprod))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
+                .addGroup(pnlManageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(editprod)
+                    .addComponent(deleteprod))
+                .addGap(60, 60, 60))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
