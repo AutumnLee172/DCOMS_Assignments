@@ -209,12 +209,13 @@ public class extint extends UnicastRemoteObject implements RMIinterface {
                 int prodid = Integer.parseInt(id);
                 //customerID is fixed(logged customer's id)
                 String prodname = rs.getString("prodname");
+                String proddescript = rs.getString("proddescript");
                 String prodcategory = rs.getString("prodcategory"); 
                 String prodquantity = rs.getString("prodquantity"); 
                 String prodprice = rs.getString("prodprice"); 
                 byte[] image = rs.getBytes("image");
                
-               products.add(new Product(prodid,prodname,prodcategory,prodquantity, prodprice, image));
+               products.add(new Product(prodid,prodname,proddescript,prodcategory,prodquantity, prodprice, image));
                
             }
                           
