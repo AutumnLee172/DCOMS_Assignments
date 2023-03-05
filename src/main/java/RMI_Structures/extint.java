@@ -229,7 +229,7 @@ public class extint extends UnicastRemoteObject implements RMIinterface {
     //Cart Functions -----------------------------------------------------------
 
     @Override
-    public void addToCart(String customerID, String productID, int quantity) throws RemoteException{
+    public void addToCart(String customerID, int productID, int quantity) throws RemoteException{
       openConnection();
        //generate new ID
         try {  
@@ -245,7 +245,7 @@ public class extint extends UnicastRemoteObject implements RMIinterface {
                 
                 pstmt.setString(1, newID);
                 pstmt.setString(2, customerID);
-                pstmt.setString(3, productID);
+                pstmt.setInt(3, productID);
                 pstmt.setInt(4, quantity);
                 //Statement stmt = conn.createStatement();
                 pstmt.executeUpdate();

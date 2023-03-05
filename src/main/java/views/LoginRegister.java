@@ -25,7 +25,7 @@ public class LoginRegister extends javax.swing.JFrame {
      */
     public LoginRegister() {
         initComponents();
-        this.setSize(600,450);
+        this.setSize(1200,600);
         pnlRegister.setVisible(false);
         pnlLogin.setVisible(true);
     }
@@ -48,6 +48,7 @@ public class LoginRegister extends javax.swing.JFrame {
         btnLogin = new javax.swing.JButton();
         btnSignUp = new javax.swing.JButton();
         lblLoginResult = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
         pnlRegister = new javax.swing.JPanel();
         lblRegister = new javax.swing.JLabel();
         txtEmail = new javax.swing.JTextArea();
@@ -64,6 +65,8 @@ public class LoginRegister extends javax.swing.JFrame {
         btnBack = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setUndecorated(true);
+        setResizable(false);
         getContentPane().setLayout(null);
 
         lblLogin.setFont(new java.awt.Font("Segoe UI Black", 0, 36)); // NOI18N
@@ -142,7 +145,17 @@ public class LoginRegister extends javax.swing.JFrame {
         );
 
         getContentPane().add(pnlLogin);
-        pnlLogin.setBounds(40, 10, 590, 400);
+        pnlLogin.setBounds(350, 90, 590, 400);
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
+        jLabel1.setText("X");
+        jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel1MouseClicked(evt);
+            }
+        });
+        getContentPane().add(jLabel1);
+        jLabel1.setBounds(1170, 0, 30, 50);
 
         pnlRegister.setLayout(null);
 
@@ -230,7 +243,7 @@ public class LoginRegister extends javax.swing.JFrame {
         btnBack.setBounds(230, 330, 72, 23);
 
         getContentPane().add(pnlRegister);
-        pnlRegister.setBounds(49, 11, 510, 380);
+        pnlRegister.setBounds(370, 120, 510, 380);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -310,6 +323,10 @@ public class LoginRegister extends javax.swing.JFrame {
         pnlLogin.setVisible(false);
     }//GEN-LAST:event_btnSignUpActionPerformed
 
+    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
+        System.exit(0);   
+    }//GEN-LAST:event_jLabel1MouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -351,6 +368,7 @@ public class LoginRegister extends javax.swing.JFrame {
     private javax.swing.JButton btnCreate;
     private javax.swing.JButton btnLogin;
     private javax.swing.JButton btnSignUp;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel lblConfirmPassword;
     private javax.swing.JLabel lblEmail;
     private javax.swing.JLabel lblEmailLogin;

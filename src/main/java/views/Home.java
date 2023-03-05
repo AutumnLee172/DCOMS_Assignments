@@ -68,6 +68,7 @@ public class Home extends javax.swing.JFrame {
         productPanel = new JPanel();
         productPanel.setBackground(Color.WHITE);
         pnlProduct.setViewportView(productPanel);
+        lblProductID.setVisible(false);
         try {
             RMIinterface Obj = (RMIinterface) Naming.lookup("rmi://localhost:1040/KGF");
             ArrayList<Product> productsArrayList = Obj.getProducts();
@@ -145,6 +146,7 @@ public class Home extends javax.swing.JFrame {
         lblProductPrice.setText(product.getPrice());
         lblProductCategory.setText(product.getCategory());
         currentselectedproduct = product.getID();
+        lblProductID.setText(String.valueOf(product.getID()));
          if (product.getImage() != null) {
                 InputStream is = new ByteArrayInputStream(product.getImage());
                 BufferedImage someImage = ImageIO.read(is);
@@ -184,6 +186,20 @@ public class Home extends javax.swing.JFrame {
         frame.setVisible(true);*/
     }
 
+//    private void AddCart(Product product) throws IOException {
+//        try {
+//            String result = "";
+//            RMIinterface Obj = (RMIinterface)Naming.lookup("rmi://localhost:1040/KGF");
+//            String CustomerID = LoggedCustomer.getID();
+//            currentselectedproduct = product.getID();
+//            int currentProductID = currentselectedproduct;
+//            int cartQuantity = (int) spinnerQuantity.getValue();
+//            Obj.addToCart(CustomerID, currentselectedproduct, cartQuantity);
+//        } catch (NotBoundException | MalformedURLException | RemoteException ex) {
+//            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//    }
+    
     public ImageIcon resizeImage(String imagePath, byte[] pic) {
         ImageIcon myImage = null;
         if (imagePath != null) {
@@ -221,6 +237,9 @@ public class Home extends javax.swing.JFrame {
         lblProductPrice = new javax.swing.JLabel();
         lblProductCategory = new javax.swing.JLabel();
         lblProductDescription = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        spinnerQuantity = new javax.swing.JSpinner();
+        lblProductID = new java.awt.TextField();
         btnHistory = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -269,6 +288,21 @@ public class Home extends javax.swing.JFrame {
         lblCategory.setText("Category: ");
 
         btnAdd.setText("Add to Cart");
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("Quantity :");
+
+        spinnerQuantity.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
+
+        lblProductID.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lblProductIDActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout selectedProductPanelLayout = new javax.swing.GroupLayout(selectedProductPanel);
         selectedProductPanel.setLayout(selectedProductPanelLayout);
@@ -277,24 +311,30 @@ public class Home extends javax.swing.JFrame {
             .addGroup(selectedProductPanelLayout.createSequentialGroup()
                 .addGroup(selectedProductPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(selectedProductPanelLayout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addGroup(selectedProductPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(lblCategory)
-                            .addComponent(lblPrice, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblDescription, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(selectedProductPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblProductName, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblProductPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblProductCategory, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblProductDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(selectedProductPanelLayout.createSequentialGroup()
                         .addGap(83, 83, 83)
                         .addComponent(lblImage, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(selectedProductPanelLayout.createSequentialGroup()
                         .addGap(101, 101, 101)
-                        .addComponent(btnAdd)))
+                        .addComponent(btnAdd))
+                    .addGroup(selectedProductPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(selectedProductPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(selectedProductPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(lblCategory)
+                                .addComponent(lblPrice, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(lblDescription, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(lblName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(selectedProductPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(lblProductName, javax.swing.GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE)
+                            .addComponent(lblProductPrice, javax.swing.GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE)
+                            .addComponent(lblProductCategory, javax.swing.GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE)
+                            .addComponent(lblProductDescription, javax.swing.GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE)
+                            .addComponent(spinnerQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(selectedProductPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(lblProductID, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(28, Short.MAX_VALUE))
         );
         selectedProductPanelLayout.setVerticalGroup(
@@ -320,9 +360,15 @@ public class Home extends javax.swing.JFrame {
                 .addGroup(selectedProductPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(lblDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblProductDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(selectedProductPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(spinnerQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnAdd)
-                .addGap(40, 40, 40))
+                .addGap(1, 1, 1)
+                .addComponent(lblProductID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(19, 19, 19))
         );
 
         btnHistory.setText("History");
@@ -369,8 +415,10 @@ public class Home extends javax.swing.JFrame {
                     .addComponent(btnHistory, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(pnlProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(selectedProductPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(selectedProductPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(61, 61, 61)
+                        .addComponent(pnlProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 439, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnCart)
                 .addGap(152, 152, 152))
@@ -414,6 +462,22 @@ public class Home extends javax.swing.JFrame {
         }
        
     }//GEN-LAST:event_btnHistoryActionPerformed
+
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        try {
+            RMIinterface Obj = (RMIinterface)Naming.lookup("rmi://localhost:1040/KGF");
+            String CustomerID = LoggedCustomer.getID();
+            int currentProductID = Integer.parseInt(lblProductID.getText());
+            int cartQuantity = (int) spinnerQuantity.getValue();
+            Obj.addToCart(CustomerID, currentProductID, cartQuantity);
+        } catch (NotBoundException | MalformedURLException | RemoteException ex) {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnAddActionPerformed
+
+    private void lblProductIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lblProductIDActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_lblProductIDActionPerformed
 
     /**
      * @param args the command line arguments
@@ -466,6 +530,7 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JButton btnHistory;
     private javax.swing.JButton btnLogout;
     private javax.swing.JButton btnProfile;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel lblCategory;
     private javax.swing.JLabel lblDescription;
     private javax.swing.JLabel lblHello;
@@ -474,9 +539,11 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JLabel lblPrice;
     private javax.swing.JLabel lblProductCategory;
     private javax.swing.JLabel lblProductDescription;
+    private java.awt.TextField lblProductID;
     private javax.swing.JLabel lblProductName;
     private javax.swing.JLabel lblProductPrice;
     private javax.swing.JScrollPane pnlProduct;
     private javax.swing.JPanel selectedProductPanel;
+    private javax.swing.JSpinner spinnerQuantity;
     // End of variables declaration//GEN-END:variables
 }

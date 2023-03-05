@@ -172,16 +172,16 @@ public class CartMenu extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(15, 15, 15)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(lblCartTitle)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 687, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnBack)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(447, 447, 447)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btnCheckout)
-                            .addComponent(btnRemove))))
+                            .addComponent(btnRemove)
+                            .addComponent(btnCheckout))))
                 .addContainerGap(17, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -191,9 +191,9 @@ public class CartMenu extends javax.swing.JFrame {
                 .addComponent(lblCartTitle)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnRemove)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCheckout, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnBack))
@@ -205,15 +205,15 @@ public class CartMenu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void AddCartTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddCartTestActionPerformed
-        String CustomerID = LoggedCustomer.getID();
-        
-        try {
-            Obj.addToCart(CustomerID, "1", 1);
-        } catch (RemoteException ex) {
-            Logger.getLogger(CartMenu.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        
+//        String CustomerID = LoggedCustomer.getID();
+//        
+//        try {
+//            Obj.addToCart(CustomerID, "1", 1);
+//        } catch (RemoteException ex) {
+//            Logger.getLogger(CartMenu.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//
+//        
     }//GEN-LAST:event_AddCartTestActionPerformed
 
     private void btnRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveActionPerformed
