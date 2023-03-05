@@ -46,6 +46,8 @@
                   <Group type="102" attributes="0">
                       <Component id="lblHello" min="-2" pref="194" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
+                      <Component id="btnHistory" min="-2" pref="98" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="btnProfile" min="-2" pref="98" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="btnLogout" min="-2" pref="98" max="-2" attributes="0"/>
@@ -68,6 +70,7 @@
                   <Component id="lblHello" alignment="3" min="-2" pref="46" max="-2" attributes="0"/>
                   <Component id="btnProfile" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
                   <Component id="btnLogout" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
+                  <Component id="btnHistory" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
@@ -233,5 +236,13 @@
         </Component>
       </SubComponents>
     </Container>
+    <Component class="javax.swing.JButton" name="btnHistory">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="History"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnHistoryActionPerformed"/>
+      </Events>
+    </Component>
   </SubComponents>
 </Form>

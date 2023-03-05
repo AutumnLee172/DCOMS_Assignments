@@ -160,6 +160,38 @@ public class extint extends UnicastRemoteObject implements RMIinterface {
         return result;
     }
     
+     @Override
+     public ArrayList<Order> getOrders(String Customer_ID)throws RemoteException{
+        ArrayList<Order> Orders = new ArrayList<Order>();
+            openConnection();
+            
+            try {
+            PreparedStatement psmt = conn.prepareStatement("SELECT * FROM Orders WHERE customer_id = ?");
+            psmt.setString(1, Customer_ID);
+            ResultSet rs = psmt.executeQuery();
+            
+            while(rs.next()){
+                
+                String id = rs.getString("id");
+                String CustomerID = rs.getString("customer_id");              
+                Double total = rs.getDouble("total");
+                String date = rs.getString("date"); 
+                String address = rs.getString("address"); 
+                String contact_number = rs.getString("contact_number"); 
+                String payment_method = rs.getString("payment_method"); 
+                String status = rs.getString("status"); 
+               
+               Orders.add(new Order(id,CustomerID,date,address, contact_number, payment_method,status,total));
+               
+            }
+                          
+        } catch (SQLException ex) {
+            Logger.getLogger(extint.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        closeConnection();
+       return Orders; 
+     }
+    
     //product function 
      @Override
      public ArrayList<Product> getProducts()throws RemoteException{
