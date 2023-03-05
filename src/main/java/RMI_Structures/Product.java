@@ -10,76 +10,70 @@ package RMI_Structures;
  */
 public class Product implements java.io.Serializable{
     
-   private String ID, prodname, proddescript, category;
+    private String prodname, category, quantity, price;
     private byte[] image;
-    private int quantity;
-    private double  price;
+    
+    private int ID;
+    
+    public Product(String prodname, String category, String quantity, String price){
+        this.setprodname(prodname);
+        this.setcategory(category);
+        this.setquantity(quantity);
+        this.setprice(price);
+    }
     
     //metamorphosis
-    public Product(String ID, String prodname, String proddescript, String category, int quantity, byte[] image, double price){
+     public Product(int ID, String prodname, String category, String quantity, String price, byte[] image){
         this.setID(ID);
         this.setprodname(prodname);
-        this.setproddescript(proddescript);
         this.setcategory(category);
         this.setquantity(quantity);
         this.setprice(price);
         this.setimage(image);
-    };
-    
-    public String getID(){
-        return ID;
     }
-     
-    public void setID(String id){
+    
+    public void setID(int id){
         this.ID = id;
-    }
-    
-    public String getName(){
-        return prodname;
     }
     
     public void setprodname(String prodname){
         this.prodname = prodname;
     }
     
-    public String getDescript(){
-        return proddescript;
+     public void setcategory(String category){
+        this.category = category;
+    }
+     
+    public void setquantity(String quantity){
+        this.quantity = quantity;
     }
     
-    public void setproddescript(String proddescript){
-        this.proddescript = proddescript;
+     public void setimage(byte[] image){
+        this.image = image;
+    }
+    
+    public void setprice(String price){
+        this.price = price;
+    }
+    
+    public String getName(){
+        return prodname;
     }
     
     public String getCategory(){
         return category;
     }
     
-    public void setcategory(String category){
-        this.category = category;
-    }
-     
-    public int getQuantity() {
-        return quantity;
-    }
-    
-    public void setquantity(int quantity){
-        this.quantity = quantity;
-    }
-    
-    public byte[] getImage(){
-         return image;
-    }
-     
-    public void setimage(byte[] image){
-        this.image = image;
-    }
-    
-    public double getPrice(){
+     public String getPrice(){
         return price;
     }
      
-    public void setprice(double price){
-        this.price = price;
+     public int getID(){
+        return ID;
     }
+     
+     public byte[] getImage(){
+         return image;
+     }
     
 }

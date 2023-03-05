@@ -205,14 +205,15 @@ public class CartMenu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void AddCartTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddCartTestActionPerformed
-            try {
-            
-            Obj.addToCart(LoggedCustomer.getID(), "1", 1);
-        } catch (RemoteException ex) {
-            Logger.getLogger(CartMenu.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        
+//        String CustomerID = LoggedCustomer.getID();
+//        
+//        try {
+//            Obj.addToCart(CustomerID, "1", 1);
+//        } catch (RemoteException ex) {
+//            Logger.getLogger(CartMenu.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//
+//        
     }//GEN-LAST:event_AddCartTestActionPerformed
 
     private void btnRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveActionPerformed
@@ -249,7 +250,6 @@ public class CartMenu extends javax.swing.JFrame {
 
     private void btnCheckoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCheckoutActionPerformed
 
-        if(model != null){
         ArrayList<String> pickedItems = new ArrayList<>();
         String quantity;
         
@@ -264,14 +264,11 @@ public class CartMenu extends javax.swing.JFrame {
                 }
             }   
         
-        if(pickedItems.size()<1){
-        JOptionPane.showMessageDialog(this, "No item is selected.");  
-        }else{
         CheckOut CO = new CheckOut(LoggedCustomer,this,pickedItems);
         CO.setVisible(true);
         this.setVisible(false);
-        }
-        }
+        
+        
     }//GEN-LAST:event_btnCheckoutActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
