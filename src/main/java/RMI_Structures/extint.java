@@ -534,7 +534,7 @@ public class extint extends UnicastRemoteObject implements RMIinterface {
       }
     // Admin --------------------------------------------------------------------
     @Override
-    public String Add_New_Product(String prodname, String category, String quantity, String price, byte[] image) throws RemoteException {
+    public String Add_New_Product(String prodname, String proddescript, String category, String quantity, String price, byte[] image) throws RemoteException {
        String result = "";
         try {
             openConnection();         
@@ -547,14 +547,15 @@ public class extint extends UnicastRemoteObject implements RMIinterface {
             }
                 
             //insert new Record
-            PreparedStatement pstmt = conn.prepareStatement("INSERT INTO product(prodid,prodname,prodcategory,prodquantity,prodprice,image) VALUES (?, ?, ?, ?,?,?)");
+            PreparedStatement pstmt = conn.prepareStatement("INSERT INTO product(prodid,prodname,proddescript,prodcategory,prodquantity,prodprice,image) VALUES (?, ?, ?, ?, ?, ?, ?)");
             int newID = max;
             pstmt.setInt(1, newID);
             pstmt.setString(2, prodname);
-            pstmt.setString(3, category);
-            pstmt.setString(4, quantity);
-            pstmt.setString(5, price);
-            pstmt.setBytes(6, image);
+            pstmt.setString(3, proddescript);
+            pstmt.setString(4, category);
+            pstmt.setString(5, quantity);
+            pstmt.setString(6, price);
+            pstmt.setBytes(7, image);
             //Statement stmt = conn.createStatement();
             pstmt.executeUpdate();
             
