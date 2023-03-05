@@ -355,11 +355,12 @@ public class AdminHome extends javax.swing.JFrame {
             Obj = (RMIinterface)Naming.lookup("rmi://localhost:1040/KGF");
         
             String prodname = txtprodname.getText();
+            String proddescript = txtprodescript.getText();
             String category = selectcategory.getSelectedItem().toString();
-            String quantity = txtquantity.getText();
-            String price = txtprice.getText();
+            int quantity = Integer.parseInt(txtquantity.getText().trim());
+            double price = Double.parseDouble(txtprice.getText().trim());
             //result = System.out.println("a: " + prodname);
-            result = Obj.Add_New_Product(prodname, category, quantity, price, pimage);
+            result = Obj.Add_New_Product(prodname, proddescript, category, quantity, price, pimage);
             lblresult.setText(result);
             
         } catch (NotBoundException | MalformedURLException | RemoteException ex) {
