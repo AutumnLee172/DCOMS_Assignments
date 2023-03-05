@@ -10,7 +10,7 @@ package RMI_Structures;
  */
 public class Product implements java.io.Serializable{
     
-    private String prodname, category, quantity, price;
+    private String prodname, proddescript, category, quantity, price;
     private byte[] image;
     
     private int ID;
@@ -23,9 +23,10 @@ public class Product implements java.io.Serializable{
     }
     
     //metamorphosis
-     public Product(int ID, String prodname, String category, String quantity, String price, byte[] image){
+     public Product(int ID, String prodname, String proddescript, String category, String quantity, String price, byte[] image){
         this.setID(ID);
         this.setprodname(prodname);
+        this.setproddescript(proddescript);
         this.setcategory(category);
         this.setquantity(quantity);
         this.setprice(price);
@@ -38,6 +39,10 @@ public class Product implements java.io.Serializable{
     
     public void setprodname(String prodname){
         this.prodname = prodname;
+    }
+    
+    public void setproddescript(String proddescript){
+        this.proddescript = proddescript;
     }
     
      public void setcategory(String category){
@@ -58,6 +63,10 @@ public class Product implements java.io.Serializable{
     
     public String getName(){
         return prodname;
+    }
+    
+    public String getDescript(){
+        return proddescript;
     }
     
     public String getCategory(){
