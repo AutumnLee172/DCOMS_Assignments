@@ -10,70 +10,76 @@ package RMI_Structures;
  */
 public class Product implements java.io.Serializable{
     
-    private String prodname, category, quantity, price;
+   private String ID, prodname, proddescript, category;
     private byte[] image;
-    
-    private int ID;
-    
-    public Product(String prodname, String category, String quantity, String price){
-        this.setprodname(prodname);
-        this.setcategory(category);
-        this.setquantity(quantity);
-        this.setprice(price);
-    }
+    private int quantity;
+    private double  price;
     
     //metamorphosis
-     public Product(int ID, String prodname, String category, String quantity, String price, byte[] image){
+    public Product(String ID, String prodname, String proddescript, String category, int quantity, byte[] image, double price){
         this.setID(ID);
         this.setprodname(prodname);
+        this.setproddescript(proddescript);
         this.setcategory(category);
         this.setquantity(quantity);
         this.setprice(price);
         this.setimage(image);
-    }
+    };
     
-    public void setID(int id){
-        this.ID = id;
-    }
-    
-    public void setprodname(String prodname){
-        this.prodname = prodname;
-    }
-    
-     public void setcategory(String category){
-        this.category = category;
+    public String getID(){
+        return ID;
     }
      
-    public void setquantity(String quantity){
-        this.quantity = quantity;
-    }
-    
-     public void setimage(byte[] image){
-        this.image = image;
-    }
-    
-    public void setprice(String price){
-        this.price = price;
+    public void setID(String id){
+        this.ID = id;
     }
     
     public String getName(){
         return prodname;
     }
     
+    public void setprodname(String prodname){
+        this.prodname = prodname;
+    }
+    
+    public String getDescript(){
+        return proddescript;
+    }
+    
+    public void setproddescript(String proddescript){
+        this.proddescript = proddescript;
+    }
+    
     public String getCategory(){
         return category;
     }
     
-     public String getPrice(){
+    public void setcategory(String category){
+        this.category = category;
+    }
+     
+    public int getQuantity() {
+        return quantity;
+    }
+    
+    public void setquantity(int quantity){
+        this.quantity = quantity;
+    }
+    
+    public byte[] getImage(){
+         return image;
+    }
+     
+    public void setimage(byte[] image){
+        this.image = image;
+    }
+    
+    public double getPrice(){
         return price;
     }
      
-     public int getID(){
-        return ID;
+    public void setprice(double price){
+        this.price = price;
     }
-     
-     public byte[] getImage(){
-         return image;
-     }
     
 }

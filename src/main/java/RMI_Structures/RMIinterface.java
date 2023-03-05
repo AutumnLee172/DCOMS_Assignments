@@ -37,6 +37,6 @@ public interface RMIinterface extends Remote{
     public boolean initializePayment()throws RemoteException;
     
     //Admin 
-    public String Add_New_Product(String prodname, String category, String quantity, String price, byte[] image) throws RemoteException; 
+    public String Add_New_Product(String prodname, String proddescript, String category, int quantity, double price, byte[] image) throws RemoteException;
 }
 

@@ -383,6 +383,7 @@ public class CheckOut extends javax.swing.JFrame {
                 "Proceed to payment?", "Payment confirmation ",
                 JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
         if (input == JOptionPane.OK_OPTION) {
+            btnPayment.setEnabled(false);
               try {
             if (Obj.initializePayment()){
             //Get today date with format

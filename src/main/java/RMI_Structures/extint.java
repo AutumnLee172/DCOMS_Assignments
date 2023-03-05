@@ -205,16 +205,19 @@ public class extint extends UnicastRemoteObject implements RMIinterface {
             
             while(rs.next()){
                 
-                String id = rs.getString("prodid");
-                int prodid = Integer.parseInt(id);
+                String prodid = rs.getString("prodid");
+                //int prodid = Integer.parseInt(id);
                 //customerID is fixed(logged customer's id)
                 String prodname = rs.getString("prodname");
+                String proddescript = rs.getString("proddescript");
                 String prodcategory = rs.getString("prodcategory"); 
-                String prodquantity = rs.getString("prodquantity"); 
-                String prodprice = rs.getString("prodprice"); 
-                byte[] image = rs.getBytes("image");
+                int prodquantity = rs.getInt("prodquantity");
+                double prodprice = rs.getDouble("prodprice");
+                //String prodquantity = rs.getString("prodquantity"); 
+                //String prodprice = rs.getString("prodprice"); 
+                byte[] image = rs.getBytes("prodimage");
                
-               products.add(new Product(prodid,prodname,prodcategory,prodquantity, prodprice, image));
+               products.add(new Product(prodid,prodname,proddescript,prodcategory,prodquantity, image, prodprice));
                
             }
                           
@@ -534,7 +537,7 @@ public class extint extends UnicastRemoteObject implements RMIinterface {
       }
     // Admin --------------------------------------------------------------------
     @Override
-    public String Add_New_Product(String prodname, String category, String quantity, String price, byte[] image) throws RemoteException {
+    public String Add_New_Product(String prodname, String proddescript, String category, int quantity, double price, byte[] image) throws RemoteException {
        String result = "";
         try {
             openConnection();         
@@ -547,14 +550,15 @@ public class extint extends UnicastRemoteObject implements RMIinterface {
             }
                 
             //insert new Record
-            PreparedStatement pstmt = conn.prepareStatement("INSERT INTO product(prodid,prodname,prodcategory,prodquantity,prodprice,image) VALUES (?, ?, ?, ?,?,?)");
-            int newID = max;
-            pstmt.setInt(1, newID);
+            PreparedStatement pstmt = conn.prepareStatement("INSERT INTO product(prodid,prodname,proddescript, prodcategory,prodquantity,prodprice,prodimage) VALUES (?, ?, ?, ?, ?, ?, ?)");
+            String newProdCode = "Product" + max;
+            pstmt.setString(1, newProdCode);
             pstmt.setString(2, prodname);
-            pstmt.setString(3, category);
-            pstmt.setString(4, quantity);
-            pstmt.setString(5, price);
-            pstmt.setBytes(6, image);
+            pstmt.setString(3, proddescript);
+            pstmt.setString(4, category);
+            pstmt.setInt(5, quantity);
+            pstmt.setDouble(6, price);
+            pstmt.setBytes(7, image);
             //Statement stmt = conn.createStatement();
             pstmt.executeUpdate();
             

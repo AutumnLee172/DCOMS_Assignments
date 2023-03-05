@@ -143,10 +143,11 @@ public class Home extends javax.swing.JFrame {
 // method to display the selected product
     private void displayProduct(Product product) throws IOException {
         lblProductName.setText(product.getName());
-        lblProductPrice.setText(product.getPrice());
+        //lblProductPrice.setText(product.getPrice());
+        lblProductPrice.setText(Double.toString(product.getPrice()));
         lblProductCategory.setText(product.getCategory());
-        currentselectedproduct = product.getID();
         lblProductID.setText(String.valueOf(product.getID()));
+        currentselectedproduct = Integer.parseInt(product.getID());
          if (product.getImage() != null) {
                 InputStream is = new ByteArrayInputStream(product.getImage());
                 BufferedImage someImage = ImageIO.read(is);
