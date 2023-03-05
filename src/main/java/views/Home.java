@@ -39,6 +39,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -470,6 +471,7 @@ public class Home extends javax.swing.JFrame {
             int currentProductID = Integer.parseInt(lblProductID.getText());
             int cartQuantity = (int) spinnerQuantity.getValue();
             Obj.addToCart(CustomerID, currentProductID, cartQuantity);
+            JOptionPane.showMessageDialog(this, "Product added to cart successfully.");
         } catch (NotBoundException | MalformedURLException | RemoteException ex) {
             Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
         }
