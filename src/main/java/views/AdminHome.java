@@ -17,6 +17,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -33,13 +36,13 @@ public class AdminHome extends javax.swing.JFrame {
     int s= 0;
     byte[] pimage = null;
     
-    //DefaultTableModel model;
+    DefaultTableModel model;
     ArrayList<Product> productlist = new ArrayList<Product>();
     RMIinterface Obj;
         
     public AdminHome() {
         initComponents();
-        this.setSize(600,450);
+        this.setSize(1200,600);
         pnlMain.setVisible(true);
         pnlManage.setVisible(false);
         pnlAddProduct.setVisible(false);
@@ -82,8 +85,6 @@ public class AdminHome extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         manageprod = new javax.swing.JButton();
         managecustorder = new javax.swing.JButton();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -223,7 +224,7 @@ public class AdminHome extends javax.swing.JFrame {
                                 .addGroup(pnlAddProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(lblquantity)
                                     .addComponent(txtquantity, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
                         .addGroup(pnlAddProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtprice, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lblprice))
@@ -268,7 +269,7 @@ public class AdminHome extends javax.swing.JFrame {
                 java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Boolean.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, true, true, true, false, true, true
+                false, false, false, false, false, false, false, true
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -325,6 +326,8 @@ public class AdminHome extends javax.swing.JFrame {
                 .addGap(144, 144, 144))
         );
 
+        pnlMain.setPreferredSize(new java.awt.Dimension(1200, 600));
+
         jLabel1.setFont(new java.awt.Font("Stencil", 0, 48)); // NOI18N
         jLabel1.setText("Admin Dashboard");
 
@@ -344,10 +347,6 @@ public class AdminHome extends javax.swing.JFrame {
             }
         });
 
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/product.png"))); // NOI18N
-
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/orders.png"))); // NOI18N
-
         javax.swing.GroupLayout pnlMainLayout = new javax.swing.GroupLayout(pnlMain);
         pnlMain.setLayout(pnlMainLayout);
         pnlMainLayout.setHorizontalGroup(
@@ -359,16 +358,9 @@ public class AdminHome extends javax.swing.JFrame {
                         .addComponent(jLabel1))
                     .addGroup(pnlMainLayout.createSequentialGroup()
                         .addGap(230, 230, 230)
-                        .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(manageprod)
-                            .addComponent(jLabel4))
-                        .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(pnlMainLayout.createSequentialGroup()
-                                .addGap(212, 212, 212)
-                                .addComponent(managecustorder))
-                            .addGroup(pnlMainLayout.createSequentialGroup()
-                                .addGap(259, 259, 259)
-                                .addComponent(jLabel5)))))
+                        .addComponent(manageprod)
+                        .addGap(212, 212, 212)
+                        .addComponent(managecustorder)))
                 .addContainerGap(260, Short.MAX_VALUE))
         );
         pnlMainLayout.setVerticalGroup(
@@ -376,15 +368,7 @@ public class AdminHome extends javax.swing.JFrame {
             .addGroup(pnlMainLayout.createSequentialGroup()
                 .addGap(59, 59, 59)
                 .addComponent(jLabel1)
-                .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlMainLayout.createSequentialGroup()
-                        .addGap(102, 102, 102)
-                        .addComponent(jLabel4)
-                        .addGap(45, 45, 45))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlMainLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel5)
-                        .addGap(28, 28, 28)))
+                .addGap(347, 347, 347)
                 .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(manageprod)
                     .addComponent(managecustorder))
@@ -468,7 +452,9 @@ public class AdminHome extends javax.swing.JFrame {
     }//GEN-LAST:event_manageprodActionPerformed
 
     private void managecustorderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_managecustorderActionPerformed
-        // TODO add your handling code here:
+        CustomerOrder custorder = new CustomerOrder();
+        custorder.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_managecustorderActionPerformed
 
     private void addprodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addprodActionPerformed
@@ -540,9 +526,39 @@ public class AdminHome extends javax.swing.JFrame {
     }//GEN-LAST:event_btnUploadActionPerformed
 
     private void deleteprodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteprodActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_deleteprodActionPerformed
+        int input = JOptionPane.showConfirmDialog(this,
+                "Are you sure about removing the selected product?", "Remove confirmation ",
+                JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+       
+        if (input == JOptionPane.OK_OPTION) {
+            
+            ArrayList<Integer> deletingItems = new ArrayList<>();
+            ArrayList<Integer> rowsToRemove = new ArrayList<>();
 
+            for (int i = 0; i < model.getRowCount(); i++) {
+                Boolean checked = (Boolean) model.getValueAt(i, 7);
+
+                if (checked) {
+                    deletingItems.add((Integer) model.getValueAt(i, 0));//get prodid
+                    rowsToRemove.add(i);
+                }
+            }
+
+            // Remove rows outside of the loop
+            for (int i = rowsToRemove.size() - 1; i >= 0; i--) {
+                model.removeRow(rowsToRemove.get(i));
+            }
+
+            //Once we have the list to delete cart item, run delete cart function
+            try {
+                Obj.deleteProduct(deletingItems);
+            } catch (RemoteException ex) {
+                Logger.getLogger(CartMenu.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_deleteprodActionPerformed
+   
+            
     public ImageIcon resizeImage(String imagePath, byte[] pic){
         ImageIcon myImage = null;
         if(imagePath != null){
@@ -602,8 +618,6 @@ public class AdminHome extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblcategory;
