@@ -270,6 +270,23 @@ public class extint extends UnicastRemoteObject implements RMIinterface {
        return OrderDetails; 
      }
      
+     @Override
+     public boolean change_order_status(String OrderID, String Status)throws RemoteException{
+        boolean hasChanged = false;
+        try {
+            openConnection();
+            PreparedStatement pstmt = conn.prepareStatement("UPDATE orders SET status = ? WHERE id = ?");
+                pstmt.setString(1, Status);
+                pstmt.setString(2, OrderID);
+                pstmt.executeUpdate();
+                hasChanged = true;
+        } catch (SQLException ex) {
+            Logger.getLogger(extint.class.getName()).log(Level.SEVERE, null, ex);
+            hasChanged = false;
+        }
+        closeConnection();        
+        return hasChanged;
+     }
     //product function 
      @Override
      public ArrayList<Product> getProducts()throws RemoteException{

@@ -5,34 +5,30 @@
 package views;
 
 import RMI_Structures.*;
+import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.PrintWriter;
 import java.net.MalformedURLException;
+import java.net.Socket;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
+import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
@@ -40,15 +36,17 @@ import javax.swing.JPanel;
  * @author Autumn
  */
 public class History extends javax.swing.JFrame {
-     private JPanel orderPanel;
+
+    private JPanel orderPanel;
     Customer LoggedCustomer;
+
     /**
      * Creates new form History
      */
     public History() {
         initComponents();
     }
-    
+
     public History(Customer cm) throws IOException {
         initComponents();
         this.LoggedCustomer = cm;
@@ -62,66 +60,104 @@ public class History extends javax.swing.JFrame {
             Order[] Orders = new Order[OrderArrayList.size()];
             OrderArrayList.toArray(Orders);
             setOrders(Orders);
-        } catch (NotBoundException ex) {
-            Logger.getLogger(History.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MalformedURLException ex) {
-            Logger.getLogger(History.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (RemoteException ex) {
+        } catch (NotBoundException | MalformedURLException | RemoteException ex) {
             Logger.getLogger(History.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-      public void setOrders(Order[] orders) throws FileNotFoundException, IOException {
-        orderPanel.removeAll();
-        int numOrders = orders.length;
-        //int numRows = (int) Math.ceil((double) numOrders / 3);
-        orderPanel.setLayout(new GridLayout(numOrders, 3, 5, 5));
-        for (int i = 0; i < numOrders; i++) {
-            JPanel panel = new JPanel();
-            panel.setMaximumSize(new Dimension(200, 80));
-            panel.setPreferredSize(new Dimension(200, 80));
-            panel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
-            final String od = orders[i].getOrderID();
-            // add a MouseListener to each product panel
-             panel.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    try {
-                        // display the selected product
-                        displayOrder(od);
-                    } catch (IOException ex) {
-                        Logger.getLogger(History.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-
+   public void setOrders(Order[] orders) throws FileNotFoundException, IOException {
+    orderPanel.removeAll();
+    int numOrders = orders.length;
+    orderPanel.setLayout(new GridLayout(numOrders, 1, 5, 5)); // use a vertical grid layout
+    for (int i = 0; i < numOrders; i++) {
+        JPanel orderSubPanel = new JPanel();
+        orderSubPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+        orderSubPanel.setLayout(new BorderLayout());
+        final String od = orders[i].getOrderID();
+        // add a MouseListener to each product panel
+        orderSubPanel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                try {
+                    // display the selected product
+                    displayOrder(od);
+                } catch (IOException ex) {
+                    Logger.getLogger(History.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            });
-            panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-            JLabel dateLabel = new JLabel(orders[i].getDate() + " (id: " + orders[i].getOrderID()+")");
-            dateLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
-            //panel.setAlignmentX(Component.CENTER_ALIGNMENT);
-            JLabel address = new JLabel("Address: " + orders[i].getAddress());
-            JLabel status = new JLabel("Status: " + orders[i].getStatus());
-            JLabel total = new JLabel("Total: $" + orders[i].getTotal());
-            panel.add(dateLabel);
-            panel.add(address);
-            panel.add(status);
-            panel.add(total);        
-            dateLabel.setAlignmentY(Component.TOP_ALIGNMENT);
-            address.setAlignmentY(Component.TOP_ALIGNMENT);
-            status.setAlignmentY(Component.TOP_ALIGNMENT);
-            total.setAlignmentY(Component.TOP_ALIGNMENT);
-            orderPanel.add(panel);            
-            
-        }
-        orderPanel.revalidate();
-        orderPanel.repaint();
+
+            }
+        });
+
+        JPanel labelsPanel = new JPanel();
+        labelsPanel.setLayout(new BoxLayout(labelsPanel, BoxLayout.Y_AXIS));
+        JLabel dateLabel = new JLabel(orders[i].getDate() + " (id: " + orders[i].getOrderID() + ")");
+        dateLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
+        JLabel address = new JLabel("Address: " + orders[i].getAddress());
+        JLabel status = new JLabel("Status: " + orders[i].getStatus());
+        JLabel total = new JLabel("Total: $" + orders[i].getTotal());
+        labelsPanel.add(dateLabel);
+        labelsPanel.add(address);
+        labelsPanel.add(status);
+        labelsPanel.add(total);
+        orderSubPanel.add(labelsPanel, BorderLayout.CENTER);
+
+        // create and add the button to the sub-panel's east (right-hand side)
+        JButton button = new JButton("Request to cancel");
+         button.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    // display the selected order details
+                    cancelOrder(od);
+                } catch (IOException ex) {
+                    Logger.getLogger(History.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            }
+        });
+         if(orders[i].getStatus().equals("Completed") || orders[i].getStatus().equals("Request for cancel")){
+             button.setEnabled(false);
+         }
+        JPanel buttonPanel = new JPanel(new BorderLayout());
+        buttonPanel.add(button, BorderLayout.EAST);
+        orderSubPanel.add(buttonPanel, BorderLayout.SOUTH);
+
+        orderPanel.add(orderSubPanel);
+    }
+    orderPanel.revalidate();
+    orderPanel.repaint();
+}
+
+
+    private void displayOrder(String OrderID) throws IOException {
+
+        OrderDetails od = new OrderDetails(OrderID);
+        od.setVisible(true);
+
     }
 
-     private void displayOrder(String OrderID) throws IOException {
+    private void cancelOrder(String OrderID) throws IOException{
+        int input = JOptionPane.showConfirmDialog(this,
+                "Are you sure to request for a cancel ont his order?", "Order Cancellation ",
+                JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+        if (input == JOptionPane.OK_OPTION) {
+        try {
+            Socket socket = new Socket("localhost", 5000);
+            
+            PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+            
+            String inputsocket = OrderID +  "," + "Request for cancel";
+            out.println(inputsocket);
+            out.close();
+            socket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+          History hs = new History(LoggedCustomer);
+          hs.setVisible(true);
+          this.dispose();
+        }
         
-         OrderDetails od = new OrderDetails(OrderID);
-         od.setVisible(true);
-         
+      
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -197,18 +233,17 @@ public class History extends javax.swing.JFrame {
         Home hm;
         try {
             hm = new Home(this.LoggedCustomer);
-             hm.setVisible(true);
-        this.dispose();
+            hm.setVisible(true);
+            this.dispose();
         } catch (IOException ex) {
             Logger.getLogger(History.class.getName()).log(Level.SEVERE, null, ex);
         }
-       
+
     }//GEN-LAST:event_btnBackActionPerformed
 
     /**
      * @param args the command line arguments
      */
-   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;
