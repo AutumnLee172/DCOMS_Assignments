@@ -651,7 +651,7 @@ public class extint extends UnicastRemoteObject implements RMIinterface {
           }
           return paymentThread.isPaymentSuccess();
       }
-    // Admin --------------------------------------------------------------------
+    // Manage Product --------------------------------------------------------------------
     @Override
     public String Add_New_Product(String prodname, String proddescript, String category, String quantity, String price, byte[] image) throws RemoteException {
        String result = "";
@@ -688,5 +688,57 @@ public class extint extends UnicastRemoteObject implements RMIinterface {
         }
        return result;
     }
+    
+    @Override
+     public void deleteProduct(ArrayList<Integer> prodid) throws RemoteException{
+     openConnection();
+     
+     try {
+            PreparedStatement pstmt = conn.prepareStatement("Delete from product WHERE prodID = ? ");
+            for(int row : prodid){
+                 pstmt.setInt(1, row);
+                 //pstmt.setString(1,row);
+                 pstmt.executeUpdate();
+             }
+        } catch (SQLException ex) {
+            Logger.getLogger(extint.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        closeConnection();    
+   }
+    
+    
+    //Manage customer order
+     @Override
+     public ArrayList<Order> getCustOrders()throws RemoteException{
+        ArrayList<Order> Orders = new ArrayList<Order>();
+            openConnection();
+            
+            try {
+            Statement stmt = conn.createStatement();
+            String Query = "(SELECT * FROM Orders )";
+            ResultSet rs = stmt.executeQuery(Query);
+            
+            while(rs.next()){
+                
+                String id = rs.getString("id");
+                String CustomerID = rs.getString("customer_id");              
+                Double total = rs.getDouble("total");
+                String date = rs.getString("date"); 
+                String address = rs.getString("address"); 
+                String contact_number = rs.getString("contact_number"); 
+                String payment_method = rs.getString("payment_method"); 
+                String status = rs.getString("status"); 
+               
+               Orders.add(new Order(id,CustomerID,date,address, contact_number, payment_method,status,total));
+               
+            }
+                          
+        } catch (SQLException ex) {
+            Logger.getLogger(extint.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        closeConnection();
+       return Orders; 
+     }
+    
     
 }
