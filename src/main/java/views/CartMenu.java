@@ -249,25 +249,43 @@ public class CartMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRemoveActionPerformed
 
     private void btnCheckoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCheckoutActionPerformed
-
         ArrayList<String> pickedItems = new ArrayList<>();
         String quantity;
+        boolean proceed = true;
         
         for (int i = 0; i < model.getRowCount(); i++) {
-                Boolean checked = (Boolean) model.getValueAt(i, 3);
+            Boolean checked = (Boolean) model.getValueAt(i, 3);
 
-                if (checked) {
-                    pickedItems.add((String)model.getValueAt(i,4));//Cart ID                                    
-                    pickedItems.add((String) model.getValueAt(i, 5));//Proudct ID
-                    quantity = String.valueOf((Integer) model.getValueAt(i, 1));
-                    pickedItems.add(quantity);
+            if (checked) {
+                
+                String prodID = (String) model.getValueAt(i, 5);
+                
+                int stock = 0;
+                try {
+                    stock = Obj.findProductQuantity(prodID);
+                } catch (RemoteException ex) {
+                    Logger.getLogger(CartMenu.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            }   
-        
+
+                String message = ((String) model.getValueAt(i, 0)) + " has only " + stock + " left.";
+                if (stock < (Integer) model.getValueAt(i, 1)){
+                    JOptionPane.showMessageDialog(this, message);
+                    proceed = false;
+                    break;
+                }
+                
+                pickedItems.add((String) model.getValueAt(i, 4));//Cart ID                                    
+                pickedItems.add(prodID);//Proudct ID
+                quantity = String.valueOf((Integer) model.getValueAt(i, 1));
+                pickedItems.add(quantity);
+            }
+        }
+       
+        if(proceed){
         CheckOut CO = new CheckOut(LoggedCustomer,this,pickedItems);
         CO.setVisible(true);
         this.setVisible(false);
-        
+        }
         
     }//GEN-LAST:event_btnCheckoutActionPerformed
 

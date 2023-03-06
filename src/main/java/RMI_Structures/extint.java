@@ -297,8 +297,20 @@ public class extint extends UnicastRemoteObject implements RMIinterface {
     @Override
     public void addToCart(String customerID, int productID, int quantity) throws RemoteException{
       openConnection();
-       //generate new ID
-        try {  
+      
+      try {  
+      Statement checkExisting = conn.createStatement();
+      ResultSet ce = checkExisting.executeQuery("SELECT * FROM CART WHERE CUSTOMER_ID ='"+customerID+"' AND PRODUCT_ID ='"+productID+"'");
+      if(ce.next()==true){
+          String selectedCart = ce.getString("ID");
+          int newQuantity = ce.getInt("QUANTITY");
+          newQuantity += quantity;
+          updateCartQuantity(selectedCart,newQuantity);
+      }else
+      
+      {
+     
+       //generate new ID 
                 Statement stmt = conn.createStatement();
                 ResultSet rs = stmt.executeQuery("SELECT COUNT(id) as MaxNumber FROM CART");   
                 int max = 0;
@@ -316,11 +328,11 @@ public class extint extends UnicastRemoteObject implements RMIinterface {
                 //Statement stmt = conn.createStatement();
                 pstmt.executeUpdate();
                 
+                closeConnection();
+            }    
         }catch (SQLException ex) {
             Logger.getLogger(extint.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        closeConnection();
-      
+        }          
     }
     
      @Override
@@ -404,6 +416,34 @@ public class extint extends UnicastRemoteObject implements RMIinterface {
          closeConnection();
          
          return result;
+     }
+     
+     @Override
+     public int findProductQuantity(String productID)throws RemoteException{
+         int quantityLeft = 0;
+            
+         int prodID = Integer.parseInt(productID);
+         openConnection();
+        
+       try {
+         Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT PRODID,PRODQUANTITY FROM PRODUCT WHERE PRODID=" + prodID);
+            
+            if (rs.next() == false) { 
+                System.out.println("Something wrong, could not find any product with this ID."); 
+            }else
+            {
+               String quantity = rs.getString("PRODQUANTITY");              
+               quantityLeft = Integer.parseInt(quantity);
+            }
+            
+            } catch (SQLException ex) {
+            Logger.getLogger(extint.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+         closeConnection();
+         
+         return quantityLeft;
      }
      
      @Override
