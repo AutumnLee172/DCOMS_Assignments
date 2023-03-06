@@ -123,6 +123,19 @@ public class extint extends UnicastRemoteObject implements RMIinterface {
     }
 
     @Override
+    public boolean admin_login(String email, String passwords) throws RemoteException {
+        boolean hasRecord = false;
+        
+        if(email.equals("admin@gmail.com") && passwords.equals("admin")){
+            hasRecord = true;
+        }else{
+            hasRecord = false;
+        }
+        
+        return hasRecord;
+    }
+    
+    @Override
     public Customer customer_setup(String email) throws RemoteException {
         String name = null, id = null;
         try {
