@@ -18,8 +18,10 @@ public interface RMIinterface extends Remote{
     public String customer_edit(String email, String username, String passwords)throws RemoteException;
     public ArrayList<Order> getOrders(String Customer_ID)throws RemoteException;
     public HashMap<String, String> getOrderDetails(String OrderID)throws RemoteException;
+    
     //admin login
     public boolean admin_login(String email, String passwords)throws RemoteException;
+    
     // product function
     public ArrayList<Product> getProducts()throws RemoteException;
     
@@ -42,5 +44,11 @@ public interface RMIinterface extends Remote{
     
     //Admin 
     public String Add_New_Product(String prodname, String proddescript, String category, String quantity, String price, byte[] image) throws RemoteException; 
+    public void deleteProduct(ArrayList<Integer> prodid) throws RemoteException;
+    
+    //manage customer order
+    public ArrayList<Order> getCustOrders()throws RemoteException;
+
+
 }
 
