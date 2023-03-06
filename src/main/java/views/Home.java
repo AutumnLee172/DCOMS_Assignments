@@ -55,6 +55,8 @@ public final class Home extends javax.swing.JFrame {
     private JPanel productPanel;
     Customer LoggedCustomer;
     private int currentselectedproduct;
+    private Product[] products;
+    
     /**
      * Creates new form Home
      */
@@ -75,7 +77,7 @@ public final class Home extends javax.swing.JFrame {
         try {
             RMIinterface Obj = (RMIinterface) Naming.lookup("rmi://localhost:1040/KGF");
             ArrayList<Product> productsArrayList = Obj.getProducts();
-            Product[] products = new Product[productsArrayList.size()];
+            products = new Product[productsArrayList.size()];
             productsArrayList.toArray(products);
             String searchTerm = searchField.getText() ;
             setProducts(products, searchTerm);
@@ -405,6 +407,11 @@ public final class Home extends javax.swing.JFrame {
                 searchFieldActionPerformed(evt);
             }
         });
+        searchField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                searchFieldKeyReleased(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -521,6 +528,15 @@ public final class Home extends javax.swing.JFrame {
 
     private void searchFieldMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_searchFieldMouseEntered
     }//GEN-LAST:event_searchFieldMouseEntered
+
+    private void searchFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchFieldKeyReleased
+        String searchTerm = searchField.getText();
+             try {
+                 setProducts(products, searchTerm);
+             } catch (IOException ex) {
+                 Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+             }// TODO add your handling code here:
+    }//GEN-LAST:event_searchFieldKeyReleased
 
     /**
      * @param args the command line arguments
