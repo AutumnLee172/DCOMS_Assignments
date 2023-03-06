@@ -13,6 +13,8 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -48,7 +50,7 @@ import javax.swing.JTextArea;
  *
  * @author Autumn
  */
-public class Home extends javax.swing.JFrame {
+public final class Home extends javax.swing.JFrame {
 
     private JPanel productPanel;
     Customer LoggedCustomer;
@@ -75,30 +77,40 @@ public class Home extends javax.swing.JFrame {
             ArrayList<Product> productsArrayList = Obj.getProducts();
             Product[] products = new Product[productsArrayList.size()];
             productsArrayList.toArray(products);
-            setProducts(products);
-        } catch (NotBoundException ex) {
-            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MalformedURLException ex) {
-            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (RemoteException ex) {
+            String searchTerm = searchField.getText() ;
+            setProducts(products, searchTerm);
+        } catch (NotBoundException | MalformedURLException | RemoteException ex) {
             Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
 
+    public void searchProduct(Product[] products) {
+         searchField.addActionListener((ActionEvent e) -> {
+             String searchTerm = searchField.getText();
+             try {
+                 setProducts(products, searchTerm);
+             } catch (IOException ex) {
+                 Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+             }
+         });
+    }
     //for testing use
-    public void setProducts(Product[] products) throws FileNotFoundException, IOException {
-        productPanel.removeAll();
-        int numProducts = products.length;
-        int numRows = (int) Math.ceil((double) numProducts / 3);
-        productPanel.setLayout(new GridLayout(numRows, 3, 10, 10));
-        for (int i = 0; i < numProducts; i++) {
+    public void setProducts(Product[] products, String searchTerm) throws FileNotFoundException, IOException {
+    productPanel.removeAll();
+    int numProducts = products.length;
+    int numRows = (int) Math.ceil((double) numProducts / 3);
+    productPanel.setLayout(new GridLayout(numRows, 3, 10, 10));
+    for (int i = 0; i < numProducts; i++) {
+        if (products[i].getName().toLowerCase().contains(searchTerm.toLowerCase())
+            || products[i].getCategory().toLowerCase().contains(searchTerm.toLowerCase())) 
+        {
             JPanel panel = new JPanel();
             panel.setPreferredSize(new Dimension(200, 200));
             panel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
             final Product pd = products[i];
             // add a MouseListener to each product panel
-             panel.addMouseListener(new MouseAdapter() {
+            panel.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
                     try {
@@ -137,9 +149,11 @@ public class Home extends javax.swing.JFrame {
             productPanel.add(panel);
             panel.setAlignmentX(Component.CENTER_ALIGNMENT);
         }
-        productPanel.revalidate();
-        productPanel.repaint();
     }
+    productPanel.revalidate();
+    productPanel.repaint();
+}
+
 
 // method to display the selected product
     private void displayProduct(Product product) throws IOException {
@@ -148,6 +162,7 @@ public class Home extends javax.swing.JFrame {
         lblProductCategory.setText(product.getCategory());
         currentselectedproduct = product.getID();
         lblProductID.setText(String.valueOf(product.getID()));
+        lblProductDescription.setText(product.getDescript());
          if (product.getImage() != null) {
                 InputStream is = new ByteArrayInputStream(product.getImage());
                 BufferedImage someImage = ImageIO.read(is);
@@ -242,6 +257,7 @@ public class Home extends javax.swing.JFrame {
         spinnerQuantity = new javax.swing.JSpinner();
         lblProductID = new java.awt.TextField();
         btnHistory = new javax.swing.JButton();
+        searchField = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -379,6 +395,17 @@ public class Home extends javax.swing.JFrame {
             }
         });
 
+        searchField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                searchFieldMouseEntered(evt);
+            }
+        });
+        searchField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchFieldActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -388,8 +415,13 @@ public class Home extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(selectedProductPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(pnlProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 800, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(pnlProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 800, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(360, 360, 360)
+                                .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(50, 50, 50))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lblHello, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -418,7 +450,9 @@ public class Home extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(selectedProductPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(61, 61, 61)
+                        .addGap(21, 21, 21)
+                        .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addComponent(pnlProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 439, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnCart)
@@ -480,6 +514,13 @@ public class Home extends javax.swing.JFrame {
     private void lblProductIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lblProductIDActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_lblProductIDActionPerformed
+
+    private void searchFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchFieldActionPerformed
+// TODO add your handling code here:
+    }//GEN-LAST:event_searchFieldActionPerformed
+
+    private void searchFieldMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_searchFieldMouseEntered
+    }//GEN-LAST:event_searchFieldMouseEntered
 
     /**
      * @param args the command line arguments
@@ -545,6 +586,7 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JLabel lblProductName;
     private javax.swing.JLabel lblProductPrice;
     private javax.swing.JScrollPane pnlProduct;
+    private javax.swing.JTextField searchField;
     private javax.swing.JPanel selectedProductPanel;
     private javax.swing.JSpinner spinnerQuantity;
     // End of variables declaration//GEN-END:variables
