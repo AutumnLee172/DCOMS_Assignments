@@ -53,7 +53,7 @@ public class CustomerOrder extends javax.swing.JFrame {
                 status = custorderlist.get(i).getStatus();
                 total = custorderlist.get(i).getTotal();
 
-                Object rowData[] = {id,CustomerID,date,address, contact_number, payment_method,status,total};
+                Object rowData[] = {id,CustomerID,total,date,address,contact_number,payment_method,status,};
 
                 model = (DefaultTableModel) TableCustOrderList.getModel();
                 model.addRow(rowData);

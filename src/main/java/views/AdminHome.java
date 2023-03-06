@@ -81,6 +81,7 @@ public class AdminHome extends javax.swing.JFrame {
         deleteprod = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         TableProductList = new javax.swing.JTable();
+        btBack = new javax.swing.JButton();
         pnlMain = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         manageprod = new javax.swing.JButton();
@@ -296,6 +297,13 @@ public class AdminHome extends javax.swing.JFrame {
             TableProductList.getColumnModel().getColumn(5).setPreferredWidth(20);
         }
 
+        btBack.setText("Back");
+        btBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btBackActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout pnlManageLayout = new javax.swing.GroupLayout(pnlManage);
         pnlManage.setLayout(pnlManageLayout);
         pnlManageLayout.setHorizontalGroup(
@@ -306,6 +314,8 @@ public class AdminHome extends javax.swing.JFrame {
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 970, Short.MAX_VALUE)
                     .addGroup(pnlManageLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btBack)
+                        .addGap(67, 67, 67)
                         .addComponent(addprod, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(54, 54, 54)
                         .addComponent(editprod, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -322,7 +332,8 @@ public class AdminHome extends javax.swing.JFrame {
                 .addGroup(pnlManageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(editprod)
                     .addComponent(addprod)
-                    .addComponent(deleteprod))
+                    .addComponent(deleteprod)
+                    .addComponent(btBack))
                 .addGap(144, 144, 144))
         );
 
@@ -557,6 +568,12 @@ public class AdminHome extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_deleteprodActionPerformed
+
+    private void btBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btBackActionPerformed
+        AdminHome adhome = new AdminHome();
+        adhome.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btBackActionPerformed
    
             
     public ImageIcon resizeImage(String imagePath, byte[] pic){
@@ -610,6 +627,7 @@ public class AdminHome extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable TableProductList;
     private javax.swing.JButton addprod;
+    private javax.swing.JButton btBack;
     private javax.swing.JButton btadd;
     private javax.swing.JButton btcancel;
     private javax.swing.JButton btnUpload;
