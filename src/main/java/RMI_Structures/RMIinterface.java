@@ -18,6 +18,7 @@ public interface RMIinterface extends Remote{
     public String customer_edit(String email, String username, String passwords)throws RemoteException;
     public ArrayList<Order> getOrders(String Customer_ID)throws RemoteException;
     public HashMap<String, String> getOrderDetails(String OrderID)throws RemoteException;
+    public boolean change_order_status(String OrderID, String Status)throws RemoteException;
     
     //admin login
     public boolean admin_login(String email, String passwords)throws RemoteException;
