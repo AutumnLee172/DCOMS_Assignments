@@ -689,6 +689,23 @@ public class extint extends UnicastRemoteObject implements RMIinterface {
        return result;
     }
     
+     @Override
+     public void updateProduct(String prodid, String quantity, String price) throws RemoteException{
+     openConnection();
+     
+     try {
+            PreparedStatement pstmt = conn.prepareStatement("UPDATE product SET prodquantity = ? and prodprice = ? WHERE prodid = ?" );
+            pstmt.setString(1, quantity);
+            pstmt.setString(2, price);
+            pstmt.setString(3,prodid);
+            pstmt.executeUpdate();
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(extint.class.getName()).log(Level.SEVERE, null, ex);
+        }
+     closeConnection();
+     }
+    
     @Override
      public void deleteProduct(ArrayList<Integer> prodid) throws RemoteException{
      openConnection();
