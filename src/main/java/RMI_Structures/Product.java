@@ -76,6 +76,10 @@ public class Product implements java.io.Serializable{
      public String getPrice(){
         return price;
     }
+    
+    public String getQuantity(){
+        return quantity;
+    }
      
      public int getID(){
         return ID;
