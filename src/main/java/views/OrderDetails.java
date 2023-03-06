@@ -4,6 +4,17 @@
  */
 package views;
 
+import RMI_Structures.RMIinterface;
+import java.awt.Font;
+import java.net.MalformedURLException;
+import java.rmi.Naming;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JLabel;
+
 /**
  *
  * @author Autumn
@@ -16,6 +27,33 @@ public class OrderDetails extends javax.swing.JFrame {
     public OrderDetails() {
         initComponents();
     }
+    
+     public OrderDetails(String OrderID) {
+        initComponents();
+        this.setLocationRelativeTo(null);
+        this.DisplayDetails(OrderID);
+    }
+    
+    public void DisplayDetails(String OrderID){
+        HashMap<String, String> OrderDetails = null;
+        RMIinterface Obj;
+         try {
+             Obj = (RMIinterface) Naming.lookup("rmi://localhost:1040/KGF");
+             OrderDetails = Obj.getOrderDetails(OrderID);
+         } catch (NotBoundException | MalformedURLException | RemoteException ex) {
+             Logger.getLogger(OrderDetails.class.getName()).log(Level.SEVERE, null, ex);
+         }
+          
+        // display the details
+        lblOrderID.setText(OrderDetails.get("Order_ID"));
+        lblDate.setText(OrderDetails.get("date"));
+        txtContents.setText(OrderDetails.get("content"));
+        txtAddress.setText(OrderDetails.get("address"));
+        lblContactNumber.setText(OrderDetails.get("contact_number"));
+        lblTotalAmount.setText("$" + OrderDetails.get("total"));
+        lblPaymentType.setText(OrderDetails.get("payment_method"));
+        lblCurrentStatus.setText(OrderDetails.get("status"));
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -27,21 +65,150 @@ public class OrderDetails extends javax.swing.JFrame {
     private void initComponents() {
 
         pnlMain = new javax.swing.JPanel();
+        lblOrderID = new javax.swing.JLabel();
+        lblDate = new javax.swing.JLabel();
+        lblContent = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        txtContents = new javax.swing.JTextArea();
+        lblTotal = new javax.swing.JLabel();
+        lblAddress = new javax.swing.JLabel();
+        lblTotalAmount = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        txtAddress = new javax.swing.JTextArea();
+        lblContact = new javax.swing.JLabel();
+        lblContactNumber = new javax.swing.JLabel();
+        lblPaymentMethod = new javax.swing.JLabel();
+        lblPaymentType = new javax.swing.JLabel();
+        lblStatus = new javax.swing.JLabel();
+        lblCurrentStatus = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
 
         pnlMain.setBackground(new java.awt.Color(255, 255, 255));
+
+        lblOrderID.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        lblOrderID.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblOrderID.setText("OrderID");
+
+        lblDate.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        lblDate.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblDate.setText("Date");
+
+        lblContent.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        lblContent.setText("Cotent: ");
+
+        txtContents.setColumns(10);
+        txtContents.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        txtContents.setRows(5);
+        txtContents.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        txtContents.setEnabled(false);
+        jScrollPane1.setViewportView(txtContents);
+
+        lblTotal.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        lblTotal.setText("Total: ");
+
+        lblAddress.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        lblAddress.setText("Address:");
+
+        lblTotalAmount.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        lblTotalAmount.setText("$$$$$");
+
+        txtAddress.setColumns(5);
+        txtAddress.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        txtAddress.setRows(5);
+        txtAddress.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        txtAddress.setEnabled(false);
+        jScrollPane2.setViewportView(txtAddress);
+
+        lblContact.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        lblContact.setText("Cotact:");
+
+        lblContactNumber.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        lblContactNumber.setText("1111111");
+
+        lblPaymentMethod.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        lblPaymentMethod.setText("Payment:");
+
+        lblPaymentType.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        lblPaymentType.setText("Debit");
+
+        lblStatus.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        lblStatus.setText("Status:");
+
+        lblCurrentStatus.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        lblCurrentStatus.setText("Paid");
 
         javax.swing.GroupLayout pnlMainLayout = new javax.swing.GroupLayout(pnlMain);
         pnlMain.setLayout(pnlMainLayout);
         pnlMainLayout.setHorizontalGroup(
             pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 340, Short.MAX_VALUE)
+            .addGroup(pnlMainLayout.createSequentialGroup()
+                .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlMainLayout.createSequentialGroup()
+                        .addGap(110, 110, 110)
+                        .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(lblOrderID, javax.swing.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
+                            .addComponent(lblDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(pnlMainLayout.createSequentialGroup()
+                        .addGap(32, 32, 32)
+                        .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(pnlMainLayout.createSequentialGroup()
+                                .addComponent(lblContent, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlMainLayout.createSequentialGroup()
+                                .addComponent(lblAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlMainLayout.createSequentialGroup()
+                                .addComponent(lblContact, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblContactNumber, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(pnlMainLayout.createSequentialGroup()
+                                .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(lblPaymentMethod, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblTotal, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 66, Short.MAX_VALUE)
+                                    .addComponent(lblStatus, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblTotalAmount, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblPaymentType, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblCurrentStatus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
         pnlMainLayout.setVerticalGroup(
             pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 387, Short.MAX_VALUE)
+            .addGroup(pnlMainLayout.createSequentialGroup()
+                .addGap(12, 12, 12)
+                .addComponent(lblOrderID, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblDate)
+                .addGap(18, 18, 18)
+                .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblContent)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblAddress)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblContact)
+                    .addComponent(lblContactNumber))
+                .addGap(18, 18, 18)
+                .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblTotal)
+                    .addComponent(lblTotalAmount))
+                .addGap(18, 18, 18)
+                .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblPaymentMethod)
+                    .addComponent(lblPaymentType))
+                .addGap(18, 18, 18)
+                .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblStatus)
+                    .addComponent(lblCurrentStatus))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -52,7 +219,9 @@ public class OrderDetails extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pnlMain, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(pnlMain, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -62,39 +231,24 @@ public class OrderDetails extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(OrderDetails.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(OrderDetails.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(OrderDetails.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(OrderDetails.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new OrderDetails().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lblAddress;
+    private javax.swing.JLabel lblContact;
+    private javax.swing.JLabel lblContactNumber;
+    private javax.swing.JLabel lblContent;
+    private javax.swing.JLabel lblCurrentStatus;
+    private javax.swing.JLabel lblDate;
+    private javax.swing.JLabel lblOrderID;
+    private javax.swing.JLabel lblPaymentMethod;
+    private javax.swing.JLabel lblPaymentType;
+    private javax.swing.JLabel lblStatus;
+    private javax.swing.JLabel lblTotal;
+    private javax.swing.JLabel lblTotalAmount;
     private javax.swing.JPanel pnlMain;
+    private javax.swing.JTextArea txtAddress;
+    private javax.swing.JTextArea txtContents;
     // End of variables declaration//GEN-END:variables
 }

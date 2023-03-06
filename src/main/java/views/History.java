@@ -119,41 +119,9 @@ public class History extends javax.swing.JFrame {
 
      private void displayOrder(String OrderID) throws IOException {
         
-        // create a new JFrame to display the product
-        JFrame frame = new JFrame("Order Details");
-        frame.setSize(400, 300);
-        frame.setLayout(new FlowLayout());
-        HashMap<String, String> OrderDetails = null;
-        RMIinterface Obj;
-         try {
-             Obj = (RMIinterface) Naming.lookup("rmi://localhost:1040/KGF");
-             OrderDetails = Obj.getOrderDetails(OrderID);
-         } catch (NotBoundException | MalformedURLException | RemoteException ex) {
-             Logger.getLogger(History.class.getName()).log(Level.SEVERE, null, ex);
-         }
-          
-        // create UI components to display the product details
-        JLabel Order_ID = new JLabel("Order ID: " + OrderDetails.get("Order_ID"));
-        Order_ID.setFont(new Font("Tahoma", Font.BOLD, 16));
-        JLabel dateLabel = new JLabel("Date: " + OrderDetails.get("date"));
-        JLabel contentLabel = new JLabel("Content: " + OrderDetails.get("content"));
-        //JLabel priceLabel = new JLabel("Price: $" + product.getPrice());
-        
-        // JTextArea descriptionArea = new JTextArea(product.getDescription());
-        // descriptionArea.setLineWrap(true);
-        // descriptionArea.setWrapStyleWord(true);
-        
-
-        // add components to the frame
-       frame.add(Order_ID);
-       frame.add(dateLabel);
-       frame.add(contentLabel);
-        //frame.add(categoryLabel);
-        //frame.add(priceLabel);
-        // frame.add(scrollPane);
-
-        // display the frame
-       frame.setVisible(true);
+         OrderDetails od = new OrderDetails(OrderID);
+         od.setVisible(true);
+         
     }
     /**
      * This method is called from within the constructor to initialize the form.
