@@ -20,7 +20,7 @@ import java.util.logging.Logger;
  * @author Autumn
  */
 public class EditProduct extends javax.swing.JFrame {
-    //Product ProdID;
+
     RMIinterface Obj;
     Product currentproduct;
     /**
@@ -46,7 +46,7 @@ public class EditProduct extends javax.swing.JFrame {
         txtcategory.setText(currentproduct.getCategory());
         txtdescript.setText(currentproduct.getDescript());
         txtquantity.setText(currentproduct.getQuantity());
-        txtprice.setText("$" + currentproduct.getPrice());
+        txtprice.setText(currentproduct.getPrice());
         //lblResult.setText(ProductDetails.get("payment_method"));
  
     }
@@ -68,7 +68,6 @@ public class EditProduct extends javax.swing.JFrame {
         lblcategory = new javax.swing.JLabel();
         btnSave = new javax.swing.JButton();
         btnBack = new javax.swing.JButton();
-        lblResult = new javax.swing.JLabel();
         lblquantity = new javax.swing.JLabel();
         lblprice = new javax.swing.JLabel();
         txtquantity = new javax.swing.JTextField();
@@ -78,6 +77,7 @@ public class EditProduct extends javax.swing.JFrame {
         txtprodname = new javax.swing.JTextField();
         txtcategory = new javax.swing.JTextField();
         txtdescript = new javax.swing.JTextField();
+        lblResult = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -106,13 +106,11 @@ public class EditProduct extends javax.swing.JFrame {
             }
         });
 
-        lblResult.setText("Result");
-
         lblquantity.setText("Product Quantity");
 
         lblprice.setText("Product Price");
 
-        jLabel3.setText("Edit Product HIHI");
+        jLabel3.setText("Edit Product ");
 
         txtprodid.setEnabled(false);
         txtprodid.addActionListener(new java.awt.event.ActionListener() {
@@ -147,7 +145,7 @@ public class EditProduct extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(180, Short.MAX_VALUE)
+                .addContainerGap(196, Short.MAX_VALUE)
                 .addComponent(lblimg, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(55, 55, 55)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -165,11 +163,10 @@ public class EditProduct extends javax.swing.JFrame {
                     .addComponent(lblprice, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblResult, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(46, 46, 46)
-                        .addComponent(btnBack))
+                        .addComponent(btnBack)
+                        .addGap(85, 85, 85)
+                        .addComponent(lblResult, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(53, 53, 53)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -179,11 +176,11 @@ public class EditProduct extends javax.swing.JFrame {
                             .addComponent(txtprodname, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE)
                             .addComponent(txtcategory, javax.swing.GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE)
                             .addComponent(txtdescript, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE))))
-                .addContainerGap(243, Short.MAX_VALUE))
+                .addContainerGap(101, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(472, 472, 472)
                 .addComponent(jLabel3)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 497, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -217,12 +214,11 @@ public class EditProduct extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtprice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblprice, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(43, 43, 43)
-                .addComponent(lblResult)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(56, 56, 56)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSave)
-                    .addComponent(btnBack))
+                    .addComponent(btnBack)
+                    .addComponent(lblResult, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(38, 38, 38))
         );
 
@@ -245,24 +241,23 @@ public class EditProduct extends javax.swing.JFrame {
             RMIinterface Obj;
 
             Obj = (RMIinterface)Naming.lookup("rmi://localhost:1040/KGF");
-
-            String prodid = txtprodid.getText();
+            
+            int prodid = Integer.parseInt(txtprodid.getText().trim());
             String quantity = txtquantity.getText();
             String price = txtprice.getText();
             
             //result = System.out.println("a: " + prodname);
-            //result = Obj.updateProduct(prodid, quantity, price);
+            result = Obj.updateProduct(quantity, price, prodid);
             lblResult.setText(result);
 
         } catch (NotBoundException | MalformedURLException | RemoteException ex) {
-            Logger.getLogger(AdminHome.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(EditProduct.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        ;
         
-        AdminHome adhome;
-        adhome = new AdminHome();
-        adhome.setVisible(true);
+        //AdminHome adhome;
+       // adhome = new AdminHome();
+        //adhome.setVisible(true);
+        //this.dispose();
         
     }//GEN-LAST:event_btnSaveActionPerformed
 

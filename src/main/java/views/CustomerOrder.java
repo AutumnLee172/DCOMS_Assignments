@@ -6,6 +6,7 @@ package views;
 
 import RMI_Structures.Order;
 import RMI_Structures.RMIinterface;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
@@ -78,7 +79,6 @@ public class CustomerOrder extends javax.swing.JFrame {
 
         jScrollPane2 = new javax.swing.JScrollPane();
         TableCustOrderList = new javax.swing.JTable();
-        btreport = new javax.swing.JButton();
         btback = new javax.swing.JButton();
         btstatus = new javax.swing.JButton();
 
@@ -91,14 +91,14 @@ public class CustomerOrder extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Order No", "Customer ID", "Total", "Date", "Address", "Contact Number", "Payment Method", "Status"
+                "Order No", "Customer ID", "Total", "Date", "Address", "Contact Number", "Payment Method", "Status", "Select"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, true
+                false, false, false, false, false, false, false, true, true
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -117,15 +117,10 @@ public class CustomerOrder extends javax.swing.JFrame {
             TableCustOrderList.getColumnModel().getColumn(3).setResizable(false);
             TableCustOrderList.getColumnModel().getColumn(4).setResizable(false);
             TableCustOrderList.getColumnModel().getColumn(5).setResizable(false);
+            TableCustOrderList.getColumnModel().getColumn(6).setResizable(false);
             TableCustOrderList.getColumnModel().getColumn(7).setResizable(false);
+            TableCustOrderList.getColumnModel().getColumn(8).setResizable(false);
         }
-
-        btreport.setText("Generate Customer Report ");
-        btreport.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btreportActionPerformed(evt);
-            }
-        });
 
         btback.setText("Back");
         btback.addActionListener(new java.awt.event.ActionListener() {
@@ -135,6 +130,11 @@ public class CustomerOrder extends javax.swing.JFrame {
         });
 
         btstatus.setText("Update Status");
+        btstatus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btstatusActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -145,10 +145,8 @@ public class CustomerOrder extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btback)
-                        .addGap(50, 50, 50)
-                        .addComponent(btstatus)
-                        .addGap(47, 47, 47)
-                        .addComponent(btreport))
+                        .addGap(38, 38, 38)
+                        .addComponent(btstatus))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(153, 153, 153)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 955, Short.MAX_VALUE)))
@@ -161,7 +159,6 @@ public class CustomerOrder extends javax.swing.JFrame {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 369, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(56, 56, 56)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btreport)
                     .addComponent(btback)
                     .addComponent(btstatus))
                 .addContainerGap(111, Short.MAX_VALUE))
@@ -171,15 +168,28 @@ public class CustomerOrder extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btreportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btreportActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btreportActionPerformed
-
     private void btbackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btbackActionPerformed
        AdminHome adhome = new AdminHome();
        adhome.setVisible(true);
        this.dispose();
     }//GEN-LAST:event_btbackActionPerformed
+
+    private void btstatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btstatusActionPerformed
+        try {
+            int column = 0;
+            int row = TableCustOrderList.getSelectedRow();
+            String orderno = TableCustOrderList.getModel().getValueAt(row, column).toString();
+
+            EditCustOrderStatus ecos = new EditCustOrderStatus(Obj.displayCustOrderStatus(orderno));
+            ecos.setVisible(true);
+            this.dispose();
+            
+        } catch (RemoteException ex) {
+            Logger.getLogger(CustomerOrder.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(CustomerOrder.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btstatusActionPerformed
 
     /**
      * @param args the command line arguments
@@ -219,7 +229,6 @@ public class CustomerOrder extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable TableCustOrderList;
     private javax.swing.JButton btback;
-    private javax.swing.JButton btreport;
     private javax.swing.JButton btstatus;
     private javax.swing.JScrollPane jScrollPane2;
     // End of variables declaration//GEN-END:variables

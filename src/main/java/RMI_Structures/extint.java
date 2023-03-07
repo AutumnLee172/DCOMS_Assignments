@@ -740,20 +740,26 @@ public class extint extends UnicastRemoteObject implements RMIinterface {
     }
     
      @Override
-     public void updateProduct(String prodid, String quantity, String price) throws RemoteException{
-     openConnection();
+     public String updateProduct(String quantity, String price, int prodid) throws RemoteException{
      
-     try {
-            PreparedStatement pstmt = conn.prepareStatement("UPDATE product SET prodquantity = ? and prodprice = ? WHERE prodid = ?" );
-            pstmt.setString(1, quantity);
-            pstmt.setString(2, price);
-            pstmt.setString(3,prodid);
-            pstmt.executeUpdate();
-            
+     String result = "";
+       try {
+            openConnection();
+            PreparedStatement pstmt = conn.prepareStatement("UPDATE product SET prodquantity = ?, prodprice = ? WHERE prodid = ?");
+                pstmt.setString(1, quantity);
+                pstmt.setString(2, price);
+                pstmt.setInt(3, prodid);
+                pstmt.executeUpdate();
+                
+                closeConnection();
+                result = "Successfully updated";
+                
         } catch (SQLException ex) {
             Logger.getLogger(extint.class.getName()).log(Level.SEVERE, null, ex);
+            result = "An error has occurred: " + ex;
         }
-     closeConnection();
+        
+        return result;
      }
     
     @Override
@@ -807,5 +813,58 @@ public class extint extends UnicastRemoteObject implements RMIinterface {
        return Orders; 
      }
     
-    
+    @Override
+     public Order displayCustOrderStatus(String orderno) throws RemoteException{
+     
+            String id= null, CustomerID = null, date=null, address=null, contact_number=null , payment_method=null, status=null;
+            double total = 0.0;
+            
+            
+        try {
+            openConnection();
+            
+            PreparedStatement psmt = conn.prepareStatement("SELECT * FROM orders WHERE ID = ?");
+            psmt.setString(1, orderno);
+            ResultSet rs = psmt.executeQuery();
+            rs.next();
+            
+            id = rs.getString("id");
+            CustomerID = rs.getString("customer_id");
+            total = rs.getDouble("total");
+            date = rs.getString("date"); 
+            address = rs.getString("address"); 
+            contact_number = rs.getString("contact_number"); 
+            payment_method = rs.getString("payment_method");
+            status = rs.getString("status");
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(extint.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        closeConnection();
+        Order od = new Order(id,CustomerID,date,address, contact_number, payment_method,status,total);
+        return od;
+     }
+     
+     @Override
+     public String updateCustOrderStatus(String orderno, String status) throws RemoteException{
+     
+     String result = "";
+       try {
+            openConnection();
+            PreparedStatement pstmt = conn.prepareStatement("UPDATE orders SET status = ? WHERE id = ?");
+                pstmt.setString(1, status);
+                pstmt.setString(2, orderno);
+                pstmt.executeUpdate();
+                
+                closeConnection();
+                result = "Successfully updated";
+                
+        } catch (SQLException ex) {
+            Logger.getLogger(extint.class.getName()).log(Level.SEVERE, null, ex);
+            result = "An error has occurred: " + ex;
+        }
+        
+        return result;
+     }
 }
