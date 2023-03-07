@@ -114,7 +114,7 @@ public class History extends javax.swing.JFrame {
 
             }
         });
-         if(orders[i].getStatus().equals("Completed") || orders[i].getStatus().equals("Request for cancel")){
+         if(orders[i].getStatus().equals("Completed") || orders[i].getStatus().equals("Request for cancellation")){
              button.setEnabled(false);
          }
         JPanel buttonPanel = new JPanel(new BorderLayout());
