@@ -27,7 +27,7 @@ import javax.swing.table.DefaultTableModel;
  * @author User
  */
 public class AdminHome extends javax.swing.JFrame {
-
+    Product ProdID;
     /**
      * Creates new form AdminHome
      */
@@ -47,6 +47,40 @@ public class AdminHome extends javax.swing.JFrame {
         pnlManage.setVisible(true);
         pnlAddProduct.setVisible(false);
         
+         try {
+
+            Obj = (RMIinterface) Naming.lookup("rmi://localhost:1040/KGF");
+            productlist = Obj.getProducts();
+            
+            String prodName, Quantity, Price, Description, Category;
+            int ID;
+            byte[] image;
+            boolean select = false;
+            
+            this.model = (DefaultTableModel) TableProductList.getModel();
+            model.setRowCount(0);
+        
+            for (int i = 0; i < productlist.size(); i++) {
+                ID = productlist.get(i).getID();
+                prodName = productlist.get(i).getName();
+                Category = productlist.get(i).getCategory();
+                Description = productlist.get(i).getDescript();
+                Quantity = productlist.get(i).getQuantity();
+                Price = productlist.get(i).getPrice();
+                image = productlist.get(i).getImage();
+
+                Object rowData[] = {ID, prodName, Description, Category, Quantity, Price, image, select};
+
+                model = (DefaultTableModel) TableProductList.getModel();
+                model.addRow(rowData);
+            }
+        } catch (NotBoundException ex) {
+            Logger.getLogger(AdminHome.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(AdminHome.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (RemoteException ex) {
+            Logger.getLogger(AdminHome.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -322,7 +356,9 @@ public class AdminHome extends javax.swing.JFrame {
     }//GEN-LAST:event_deleteprodActionPerformed
 
     private void editprodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editprodActionPerformed
-
+        EditProduct editprod = new EditProduct(ProdID);
+        editprod.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_editprodActionPerformed
 
     private void addprodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addprodActionPerformed
@@ -416,34 +452,7 @@ public class AdminHome extends javax.swing.JFrame {
         return image;
     }
     
-    TableModelListener productTableListener = new TableModelListener() {
-        @Override
-        public void tableChanged(TableModelEvent e) {
-            // Check if the event was triggered by a cell update
-            if (e.getType() == TableModelEvent.UPDATE && e.getColumn() == 1) {
-                
-                int row = e.getFirstRow();
-                int column = e.getColumn();
-                Object newQuantity = model.getValueAt(row, column);
-                Object newPrice = model.getValueAt(row, column);
-                String prodID = (String) model.getValueAt(row, 4);
-                
-                try {
-                    //if ((String) newQuantity = 0) {
-                        //update the specific item's quantity = 0(also meant removed)               
-                        //Obj.updateProduct(prodID, newQuantity, newPrice);
-                        //model.removeRow(row);
-
-                    //} else {
-                        Obj.updateProduct(prodID, (String)newQuantity, (String)newPrice);                       
-                    //}
-
-                } catch (RemoteException ex) {
-                    Logger.getLogger(AdminHome.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        }
-    };
+    
     /**
      * @param args the command line arguments
      */
