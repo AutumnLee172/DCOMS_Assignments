@@ -4,13 +4,14 @@
  */
 package views;
 
-import RMI_Structures.Customer;
+import RMI_Structures.Product;
 import RMI_Structures.RMIinterface;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -19,23 +20,38 @@ import java.util.logging.Logger;
  * @author Autumn
  */
 public class EditProduct extends javax.swing.JFrame {
-    Customer LoggedCustomer;
+    //Product ProdID;
+    RMIinterface Obj;
+    Product currentproduct;
     /**
      * Creates new form Profile
      */
     public EditProduct() {
-        initComponents();
+         initComponents();
+
+    }
+    
+    public EditProduct(Product pd) throws IOException{
+        currentproduct = pd;
+         initComponents();
          this.setLocationRelativeTo(null);
+         displayProduct();
+    }
+    
+    public void displayProduct(){
+
+        // display the details
+        txtprodid.setText(""+ currentproduct.getID());
+        txtprodname.setText(currentproduct.getName());
+        txtcategory.setText(currentproduct.getCategory());
+        txtdescript.setText(currentproduct.getDescript());
+        txtquantity.setText(currentproduct.getQuantity());
+        txtprice.setText("$" + currentproduct.getPrice());
+        //lblResult.setText(ProductDetails.get("payment_method"));
+ 
     }
 
-     public EditProduct(Customer cm) {
-        initComponents();
-        LoggedCustomer = cm;
-        this.setLocationRelativeTo(null);
-        txtprodid.setText(cm.getName());
-        txtprodid.setText(cm.getEmail());
-        lblResult.setVisible(false);
-    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -143,13 +159,10 @@ public class EditProduct extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(lbldescript)
                                 .addGap(24, 24, 24))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(lblquantity, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblcategory, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblprodid, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblprice, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(lblquantity, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblcategory, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblprodid, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblprice, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -221,30 +234,35 @@ public class EditProduct extends javax.swing.JFrame {
         AdminHome adhome;
         adhome = new AdminHome();
         adhome.setVisible(true);
+        this.dispose();
 
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         
-        String result = null;
-        String prodid = txtprodid.getText();
-        String prodname = txtprodname.getText();
-        String descript = txtdescript.getText();
-        String category = txtcategory.getText();
         try {
-           RMIinterface Obj = (RMIinterface)Naming.lookup("rmi://localhost:1040/KGF");
+            String result = "";
+            RMIinterface Obj;
+
+            Obj = (RMIinterface)Naming.lookup("rmi://localhost:1040/KGF");
+
+            String prodid = txtprodid.getText();
+            String quantity = txtquantity.getText();
+            String price = txtprice.getText();
             
+            //result = System.out.println("a: " + prodname);
+            //result = Obj.updateProduct(prodid, quantity, price);
+            lblResult.setText(result);
+
         } catch (NotBoundException | MalformedURLException | RemoteException ex) {
-            Logger.getLogger(EditProduct.class.getName()).log(Level.SEVERE, null, ex);
-            result = ("An error has occurred: "+ ex);
+            Logger.getLogger(AdminHome.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+        ;
         
-        if(result.equals("Successfully updated")){
-            this.LoggedCustomer.setName();
-            
-        }
-        lblResult.setVisible(true);
-        lblResult.setText(result);
+        AdminHome adhome;
+        adhome = new AdminHome();
+        adhome.setVisible(true);
         
     }//GEN-LAST:event_btnSaveActionPerformed
 

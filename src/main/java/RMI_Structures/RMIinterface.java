@@ -47,7 +47,7 @@ public interface RMIinterface extends Remote{
     public String Add_New_Product(String prodname, String proddescript, String category, String quantity, String price, byte[] image) throws RemoteException; 
     public void deleteProduct(ArrayList<Integer> prodid) throws RemoteException;
     public void updateProduct(String prodid,String quantity, String price) throws RemoteException;
-    
+    public Product getdisplayProduct(int Prodid) throws RemoteException;
     //manage customer order
     public ArrayList<Order> getCustOrders()throws RemoteException;
 

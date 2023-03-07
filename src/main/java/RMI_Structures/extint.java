@@ -321,6 +321,39 @@ public class extint extends UnicastRemoteObject implements RMIinterface {
        return products; 
      }
     
+    @Override
+     public Product getdisplayProduct(int Prodid) throws RemoteException{
+     
+            String prodname= null, proddescript = null, prodcategory=null, prodquantity=null, prodprice=null;
+            int prodid = 0;
+            byte[] image =null;
+            
+        try {
+            openConnection();
+            
+            PreparedStatement psmt = conn.prepareStatement("SELECT * FROM product WHERE prodid = ?");
+            psmt.setInt(1, Prodid);
+            ResultSet rs = psmt.executeQuery();
+            rs.next();
+            
+            String id = rs.getString("prodid");
+            prodid = Integer.parseInt(id);
+            //customerID is fixed(logged customer's id)
+            prodname = rs.getString("prodname");
+            proddescript = rs.getString("proddescript");
+            prodcategory = rs.getString("prodcategory"); 
+            prodquantity = rs.getString("prodquantity"); 
+            prodprice = rs.getString("prodprice"); 
+            image = rs.getBytes("image");
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(extint.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        closeConnection();
+        Product pd = new Product(prodid, prodname, proddescript, prodcategory, prodquantity, prodprice, image);
+        return pd;
+     }
     
     //Cart Functions -----------------------------------------------------------
 
