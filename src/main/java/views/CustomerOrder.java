@@ -83,6 +83,8 @@ public class CustomerOrder extends javax.swing.JFrame {
         btstatus = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setUndecorated(true);
+        setSize(new java.awt.Dimension(1200, 600));
 
         TableCustOrderList.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -166,6 +168,7 @@ public class CustomerOrder extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btreportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btreportActionPerformed

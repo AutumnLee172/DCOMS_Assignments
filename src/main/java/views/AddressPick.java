@@ -239,13 +239,16 @@ public class AddressPick extends javax.swing.JFrame {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setUndecorated(true);
+        setPreferredSize(new java.awt.Dimension(1200, 600));
         setResizable(false);
+        setSize(new java.awt.Dimension(1200, 600));
 
         javax.swing.GroupLayout panelAddressesLayout = new javax.swing.GroupLayout(panelAddresses);
         panelAddresses.setLayout(panelAddressesLayout);
         panelAddressesLayout.setHorizontalGroup(
             panelAddressesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 359, Short.MAX_VALUE)
+            .addGap(0, 1176, Short.MAX_VALUE)
         );
         panelAddressesLayout.setVerticalGroup(
             panelAddressesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
