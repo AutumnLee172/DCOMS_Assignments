@@ -112,7 +112,7 @@ public class EditProduct extends javax.swing.JFrame {
 
         lblprice.setText("Product Price");
 
-        jLabel3.setText("Edit Product");
+        jLabel3.setText("Edit Product HIHI");
 
         txtprodid.setEnabled(false);
         txtprodid.addActionListener(new java.awt.event.ActionListener() {
