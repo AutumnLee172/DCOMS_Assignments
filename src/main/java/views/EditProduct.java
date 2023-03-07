@@ -4,14 +4,13 @@
  */
 package views;
 
-import RMI_Structures.Product;
+import RMI_Structures.Customer;
 import RMI_Structures.RMIinterface;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,37 +19,23 @@ import java.util.logging.Logger;
  * @author Autumn
  */
 public class EditProduct extends javax.swing.JFrame {
-    //Product ProdID;
-    RMIinterface Obj;
-    Product currentproduct;
+    Customer LoggedCustomer;
     /**
      * Creates new form Profile
      */
     public EditProduct() {
-         initComponents();
-
-    }
-    
-    public EditProduct(Product pd) throws IOException{
-        currentproduct = pd;
-         initComponents();
+        initComponents();
          this.setLocationRelativeTo(null);
     }
-    
-    public void displayProduct(){
 
-        // display the details
-        txtprodid.setText(""+ currentproduct.getID());
-        txtprodname.setText(currentproduct.getName());
-        txtcategory.setText(currentproduct.getCategory());
-        txtdescript.setText(currentproduct.getDescript());
-        txtquantity.setText(currentproduct.getQuantity());
-        txtprice.setText("$" + currentproduct.getPrice());
-        //lblResult.setText(ProductDetails.get("payment_method"));
- 
+     public EditProduct(Customer cm) {
+        initComponents();
+        LoggedCustomer = cm;
+        this.setLocationRelativeTo(null);
+        txtprodid.setText(cm.getName());
+        txtprodid.setText(cm.getEmail());
+        lblResult.setVisible(false);
     }
-
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -236,35 +221,30 @@ public class EditProduct extends javax.swing.JFrame {
         AdminHome adhome;
         adhome = new AdminHome();
         adhome.setVisible(true);
-        this.dispose();
 
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         
+        String result = null;
+        String prodid = txtprodid.getText();
+        String prodname = txtprodname.getText();
+        String descript = txtdescript.getText();
+        String category = txtcategory.getText();
         try {
-            String result = "";
-            RMIinterface Obj;
-
-            Obj = (RMIinterface)Naming.lookup("rmi://localhost:1040/KGF");
-
-            String prodid = txtprodid.getText();
-            String quantity = txtquantity.getText();
-            String price = txtprice.getText();
+           RMIinterface Obj = (RMIinterface)Naming.lookup("rmi://localhost:1040/KGF");
             
-            //result = System.out.println("a: " + prodname);
-            result = Obj.updateProduct(prodid, quantity, price);
-            lblResult.setText(result);
-
         } catch (NotBoundException | MalformedURLException | RemoteException ex) {
-            Logger.getLogger(AdminHome.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(EditProduct.class.getName()).log(Level.SEVERE, null, ex);
+            result = ("An error has occurred: "+ ex);
         }
-
-        ;
         
-        AdminHome adhome;
-        adhome = new AdminHome();
-        adhome.setVisible(true);
+        if(result.equals("Successfully updated")){
+            this.LoggedCustomer.setName();
+            
+        }
+        lblResult.setVisible(true);
+        lblResult.setText(result);
         
     }//GEN-LAST:event_btnSaveActionPerformed
 

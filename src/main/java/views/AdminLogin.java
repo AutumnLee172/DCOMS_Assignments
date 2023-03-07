@@ -24,11 +24,8 @@ public class AdminLogin extends javax.swing.JFrame {
      * Creates new form AdminLogin
      */
     public AdminLogin() {
-           initComponents();
+        initComponents();
          this.setLocationRelativeTo(null);
-         this.setSize(1200,600);
-         pnlMain.setVisible(true);
-         pnldashboard.setVisible(false); 
     }
 
     /**
@@ -40,10 +37,6 @@ public class AdminLogin extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        pnldashboard = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        manageprod = new javax.swing.JButton();
-        managecustorder = new javax.swing.JButton();
         pnlMain = new javax.swing.JPanel();
         lblAdminPanel = new javax.swing.JLabel();
         lblEmail = new javax.swing.JLabel();
@@ -54,36 +47,11 @@ public class AdminLogin extends javax.swing.JFrame {
         lblLoginResult = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        pnldashboard.setMaximumSize(new java.awt.Dimension(1200, 600));
-        pnldashboard.setPreferredSize(new java.awt.Dimension(1200, 600));
-        pnldashboard.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel1.setFont(new java.awt.Font("Stencil", 0, 48)); // NOI18N
-        jLabel1.setText("Admin Dashboard");
-        pnldashboard.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(353, 59, -1, -1));
-
-        manageprod.setFont(new java.awt.Font("Snap ITC", 3, 18)); // NOI18N
-        manageprod.setText("Manage Product");
-        manageprod.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                manageprodActionPerformed(evt);
-            }
-        });
-        pnldashboard.add(manageprod, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 250, -1, -1));
-
-        managecustorder.setFont(new java.awt.Font("Snap ITC", 3, 18)); // NOI18N
-        managecustorder.setText("Manage Customer Order");
-        managecustorder.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                managecustorderActionPerformed(evt);
-            }
-        });
-        pnldashboard.add(managecustorder, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 250, -1, -1));
+        setUndecorated(true);
+        setPreferredSize(new java.awt.Dimension(1200, 600));
+        setSize(new java.awt.Dimension(1200, 600));
 
         pnlMain.setBackground(new java.awt.Color(255, 255, 255));
-        pnlMain.setMaximumSize(new java.awt.Dimension(1200, 600));
-        pnlMain.setPreferredSize(new java.awt.Dimension(1200, 600));
 
         lblAdminPanel.setFont(new java.awt.Font("Serif", 1, 24)); // NOI18N
         lblAdminPanel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -107,31 +75,32 @@ public class AdminLogin extends javax.swing.JFrame {
         pnlMainLayout.setHorizontalGroup(
             pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlMainLayout.createSequentialGroup()
-                .addGap(213, 213, 213)
                 .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlMainLayout.createSequentialGroup()
-                        .addGap(52, 52, 52)
+                        .addGap(250, 250, 250)
                         .addComponent(lblAdminPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(pnlMainLayout.createSequentialGroup()
-                            .addComponent(lblEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(pnlMainLayout.createSequentialGroup()
-                            .addComponent(lblPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(pnlMainLayout.createSequentialGroup()
-                                    .addComponent(btnLogin)
-                                    .addGap(0, 0, Short.MAX_VALUE))
-                                .addComponent(txtPassword)
-                                .addComponent(lblLoginResult, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(6080, Short.MAX_VALUE))
+                    .addGroup(pnlMainLayout.createSequentialGroup()
+                        .addGap(198, 198, 198)
+                        .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(pnlMainLayout.createSequentialGroup()
+                                .addComponent(lblEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(pnlMainLayout.createSequentialGroup()
+                                .addComponent(lblPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(pnlMainLayout.createSequentialGroup()
+                                        .addComponent(btnLogin)
+                                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addComponent(txtPassword)
+                                    .addComponent(lblLoginResult, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
+                .addContainerGap(210, Short.MAX_VALUE))
         );
         pnlMainLayout.setVerticalGroup(
             pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlMainLayout.createSequentialGroup()
-                .addGap(26, 26, 26)
+                .addGap(40, 40, 40)
                 .addComponent(lblAdminPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26)
                 .addGroup(pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -145,7 +114,7 @@ public class AdminLogin extends javax.swing.JFrame {
                 .addComponent(btnLogin)
                 .addGap(18, 18, 18)
                 .addComponent(lblLoginResult, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(482, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -154,24 +123,15 @@ public class AdminLogin extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(pnlMain, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 12, Short.MAX_VALUE))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(12, 12, 12)
-                    .addComponent(pnldashboard, javax.swing.GroupLayout.PREFERRED_SIZE, 6585, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(12, Short.MAX_VALUE)))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(pnlMain, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(143, 143, 143)
-                    .addComponent(pnldashboard, javax.swing.GroupLayout.DEFAULT_SIZE, 488, Short.MAX_VALUE)
-                    .addGap(143, 143, 143)))
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
@@ -181,11 +141,9 @@ public class AdminLogin extends javax.swing.JFrame {
             RMIinterface Obj = (RMIinterface)Naming.lookup("rmi://localhost:1040/KGF");
            if(Obj.admin_login(email, passwords)){
                 lblLoginResult.setText("you are logged in.");
-                //AdminHome ah = new AdminHome();
-                //ah.setVisible(true);
-                //this.dispose();
-                pnlMain.setVisible(false);
-                pnldashboard.setVisible(true); 
+                AdminHome ah = new AdminHome();
+                ah.setVisible(true);
+                this.dispose();
             }else{
                 lblLoginResult.setText("Incorrect email or passwords.");
             }
@@ -193,19 +151,6 @@ public class AdminLogin extends javax.swing.JFrame {
             Logger.getLogger(AdminLogin.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnLoginActionPerformed
-
-    private void manageprodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manageprodActionPerformed
-        // TODO add your handling code here:
-         AdminHome ah = new AdminHome();
-         ah.setVisible(true);
-         this.dispose();
-    }//GEN-LAST:event_manageprodActionPerformed
-
-    private void managecustorderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_managecustorderActionPerformed
-        CustomerOrder custorder = new CustomerOrder();
-        custorder.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_managecustorderActionPerformed
 
     /**
      * @param args the command line arguments
@@ -244,15 +189,11 @@ public class AdminLogin extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLogin;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel lblAdminPanel;
     private javax.swing.JLabel lblEmail;
     private javax.swing.JLabel lblLoginResult;
     private javax.swing.JLabel lblPassword;
-    private javax.swing.JButton managecustorder;
-    private javax.swing.JButton manageprod;
     private javax.swing.JPanel pnlMain;
-    private javax.swing.JPanel pnldashboard;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JPasswordField txtPassword;
     // End of variables declaration//GEN-END:variables
