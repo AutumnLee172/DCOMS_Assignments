@@ -525,6 +525,9 @@ public class AdminHome extends javax.swing.JFrame {
         } catch (NotBoundException | MalformedURLException | RemoteException ex) {
             Logger.getLogger(AdminHome.class.getName()).log(Level.SEVERE, null, ex);
         }
+        AdminHome adhome = new AdminHome();
+        adhome.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btaddActionPerformed
 
     private void selectcategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectcategoryActionPerformed
