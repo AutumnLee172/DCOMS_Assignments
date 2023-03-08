@@ -15,13 +15,6 @@ public class Product implements java.io.Serializable{
     
     private int ID;
     
-    public Product(String prodname, String category, String quantity, String price){
-        this.setprodname(prodname);
-        this.setcategory(category);
-        this.setquantity(quantity);
-        this.setprice(price);
-    }
-    
     //metamorphosis
      public Product(int ID, String prodname, String proddescript, String category, String quantity, String price, byte[] image){
         this.setID(ID);
