@@ -11,8 +11,7 @@ package RMI_Structures;
 public class Product implements java.io.Serializable{
     
     private String prodname, proddescript, category, quantity, price;
-    private byte[] image;
-    
+    private byte[] image; 
     private int ID;
     
     //metamorphosis

@@ -32,7 +32,7 @@ public class EditProduct extends javax.swing.JFrame {
     }
     
     public EditProduct(Product pd) throws IOException{
-        currentproduct = pd;
+         currentproduct = pd;
          initComponents();
          this.setLocationRelativeTo(null);
          displayProduct();

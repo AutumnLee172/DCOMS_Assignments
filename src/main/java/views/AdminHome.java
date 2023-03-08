@@ -444,7 +444,7 @@ public class AdminHome extends javax.swing.JFrame {
             try {
                 Obj.deleteProduct(deletingItems);
             } catch (RemoteException ex) {
-                Logger.getLogger(CartMenu.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(AdminHome.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }//GEN-LAST:event_deleteprodActionPerformed
@@ -465,7 +465,6 @@ public class AdminHome extends javax.swing.JFrame {
         } catch (IOException ex) {
             Logger.getLogger(AdminHome.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
         
     }//GEN-LAST:event_editprodActionPerformed
 
