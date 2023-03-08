@@ -579,7 +579,7 @@ public class extint extends UnicastRemoteObject implements RMIinterface {
            pstmt = conn.prepareStatement("INSERT INTO ORDER_DETAILS VALUES (?, ?, ?, ?)");
            String newODID;
            
-           //checkoutList pattern per 'record'{CartID,ProdID,Quantity}
+           //checkoutList pattern per 'record'{CartID(i),ProdID(i+1),Quantity(i+2)}
            for(int i = 0; i < checkoutList.size(); i++){
             newODID = "OD" + max;
             pstmt.setString(1, newODID);
@@ -587,6 +587,13 @@ public class extint extends UnicastRemoteObject implements RMIinterface {
             pstmt.setString(3, checkoutList.get(i+1));
             pstmt.setInt(4, Integer.parseInt(checkoutList.get(i+2)));
            
+            //reducing stock count ----------------------
+            int currentStock = findProductQuantity(checkoutList.get(i+1))   ;
+            int newStock = currentStock - (Integer.parseInt(checkoutList.get(i+2)));
+            String price = String.valueOf(findProductPrice(checkoutList.get(i+1)));
+            
+            updateProduct(String.valueOf(newStock), price, Integer.parseInt(checkoutList.get(i+1)));
+            //-------------------------------------------------
             i+=2;
             max++;
             pstmt.executeUpdate();
