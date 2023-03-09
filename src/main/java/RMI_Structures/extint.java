@@ -202,9 +202,7 @@ public class extint extends UnicastRemoteObject implements RMIinterface {
             PreparedStatement psmt = conn.prepareStatement("SELECT * FROM Orders WHERE customer_id = ?");
             psmt.setString(1, Customer_ID);
             ResultSet rs = psmt.executeQuery();
-            
             while(rs.next()){
-                
                 String id = rs.getString("id");
                 String CustomerID = rs.getString("customer_id");              
                 Double total = rs.getDouble("total");
@@ -213,11 +211,8 @@ public class extint extends UnicastRemoteObject implements RMIinterface {
                 String contact_number = rs.getString("contact_number"); 
                 String payment_method = rs.getString("payment_method"); 
                 String status = rs.getString("status"); 
-               
                Orders.add(new Order(id,CustomerID,date,address, contact_number, payment_method,status,total));
-               
             }
-                          
         } catch (SQLException ex) {
             Logger.getLogger(extint.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -228,15 +223,12 @@ public class extint extends UnicastRemoteObject implements RMIinterface {
      @Override
      public HashMap<String, String> getOrderDetails(String OrderID)throws RemoteException{
          HashMap<String, String> OrderDetails = new HashMap<>();
-            
          openConnection();
-         
          //put basic info into the hashmap
          try {
             PreparedStatement psmt = conn.prepareStatement("SELECT * FROM Orders WHERE id = ?");
             psmt.setString(1, OrderID);
             ResultSet rs = psmt.executeQuery();
-            
                 rs.next();
                 String id = rs.getString("id");
                 String CustomerID = rs.getString("customer_id");              
@@ -246,7 +238,6 @@ public class extint extends UnicastRemoteObject implements RMIinterface {
                 String contact_number = rs.getString("contact_number"); 
                 String payment_method = rs.getString("payment_method"); 
                 String status = rs.getString("status"); 
-               
                 OrderDetails.put("Order_ID", id);
                 OrderDetails.put("CustomerID", CustomerID);
                 OrderDetails.put("total", "" + total);
@@ -255,8 +246,6 @@ public class extint extends UnicastRemoteObject implements RMIinterface {
                 OrderDetails.put("contact_number", "" + contact_number);
                 OrderDetails.put("payment_method", "" + payment_method);
                 OrderDetails.put("status", "" + status);
-            
-                          
         } catch (SQLException ex) {
             Logger.getLogger(extint.class.getName()).log(Level.SEVERE, null, ex);
         }

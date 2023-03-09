@@ -84,10 +84,8 @@ public class History extends javax.swing.JFrame {
                 } catch (IOException ex) {
                     Logger.getLogger(History.class.getName()).log(Level.SEVERE, null, ex);
                 }
-
             }
         });
-
         JPanel labelsPanel = new JPanel();
         labelsPanel.setLayout(new BoxLayout(labelsPanel, BoxLayout.Y_AXIS));
         JLabel dateLabel = new JLabel(orders[i].getDate() + " (id: " + orders[i].getOrderID() + ")");
@@ -100,7 +98,6 @@ public class History extends javax.swing.JFrame {
         labelsPanel.add(status);
         labelsPanel.add(total);
         orderSubPanel.add(labelsPanel, BorderLayout.CENTER);
-
         // create and add the button to the sub-panel's east (right-hand side)
         JButton button = new JButton("Request to cancel");
          button.addActionListener(new ActionListener() {
@@ -111,10 +108,9 @@ public class History extends javax.swing.JFrame {
                 } catch (IOException ex) {
                     Logger.getLogger(History.class.getName()).log(Level.SEVERE, null, ex);
                 }
-
             }
         });
-         if(orders[i].getStatus().equals("Completed") || orders[i].getStatus().equals("Request for cancellation")){
+         if(!orders[i].getStatus().equals("Paid")){
              button.setEnabled(false);
          }
         JPanel buttonPanel = new JPanel(new BorderLayout());
@@ -129,7 +125,6 @@ public class History extends javax.swing.JFrame {
 
 
     private void displayOrder(String OrderID) throws IOException {
-
         OrderDetails od = new OrderDetails(OrderID);
         od.setVisible(true);
 
@@ -198,24 +193,26 @@ public class History extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(546, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblOrderHistory, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(pnlOrders, javax.swing.GroupLayout.PREFERRED_SIZE, 617, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnBack))
-                .addGap(18, 18, 18))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(lblOrderHistory, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(644, 644, 644)
+                        .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(pnlOrders, javax.swing.GroupLayout.PREFERRED_SIZE, 1121, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(35, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(0, 203, Short.MAX_VALUE)
-                .addComponent(lblOrderHistory, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pnlOrders, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnBack)
-                .addGap(12, 12, 12))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblOrderHistory, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(pnlOrders, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());

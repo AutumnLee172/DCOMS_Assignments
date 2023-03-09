@@ -256,10 +256,16 @@ public class LoginRegister extends javax.swing.JFrame {
             String password = txtPassword.getText();  
             String Cpassword = txtConfirmPassword.getText();
             String email = txtEmail.getText();
-            if(password.equals(Cpassword)){
+             if(!name.trim().isEmpty() && !password.trim().isEmpty() && password.equals(Cpassword) && !email.trim().isEmpty()){
                  result = Obj.customer_register(email, name,password);
-            }else{
+            }else if(!password.equals(Cpassword)){
                 result = "Mismatched Passwords";
+            }else if(name == null || name.trim().isEmpty()){
+                result = "Username cannot be empty";
+            }else if(password == null || password.trim().isEmpty()){
+                result = "Password cannot be empty";
+            }else if(email == null || email.trim().isEmpty()){
+                result = "Email cannot be empty";
             }
             lblResult.setText(result);
         } catch (NotBoundException | MalformedURLException | RemoteException ex) {
