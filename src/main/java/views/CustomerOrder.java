@@ -91,14 +91,14 @@ public class CustomerOrder extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Order No", "Customer ID", "Total", "Date", "Address", "Contact Number", "Payment Method", "Status", "Select"
+                "Order No", "Customer ID", "Total", "Date", "Address", "Contact Number", "Payment Method", "Status"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, true, true
+                false, false, false, false, false, false, false, true
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -119,7 +119,6 @@ public class CustomerOrder extends javax.swing.JFrame {
             TableCustOrderList.getColumnModel().getColumn(5).setResizable(false);
             TableCustOrderList.getColumnModel().getColumn(6).setResizable(false);
             TableCustOrderList.getColumnModel().getColumn(7).setResizable(false);
-            TableCustOrderList.getColumnModel().getColumn(8).setResizable(false);
         }
 
         btback.setText("Back");

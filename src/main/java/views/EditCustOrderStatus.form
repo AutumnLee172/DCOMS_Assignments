@@ -55,10 +55,7 @@
                               <Group type="103" groupAlignment="1" attributes="0">
                                   <Component id="lblprodname" max="32767" attributes="0"/>
                                   <Component id="lblprice" alignment="0" max="32767" attributes="0"/>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="lbldescript" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="32767" attributes="0"/>
-                                  </Group>
+                                  <Component id="lbldescript" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Group type="102" alignment="0" attributes="0">
                                       <Group type="103" groupAlignment="1" attributes="0">
                                           <Component id="lblquantity" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -78,13 +75,11 @@
                       <Group type="103" groupAlignment="1" max="-2" attributes="0">
                           <Component id="selectstatus" max="32767" attributes="0"/>
                           <Component id="txtpayment" alignment="1" pref="207" max="32767" attributes="0"/>
-                          <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="txtorderno" alignment="0" pref="207" max="32767" attributes="0"/>
-                              <Component id="txtcustID" alignment="1" pref="207" max="32767" attributes="0"/>
-                              <Component id="txttotal" alignment="1" pref="207" max="32767" attributes="0"/>
-                              <Component id="txtdate" alignment="1" pref="207" max="32767" attributes="0"/>
-                              <Component id="txtaddress" alignment="0" pref="207" max="32767" attributes="0"/>
-                          </Group>
+                          <Component id="txtorderno" alignment="0" pref="207" max="32767" attributes="0"/>
+                          <Component id="txtcustID" alignment="1" pref="207" max="32767" attributes="0"/>
+                          <Component id="txttotal" alignment="1" pref="207" max="32767" attributes="0"/>
+                          <Component id="txtdate" alignment="1" pref="207" max="32767" attributes="0"/>
+                          <Component id="txtaddress" alignment="0" pref="207" max="32767" attributes="0"/>
                           <Component id="txtcontact" alignment="1" pref="207" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="237" max="-2" attributes="0"/>
@@ -283,9 +278,12 @@
     <Component class="javax.swing.JComboBox" name="selectstatus">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="2">
-            <StringItem index="0" value="Completed"/>
-            <StringItem index="1" value="Cancel"/>
+          <StringArray count="5">
+            <StringItem index="0" value="Paid"/>
+            <StringItem index="1" value="Request for Cancellation"/>
+            <StringItem index="2" value="Cancelled"/>
+            <StringItem index="3" value="Delivering"/>
+            <StringItem index="4" value="Completed"/>
           </StringArray>
         </Property>
       </Properties>
