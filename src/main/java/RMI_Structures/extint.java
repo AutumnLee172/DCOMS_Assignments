@@ -6,6 +6,8 @@ import java.rmi.*;
 import java.net.*;
 import java.lang.Math;
 import java.rmi.server.UnicastRemoteObject;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -52,13 +54,22 @@ public class extint extends UnicastRemoteObject implements RMIinterface {
         }
     }
     
-
+    public static String md5(String input) throws NoSuchAlgorithmException {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            byte[] messageDigest = md.digest(input.getBytes());
+            StringBuilder sb = new StringBuilder();
+            for (byte b : messageDigest) {
+                sb.append(String.format("%02x", b & 0xff));
+            }
+            return sb.toString();
+        }
+    
     @Override
     public String customer_register(String email, String name, String passwords) throws RemoteException {
         String result = "";
         try {        
             openConnection();
-            
+            String hashedPassword = md5(passwords.trim());
             //check if email exists
             PreparedStatement checkEmail = conn.prepareStatement("SELECT COUNT(*) AS NumberofUser FROM customers WHERE email = ?");
             checkEmail.setString(1, email);
@@ -81,7 +92,7 @@ public class extint extends UnicastRemoteObject implements RMIinterface {
                 String newID = "C" + max;
                 pstmt.setString(1, newID);
                 pstmt.setString(2, name);
-                pstmt.setString(3, passwords.trim());
+                pstmt.setString(3, hashedPassword);
                 pstmt.setString(4, email.trim());
                 //Statement stmt = conn.createStatement();
                 pstmt.executeUpdate();
@@ -93,6 +104,8 @@ public class extint extends UnicastRemoteObject implements RMIinterface {
         } catch (SQLException ex) {
             Logger.getLogger(extint.class.getName()).log(Level.SEVERE, null, ex);
             result = "An error has occured!";
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(extint.class.getName()).log(Level.SEVERE, null, ex);
         }
         return result;
     }
@@ -102,10 +115,10 @@ public class extint extends UnicastRemoteObject implements RMIinterface {
         boolean hasRecord = false;
         try {
             openConnection();
-            
+            String hashedPassword = md5(passwords.trim());
             PreparedStatement psmt = conn.prepareStatement("SELECT COUNT(*) AS NumberofUser FROM customers WHERE email = ? AND password = ?");
             psmt.setString(1, email);
-            psmt.setString(2, passwords);
+            psmt.setString(2, hashedPassword);
             ResultSet rs = psmt.executeQuery();
             rs.next();
             //if email exists
@@ -114,6 +127,8 @@ public class extint extends UnicastRemoteObject implements RMIinterface {
             }
 
         } catch (SQLException ex) {
+            Logger.getLogger(extint.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NoSuchAlgorithmException ex) {
             Logger.getLogger(extint.class.getName()).log(Level.SEVERE, null, ex);
         }
         
@@ -161,15 +176,18 @@ public class extint extends UnicastRemoteObject implements RMIinterface {
        String result = null;
        try {
             openConnection();
+            String hashedPassword = md5(passwords.trim());
             PreparedStatement pstmt = conn.prepareStatement("UPDATE customers SET name = ?, password = ? WHERE email = ?");
                 pstmt.setString(1, username);
-                pstmt.setString(2, passwords.trim());
+                pstmt.setString(2, hashedPassword);
                 pstmt.setString(3, email.trim());
                 pstmt.executeUpdate();
                 result = "Successfully updated";
         } catch (SQLException ex) {
             Logger.getLogger(extint.class.getName()).log(Level.SEVERE, null, ex);
             result = "An error has occurred: " + ex;
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(extint.class.getName()).log(Level.SEVERE, null, ex);
         }
         closeConnection();
         return result;
