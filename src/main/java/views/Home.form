@@ -53,20 +53,15 @@
                   <Group type="102" attributes="0">
                       <Component id="lblHello" min="-2" pref="194" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
-                      <Component id="btnHistory" min="-2" pref="98" max="-2" attributes="0"/>
+                      <Component id="btnCart" min="-2" pref="98" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="btnHistory" min="-2" pref="98" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
                       <Component id="btnProfile" min="-2" pref="98" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
                       <Component id="btnLogout" min="-2" pref="98" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
                   </Group>
-              </Group>
-          </Group>
-          <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="1" attributes="0">
-                  <EmptySpace pref="41" max="32767" attributes="0"/>
-                  <Component id="btnCart" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="774" max="32767" attributes="0"/>
               </Group>
           </Group>
       </Group>
@@ -80,6 +75,7 @@
                   <Component id="btnProfile" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
                   <Component id="btnLogout" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
                   <Component id="btnHistory" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
+                  <Component id="btnCart" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
@@ -95,13 +91,6 @@
                   </Group>
               </Group>
               <EmptySpace max="32767" attributes="0"/>
-          </Group>
-          <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="1" attributes="0">
-                  <EmptySpace pref="500" max="32767" attributes="0"/>
-                  <Component id="btnCart" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="57" max="-2" attributes="0"/>
-              </Group>
           </Group>
       </Group>
     </DimensionLayout>
