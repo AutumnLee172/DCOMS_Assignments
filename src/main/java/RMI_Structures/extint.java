@@ -489,11 +489,13 @@ public class extint extends UnicastRemoteObject implements RMIinterface {
      }
      
      @Override
-     public int findProductQuantity(String productID)throws RemoteException{
+     public int findProductQuantity(Connection conn,String productID)throws RemoteException{
          int quantityLeft = 0;
             
          int prodID = Integer.parseInt(productID);
+         if(conn == null){
          openConnection();
+         }
         
        try {
          Statement stmt = conn.createStatement();
@@ -505,15 +507,75 @@ public class extint extends UnicastRemoteObject implements RMIinterface {
             {
                String quantity = rs.getString("PRODQUANTITY");              
                quantityLeft = Integer.parseInt(quantity);
+               System.out.println(quantityLeft);
             }
             
             } catch (SQLException ex) {
             Logger.getLogger(extint.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+        if(conn == null){
          closeConnection();
+         }
          
          return quantityLeft;
+     }
+     
+          @Override
+     public int findProductQuantity(String productID)throws RemoteException{
+         int quantityLeft = 0;
+            
+         int prodID = Integer.parseInt(productID);
+         
+         openConnection();
+         
+        
+       try {
+         Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT PRODID,PRODQUANTITY FROM PRODUCT WHERE PRODID=" + prodID);
+            
+            if (rs.next() == false) { 
+                System.out.println("Something wrong, could not find any product with this ID."); 
+            }else
+            {
+               String quantity = rs.getString("PRODQUANTITY");              
+               quantityLeft = Integer.parseInt(quantity);
+               System.out.println(quantityLeft);
+            }
+            
+            } catch (SQLException ex) {
+            Logger.getLogger(extint.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        
+         closeConnection();
+         
+         
+         return quantityLeft;
+     }
+     
+     @Override
+    public void updateProductQuantity(Connection conn,String productID, int newStock) throws RemoteException{
+          int prodID = Integer.parseInt(productID);
+          String stocks = String.valueOf(newStock); 
+         if(conn == null){
+         openConnection();
+         }
+        
+       try {
+         PreparedStatement pstmt = conn.prepareStatement("UPDATE PRODUCT SET PRODQUANTITY =? WHERE PRODID = ?");
+            pstmt.setString(1, stocks);
+            pstmt.setInt(2,prodID);
+            pstmt.executeUpdate();
+            
+            } catch (SQLException ex) {
+            Logger.getLogger(extint.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        if(conn == null){
+         closeConnection();
+         }
+         
      }
      
      @Override
@@ -549,7 +611,7 @@ public class extint extends UnicastRemoteObject implements RMIinterface {
      closeConnection();
      }
      
-    @Override
+ @Override
      public String createOrder(Order order, ArrayList<String> checkoutList) throws RemoteException{       
          openConnection();
          String newOrderID ="";
@@ -595,11 +657,11 @@ public class extint extends UnicastRemoteObject implements RMIinterface {
             pstmt.setInt(4, Integer.parseInt(checkoutList.get(i+2)));
            
             //reducing stock count ----------------------
-            int currentStock = findProductQuantity(checkoutList.get(i+1))   ;
+            int currentStock = findProductQuantity(conn,checkoutList.get(i+1));
+            System.out.println("cuurrent stock = " +currentStock);
             int newStock = currentStock - (Integer.parseInt(checkoutList.get(i+2)));
-            String price = String.valueOf(findProductPrice(checkoutList.get(i+1)));
             
-            updateProduct(String.valueOf(newStock), price, Integer.parseInt(checkoutList.get(i+1)));
+            updateProductQuantity(conn,checkoutList.get(i+1),newStock);
             //-------------------------------------------------
             i+=2;
             max++;

@@ -405,10 +405,9 @@ public class CheckOut extends javax.swing.JFrame {
               try {
             if (Obj.initializePayment()){
             //Get today date with format
-             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");  
+             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");  
                 LocalDateTime now = LocalDateTime.now(); 
                 String today = dtf.format(now);
-            
                 String PM = comboPaymentMethod.getSelectedItem().toString();
                 String countrycode = comboCountryCode.getSelectedItem().toString().replaceAll("\\D+","");
                 String contactNum = countrycode + txtContactNumber.getText();

@@ -4,6 +4,7 @@ package RMI_Structures;
 import java.awt.List;
 import java.rmi.*;
 import java.net.*;
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -31,9 +32,11 @@ public interface RMIinterface extends Remote{
     public ArrayList<Cart> getCustomerCart(String customerID)throws RemoteException;
     public String findProductName(String productID) throws RemoteException;
     public double findProductPrice(String productID) throws RemoteException;
+    public int findProductQuantity(Connection conn,String productID)throws RemoteException;
     public int findProductQuantity(String productID)throws RemoteException;
     public void updateCartQuantity(String cartID,int quantity) throws RemoteException;
     public void deleteCartItem(ArrayList<String> cartID) throws RemoteException;
+    public void updateProductQuantity(Connection conn,String productID, int newStock)throws RemoteException;
     
     public String createOrder(Order order, ArrayList<String> checkoutList) throws RemoteException;
     
