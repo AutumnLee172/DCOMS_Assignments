@@ -68,7 +68,7 @@ public final class Home extends javax.swing.JFrame {
         LoggedCustomer = cm;
         initComponents();
         lblHello.setText("Hello, " + LoggedCustomer.getName());
-
+        btnAdd.setEnabled(false);
         //for testing use
         productPanel = new JPanel();
         productPanel.setBackground(Color.WHITE);
@@ -316,6 +316,11 @@ public final class Home extends javax.swing.JFrame {
                 lblProductIDActionPerformed(evt);
             }
         });
+        lblProductID.addTextListener(new java.awt.event.TextListener() {
+            public void textValueChanged(java.awt.event.TextEvent evt) {
+                lblProductIDTextValueChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout selectedProductPanelLayout = new javax.swing.GroupLayout(selectedProductPanel);
         selectedProductPanel.setLayout(selectedProductPanelLayout);
@@ -424,7 +429,7 @@ public final class Home extends javax.swing.JFrame {
                 .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(selectedProductPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addComponent(selectedProductPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(pnlProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 800, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -539,6 +544,10 @@ public final class Home extends javax.swing.JFrame {
                  Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
              }// TODO add your handling code here:
     }//GEN-LAST:event_searchFieldKeyReleased
+
+    private void lblProductIDTextValueChanged(java.awt.event.TextEvent evt) {//GEN-FIRST:event_lblProductIDTextValueChanged
+        btnAdd.setEnabled(true);        // TODO add your handling code here:
+    }//GEN-LAST:event_lblProductIDTextValueChanged
 
     /**
      * @param args the command line arguments
